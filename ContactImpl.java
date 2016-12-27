@@ -57,8 +57,12 @@ public class ContactImpl implements Contact{
     }
 
     @Override
+    /*since there is no ability to delete notes, I have made the assumption that
+    addNotes replaces the existing notes rather than appends to it. Appending is
+    still supported externally by utilising getNotes, appending and then addNotes. */
     public void addNotes(String note) {
-
+        validateNull(note, "notes");
+        this.notes = note;
     }
 
 }
