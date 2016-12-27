@@ -25,6 +25,10 @@ public class ContactImpl{
         this.name = name;
     }
 
+    public String getName(){
+        return "";
+    }
+
     private void setNotes(String notes){
         this.notes = notes;
     }
