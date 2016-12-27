@@ -1,3 +1,4 @@
+import org.junit.Assert;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -13,13 +14,13 @@ public class ContactImplTestGetId {
     public void getIdTestMin(){
         int id = 1;
         contact = new ContactImpl(id, "");
-        assertEquals(id, contact.getId());
+        Assert.assertEquals(id, contact.getId());
     }
 
     @Test
     public void getIdTestMax(){
         int id = Integer.MAX_VALUE;
         contact = new ContactImpl(id, "");
-        assertEquals(id, contact.getId());
+        Assert.assertEquals(id, contact.getId());
     }
 }

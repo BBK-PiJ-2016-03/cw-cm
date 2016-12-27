@@ -1,3 +1,4 @@
+import org.junit.Assert;
 import org.junit.Test;
 import static org.junit.Assert.*;
 /**
@@ -11,7 +12,7 @@ public class ContactImplTestGetNotes {
         String name = "Test";
         String notes = "Test";
         contact = new ContactImpl(1, name, notes);
-        assertEquals(notes, contact.getNotes());
+        Assert.assertEquals(notes, contact.getNotes());
     }
 
     @Test
@@ -19,7 +20,7 @@ public class ContactImplTestGetNotes {
         String name = "Test";
         String notes = "Test Test";
         contact = new ContactImpl(1, name, notes);
-        assertEquals(notes, contact.getNotes());
+        Assert.assertEquals(notes, contact.getNotes());
     }
 
     @Test
@@ -27,7 +28,7 @@ public class ContactImplTestGetNotes {
         String name = "Test";
         String notes = "Test Test Test Test Test";
         contact = new ContactImpl(1, name, notes);
-        assertEquals(notes, contact.getNotes());
+        Assert.assertEquals(notes, contact.getNotes());
     }
 
     @Test
@@ -35,7 +36,7 @@ public class ContactImplTestGetNotes {
         String name = "Test";
         String notes = "";
         contact = new ContactImpl(1, name, notes);
-        assertEquals(notes, contact.getNotes());
+        Assert.assertEquals(notes, contact.getNotes());
     }
 
     @Test
@@ -43,7 +44,7 @@ public class ContactImplTestGetNotes {
         String name = "Test";
         String notes = "*&^%£\"'@";
         contact = new ContactImpl(1, name, notes);
-        assertEquals(notes, contact.getNotes());
+        Assert.assertEquals(notes, contact.getNotes());
     }
 
     @Test
@@ -51,7 +52,7 @@ public class ContactImplTestGetNotes {
         String name = "Test";
         String notes = "A\nB\nC";
         contact = new ContactImpl(1, name, notes);
-        assertEquals(notes, contact.getNotes());
+        Assert.assertEquals(notes, contact.getNotes());
     }
 
     @Test
@@ -59,6 +60,6 @@ public class ContactImplTestGetNotes {
         String name = "Test";
         String notes = "A\tB\tC";
         contact = new ContactImpl(1, name, notes);
-        assertEquals(notes, contact.getNotes());
+        Assert.assertEquals(notes, contact.getNotes());
     }
 }

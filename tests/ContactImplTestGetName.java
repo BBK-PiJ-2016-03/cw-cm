@@ -1,3 +1,4 @@
+import org.junit.Assert;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 /**
@@ -11,48 +12,48 @@ public class ContactImplTestGetName {
     public void getNameTestSingle(){
         String name = "Test";
         contact = new ContactImpl(1, name);
-        assertEquals(name, contact.getName());
+        Assert.assertEquals(name, contact.getName());
     }
 
     @Test
     public void getNameTestSpaced(){
         String name = "Test Test";
         contact = new ContactImpl(1, name);
-        assertEquals(name, contact.getName());
+        Assert.assertEquals(name, contact.getName());
     }
 
     @Test
     public void getNameTestSpacedMultiple(){
         String name = "Test Test Test Test Test";
         contact = new ContactImpl(1, name);
-        assertEquals(name, contact.getName());
+        Assert.assertEquals(name, contact.getName());
     }
 
     @Test
     public void getNameTestEmpty(){
         String name = "";
         contact = new ContactImpl(1, name);
-        assertEquals(name, contact.getName());
+        Assert.assertEquals(name, contact.getName());
     }
 
     @Test
     public void getNameTestSpecialChars(){
         String name = "*&^%£\"'@";
         contact = new ContactImpl(1, name);
-        assertEquals(name, contact.getName());
+        Assert.assertEquals(name, contact.getName());
     }
 
     @Test
     public void getNameTestNewLine(){
         String name = "A\nB\nC";
         contact = new ContactImpl(1, name);
-        assertEquals(name, contact.getName());
+        Assert.assertEquals(name, contact.getName());
     }
 
     @Test
     public void getNameTestTab(){
         String name = "A\tB\tC";
         contact = new ContactImpl(1, name);
-        assertEquals(name, contact.getName());
+        Assert.assertEquals(name, contact.getName());
     }
 }
