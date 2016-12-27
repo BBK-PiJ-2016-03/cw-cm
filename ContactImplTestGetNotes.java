@@ -11,7 +11,7 @@ public class ContactImplTestGetNotes {
         String name = "Test";
         String notes = "Test";
         contact = new ContactImpl(1, name, notes);
-        assertEquals(name, contact.getName());
+        assertEquals(name, contact.getNotes());
     }
 
     @Test
@@ -19,7 +19,7 @@ public class ContactImplTestGetNotes {
         String name = "Test";
         String notes = "Test Test";
         contact = new ContactImpl(1, name, notes);
-        assertEquals(name, contact.getName());
+        assertEquals(name, contact.getNotes());
     }
 
     @Test
@@ -27,7 +27,7 @@ public class ContactImplTestGetNotes {
         String name = "Test";
         String notes = "Test Test Test Test Test";
         contact = new ContactImpl(1, name, notes);
-        assertEquals(name, contact.getName());
+        assertEquals(name, contact.getNotes());
     }
 
     @Test
@@ -35,7 +35,7 @@ public class ContactImplTestGetNotes {
         String name = "Test";
         String notes = "";
         contact = new ContactImpl(1, name, notes);
-        assertEquals(name, contact.getName());
+        assertEquals(name, contact.getNotes());
     }
 
     @Test
@@ -43,7 +43,7 @@ public class ContactImplTestGetNotes {
         String name = "Test";
         String notes = "*&^%£\"'@";
         contact = new ContactImpl(1, name, notes);
-        assertEquals(name, contact.getName());
+        assertEquals(name, contact.getNotes());
     }
 
     @Test
@@ -51,7 +51,7 @@ public class ContactImplTestGetNotes {
         String name = "Test";
         String notes = "A\nB\nC";
         contact = new ContactImpl(1, name, notes);
-        assertEquals(name, contact.getName());
+        assertEquals(name, contact.getNotes());
     }
 
     @Test
@@ -59,6 +59,6 @@ public class ContactImplTestGetNotes {
         String name = "Test";
         String notes = "A\tB\tC";
         contact = new ContactImpl(1, name, notes);
-        assertEquals(name, contact.getName());
+        assertEquals(name, contact.getNotes());
     }
 }

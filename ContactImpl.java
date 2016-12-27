@@ -33,4 +33,8 @@ public class ContactImpl{
         this.notes = notes;
     }
 
+    public String getNotes(){
+        return "";
+    }
+
 }
