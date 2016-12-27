@@ -11,7 +11,7 @@ public class ContactImplTestAddNotes {
     @Test
     public void addNotesTestNoExisting(){
         String note = "This is a note!";
-        contact = new ContactImpl(0, "");
+        contact = new ContactImpl(1, "");
         contact.addNotes(note);
         Assert.assertEquals(note, contact.getNotes());
     }
@@ -19,7 +19,7 @@ public class ContactImplTestAddNotes {
     @Test
     public void addNotesTestExisting(){
         String note = "This is a note!";
-        contact = new ContactImpl(0, "", "");
+        contact = new ContactImpl(1, "", "");
         contact.addNotes(note);
         Assert.assertEquals(note, contact.getNotes());
     }
@@ -27,7 +27,7 @@ public class ContactImplTestAddNotes {
     @Test
     public void addNotesTestEmptyNoExisting(){
         String note = "";
-        contact = new ContactImpl(0, "");
+        contact = new ContactImpl(1, "");
         contact.addNotes(note);
         Assert.assertEquals(note, contact.getNotes());
     }
@@ -35,7 +35,7 @@ public class ContactImplTestAddNotes {
     @Test
     public void addNotesTestEmptyExisting(){
         String note = "";
-        contact = new ContactImpl(0, "", "");
+        contact = new ContactImpl(1, "", "");
         contact.addNotes(note);
         Assert.assertEquals(note, contact.getNotes());
     }
@@ -43,7 +43,7 @@ public class ContactImplTestAddNotes {
     @Test(expected = NullPointerException.class)
     public void addNotesTestNullNoExisting(){
         String note = null;
-        contact = new ContactImpl(0, "");
+        contact = new ContactImpl(1, "");
         contact.addNotes(note);
         Assert.assertEquals(note, contact.getNotes());
     }
@@ -51,7 +51,7 @@ public class ContactImplTestAddNotes {
     @Test(expected = NullPointerException.class)
     public void addNotesTestNullExisting(){
         String note = null;
-        contact = new ContactImpl(0, "", "");
+        contact = new ContactImpl(1, "", "");
         contact.addNotes(note);
         Assert.assertEquals(note, contact.getNotes());
     }

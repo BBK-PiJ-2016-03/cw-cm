@@ -8,13 +8,27 @@ public class ContactImpl implements Contact{
     private String notes;
 
     public ContactImpl(int id, String name){
-        setId(id);
-        setName(name);
+        this(id, name, "");
     }
 
     public ContactImpl(int id, String name, String notes){
-        this(id, name);
+        validateId(id);
+        validateNull(name, "name");
+        validateNull(notes, "notes");
+
+        setId(id);
+        setName(name);
         setNotes(notes);
+    }
+
+    private void validateId(int id) {
+        if(id < 1)
+            throw new IllegalArgumentException("Id must be greater than 0");
+    }
+
+    private void validateNull(String string, String variable) {
+        if(string == null)
+            throw new NullPointerException(variable + " supplied was null");
     }
 
     private void setId(int id){
