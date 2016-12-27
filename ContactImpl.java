@@ -53,7 +53,7 @@ public class ContactImpl implements Contact{
     }
 
     public String getNotes(){
-        return "";
+        return this.notes;
     }
 
     @Override
