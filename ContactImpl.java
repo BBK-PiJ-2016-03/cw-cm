@@ -41,11 +41,11 @@ public class ContactImpl implements Contact{
 
     @Override
     public int getId() {
-        return id;
+        return this.id;
     }
 
     public String getName(){
-        return "";
+        return this.name;
     }
 
     private void setNotes(String notes){
