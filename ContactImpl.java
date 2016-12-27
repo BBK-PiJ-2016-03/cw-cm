@@ -1,7 +1,7 @@
 /**
  * Created by Alexander Worton on 27/12/2016.
  */
-public class ContactImpl{
+public class ContactImpl implements Contact{
 
     private int id;
     private String name;
@@ -25,6 +25,11 @@ public class ContactImpl{
         this.name = name;
     }
 
+    @Override
+    public int getId() {
+        return 0;
+    }
+
     public String getName(){
         return "";
     }
@@ -35,6 +40,11 @@ public class ContactImpl{
 
     public String getNotes(){
         return "";
+    }
+
+    @Override
+    public void addNotes(String note) {
+
     }
 
 }
