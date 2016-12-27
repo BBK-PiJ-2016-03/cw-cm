@@ -1,4 +1,3 @@
-import org.junit.Assert;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 /**
@@ -13,7 +12,7 @@ public class ContactImplTestAddNotes {
         String note = "This is a note!";
         contact = new ContactImpl(1, "");
         contact.addNotes(note);
-        Assert.assertEquals(note, contact.getNotes());
+        assertEquals(note, contact.getNotes());
     }
 
     @Test
@@ -21,7 +20,7 @@ public class ContactImplTestAddNotes {
         String note = "This is a note!";
         contact = new ContactImpl(1, "", "");
         contact.addNotes(note);
-        Assert.assertEquals(note, contact.getNotes());
+        assertEquals(note, contact.getNotes());
     }
 
     @Test
@@ -29,7 +28,7 @@ public class ContactImplTestAddNotes {
         String note = "";
         contact = new ContactImpl(1, "");
         contact.addNotes(note);
-        Assert.assertEquals(note, contact.getNotes());
+        assertEquals(note, contact.getNotes());
     }
 
     @Test
@@ -37,7 +36,7 @@ public class ContactImplTestAddNotes {
         String note = "";
         contact = new ContactImpl(1, "", "");
         contact.addNotes(note);
-        Assert.assertEquals(note, contact.getNotes());
+        assertEquals(note, contact.getNotes());
     }
 
     @Test(expected = NullPointerException.class)
@@ -45,7 +44,7 @@ public class ContactImplTestAddNotes {
         String note = null;
         contact = new ContactImpl(1, "");
         contact.addNotes(note);
-        Assert.assertEquals(note, contact.getNotes());
+        assertEquals(note, contact.getNotes());
     }
 
     @Test(expected = NullPointerException.class)
@@ -53,6 +52,6 @@ public class ContactImplTestAddNotes {
         String note = null;
         contact = new ContactImpl(1, "", "");
         contact.addNotes(note);
-        Assert.assertEquals(note, contact.getNotes());
+        assertEquals(note, contact.getNotes());
     }
 }
