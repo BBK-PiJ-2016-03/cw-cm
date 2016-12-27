@@ -14,13 +14,31 @@ public class ContactImplTestConstructor{
         contact = new ContactImpl(0, "");
     }
 
-    @Test(expected=NullPointerException.class)
+    @Test(expected=IllegalArgumentException.class)
     public void constructor3IDNegative(){
         contact = new ContactImpl(-10000, "", "");
     }
 
-    @Test(expected=NullPointerException.class)
+    @Test(expected=IllegalArgumentException.class)
     public void constructor2IDNegative(){
         contact = new ContactImpl(-10000, "");
     }
+
+    @Test(expected=NullPointerException.class)
+    public void constructor3NameNull(){
+        contact = new ContactImpl(1, null, "");
+    }
+
+    @Test(expected=NullPointerException.class)
+    public void constructor2NameNull(){
+        contact = new ContactImpl(1, null);
+    }
+
+    @Test(expected=NullPointerException.class)
+    public void constructor3NotesNull(){
+        contact = new ContactImpl(1, "", null);
+    }
+
+
+
 }
