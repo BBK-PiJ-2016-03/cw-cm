@@ -50,7 +50,7 @@ public class FutureMeetingImplTestGetContacts {
         int id = 1;
         meeting = new FutureMeetingImpl(id, date, populatedSet);
 
-        assertEquals(8, meeting.getContacts().size());
+        assertEquals(7, meeting.getContacts().size());
         assertTrue(meeting.getContacts().containsAll(verifySet));
     }
 }
