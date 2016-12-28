@@ -16,8 +16,6 @@ public abstract class MeetingImpl implements Meeting{
         setId(id);
         setDate(date);
         setContacts(contacts);
-        if(contacts == null)
-            System.out.println("contacts are null");
     }
 
     private void setId(int id){
