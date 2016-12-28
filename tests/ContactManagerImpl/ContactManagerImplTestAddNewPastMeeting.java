@@ -1,13 +1,14 @@
 import tests.DateFns;
-import java.util.Date;
+
+import java.util.Calendar;
 
 /**
  * Created by Alexander Worton on 27/12/2016.
  */
 public class ContactManagerImplTestAddNewPastMeeting {
 
-    private Date pastDate;
-    private Date futureDate;
+    private Calendar pastDate;
+    private Calendar futureDate;
 
     {
         futureDate = DateFns.getFutureDate();

@@ -1,5 +1,4 @@
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Set;
 
 /**
@@ -8,11 +7,11 @@ import java.util.Set;
 public abstract class MeetingImpl implements Meeting{
 
     private int id;
-    private Date date;
+    private Calendar date;
     private Set<Contact> contacts;
 
 
-    public MeetingImpl(int id, Date date, Set<Contact> contacts){
+    public MeetingImpl(int id, Calendar date, Set<Contact> contacts){
         setId(id);
         setDate(date);
         setContacts(contacts);
@@ -23,7 +22,7 @@ public abstract class MeetingImpl implements Meeting{
         this.id = id;
     }
 
-    private void setDate(Date date){
+    private void setDate(Calendar date){
         Validation.validateObjectNotNull(date, "Date");
         this.date = date;
     }
@@ -37,12 +36,12 @@ public abstract class MeetingImpl implements Meeting{
 
     @Override
     public int getId() {
-        return 0;
+        return this.id;
     }
 
     @Override
     public Calendar getDate() {
-        return null;
+        return this.date;
     }
 
     @Override

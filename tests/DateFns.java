@@ -1,7 +1,6 @@
 package tests;
 
 import java.util.Calendar;
-import java.util.Date;
 
 /**
  * Created by Alexander Worton on 28/12/2016.
@@ -13,20 +12,19 @@ public class DateFns {
     private static final int month = calendar.get(Calendar.MONTH);
     private static final int day = calendar.get(Calendar.DAY_OF_WEEK);
 
-    public static Date getCurrentDate(){
-        Calendar cal = Calendar.getInstance();
-        return cal.getTime();
+    public static Calendar getCurrentDate(){
+        return Calendar.getInstance();
     }
 
-    public static Date getPastDate(){
+    public static Calendar getPastDate(){
         Calendar cal = Calendar.getInstance();
         cal.set(year-1, month, day);
-        return cal.getTime();
+        return cal;
     }
 
-    public static Date getFutureDate(){
+    public static Calendar getFutureDate(){
         Calendar cal = Calendar.getInstance();
         cal.set(year+1, month, day);
-        return cal.getTime();
+        return cal;
     }
 }

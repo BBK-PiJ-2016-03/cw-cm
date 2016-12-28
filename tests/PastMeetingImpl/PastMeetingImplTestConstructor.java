@@ -14,14 +14,14 @@ import java.util.HashSet;
 public class PastMeetingImplTestConstructor {
 
     private PastMeeting meeting;
-    private Date date;
+    private Calendar date;
     private String notes;
 
     private Set<Contact> emptySet;
     private Set<Contact> populatedSet;
 
     {
-        date = new Date();
+        date = Calendar.getInstance();
         notes = "";
         emptySet = new HashSet<>();
         populatedSet = new HashSet<>();

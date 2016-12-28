@@ -12,13 +12,13 @@ import java.util.Set;
 public class FutureMeetingImplTestConstructor {
 
     private FutureMeeting meeting;
-    private Date date;
+    private Calendar date;
 
     private Set<Contact> emptySet;
     private Set<Contact> populatedSet;
 
     {
-        date = new Date();
+        date = Calendar.getInstance();
         emptySet = new HashSet<>();
         populatedSet = new HashSet<>();
     }
