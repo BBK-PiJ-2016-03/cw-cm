@@ -40,6 +40,7 @@ public class FutureMeetingImplTestGetContacts {
 
     @Test
     public void getContactsTestMultiple(){
+        //do we want to internally create a copy of all elements to prevent mutability?
 
         Set<Contact> verifySet = IntStream.range(1,8)
                 .mapToObj(i -> new ContactImpl(i, "Name"))
