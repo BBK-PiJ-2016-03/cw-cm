@@ -41,16 +41,21 @@ public class FutureMeetingImplTestGetContacts {
     @Test
     public void getContactsTestMultiple(){
         //do we want to internally create a copy of all elements to prevent mutability?
-
-        Set<Contact> verifySet = IntStream.range(1,8)
-                .mapToObj(i -> new ContactImpl(i, "Name"))
-                .peek(populatedSet::add)
-                .collect(Collectors.toSet());
+        int numContacts = 8;
+        Set<Contact> verifySet = generateContacts(numContacts);
 
         int id = 1;
         meeting = new FutureMeetingImpl(id, date, populatedSet);
 
-        assertEquals(7, meeting.getContacts().size());
+        assertEquals(numContacts, meeting.getContacts().size());
         assertTrue(meeting.getContacts().containsAll(verifySet));
+    }
+
+    private Set<Contact> generateContacts(int number){
+        return IntStream.range(1,number+1)
+                .mapToObj(i -> new ContactImpl(i, "Name"))
+                //side effect populating the class scoped set with the same elements
+                .peek(populatedSet::add)
+                .collect(Collectors.toSet());
     }
 }
