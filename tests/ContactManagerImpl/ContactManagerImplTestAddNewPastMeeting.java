@@ -1,6 +1,4 @@
-import org.junit.Before;
-
-import java.util.Calendar;
+import tests.DateFns;
 import java.util.Date;
 
 /**
