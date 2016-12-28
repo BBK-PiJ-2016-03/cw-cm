@@ -16,17 +16,23 @@ public abstract class MeetingImpl implements Meeting{
         setId(id);
         setDate(date);
         setContacts(contacts);
+        if(contacts == null)
+            System.out.println("contacts are null");
     }
 
     private void setId(int id){
+        Validation.validateIdPositive(id);
         this.id = id;
     }
 
     private void setDate(Date date){
+        Validation.validateObjectNotNull(date, "Date");
         this.date = date;
     }
 
     private void setContacts(Set<Contact> contacts){
+        Validation.validateObjectNotNull(contacts, "Contacts");
+        Validation.validateSetPopulated(contacts, "Contacts");
         this.contacts = contacts;
     }
 

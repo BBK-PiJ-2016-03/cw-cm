@@ -12,24 +12,16 @@ public class ContactImpl implements Contact{
     }
 
     public ContactImpl(int id, String name, String notes){
-        validateId(id);
-        validateNull(name, "name");
-        validateNull(notes, "notes");
+        Validation.validateIdPositive(id);
+        Validation.validateObjectNotNull(name, "name");
+        Validation.validateObjectNotNull(notes, "notes");
 
         setId(id);
         setName(name);
         setNotes(notes);
     }
 
-    private void validateId(int id) {
-        if(id < 1)
-            throw new IllegalArgumentException("Id must be greater than 0");
-    }
 
-    private void validateNull(String string, String variable) {
-        if(string == null)
-            throw new NullPointerException(variable + " supplied was null");
-    }
 
     private void setId(int id){
         this.id = id;
@@ -61,7 +53,7 @@ public class ContactImpl implements Contact{
     addNotes replaces the existing notes rather than appends to it. Appending is
     still supported externally by utilising getNotes, appending and then addNotes. */
     public void addNotes(String note) {
-        validateNull(note, "notes");
+        Validation.validateObjectNotNull(note, "notes");
         this.notes = note;
     }
 

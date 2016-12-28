@@ -12,10 +12,16 @@ import java.util.Set;
 public class FutureMeetingImplTestConstructor {
 
     private FutureMeeting meeting;
-    private Date date = new Date();
+    private Date date;
 
-    private Set<Contact> emptySet = new HashSet<>();
-    private Set<Contact> populatedSet = new HashSet<>();
+    private Set<Contact> emptySet;
+    private Set<Contact> populatedSet;
+
+    {
+        date = new Date();
+        emptySet = new HashSet<>();
+        populatedSet = new HashSet<>();
+    }
 
     @Before
     public void before(){
