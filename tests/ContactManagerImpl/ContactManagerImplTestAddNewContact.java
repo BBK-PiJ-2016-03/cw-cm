@@ -1,3 +1,4 @@
+import org.junit.Test;
 import tests.DateFns;
 
 import java.util.Calendar;
@@ -24,22 +25,39 @@ public class ContactManagerImplTestAddNewContact {
      * @throws NullPointerException if the name or the notes are null
      */
 
-    private ContactManager manager;
-    private Calendar pastDate;
-    private Calendar futureDate;
-    private Set<Contact> emptySet;
-    private Set<Contact> populatedSet;
-    private Set<Contact> populatedSetWithInvalidContact;
-    private Set<Contact> populatedSetWithNullContact;
+    private ContactManagerImplTestData data;
 
     {
-        manager = new ContactManagerImpl();
-        pastDate = DateFns.getPastDate();
-        futureDate = DateFns.getFutureDate();
-        emptySet = new HashSet<>();
-        populatedSet = ContactManagerImplTestsFns.generateValidContacts(500_000, manager);
-        populatedSetWithInvalidContact = ContactManagerImplTestsFns.generateInvalidContacts(500_000, manager);
-        populatedSetWithNullContact = ContactManagerImplTestsFns.generateNullContacts(10_000, manager);
+        data = new ContactManagerImplTestData();
+    }
+
+    @Test
+    public void testGetId(){
+        int returnedId = data.manager.addNewContact("Name", "Notes");
+        assertTrue(returnedId > 0);
+
+        int returnedId2 = data.manager.addNewContact("Name", "Notes");
+        assertTrue(returnedId2 > 0 && returnedId2 != returnedId);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void testNameEmpty(){
+        data.manager.addNewContact("", "Notes");
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void testNotesEmpty(){
+        data.manager.addNewContact("Name", "");
+    }
+
+    @Test(expected=NullPointerException.class)
+    public void testNameNull(){
+        data.manager.addNewContact(null, "Notes");
+    }
+
+    @Test(expected=NullPointerException.class)
+    public void testNotesNull(){
+        data.manager.addNewContact("Name", null);
     }
 
 }

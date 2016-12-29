@@ -28,52 +28,40 @@ public class ContactManagerImplTestAddFutureMeeting {
      * @throws NullPointerException if the meeting or the date are null
      */
 
-    private ContactManager manager;
-    private Calendar pastDate;
-    private Calendar futureDate;
-    private Set<Contact> emptySet;
-    private Set<Contact> populatedSet;
-    private Set<Contact> populatedSetWithInvalidContact;
-    private Set<Contact> populatedSetWithNullContact;
+    private ContactManagerImplTestData data;
 
     {
-        manager = new ContactManagerImpl();
-        pastDate = DateFns.getPastDate();
-        futureDate = DateFns.getFutureDate();
-        emptySet = new HashSet<>();
-        populatedSet = ContactManagerImplTestsFns.generateValidContacts(500_000, manager);
-        populatedSetWithInvalidContact = ContactManagerImplTestsFns.generateInvalidContacts(500_000, manager);
-        populatedSetWithNullContact = ContactManagerImplTestsFns.generateNullContacts(10_000, manager);
+        data = new ContactManagerImplTestData();
     }
 
 
 
     @Test
     public void testIdReturned(){
-        int id = manager.addFutureMeeting(populatedSet, futureDate);
+        int id = data.manager.addFutureMeeting(data.populatedSet, data.futureDate);
         assertTrue(id > 0);
 
-        int id2 = manager.addFutureMeeting(populatedSet, futureDate);
-        assertTrue(id > 0 && id != id2);
+        int id2 = data.manager.addFutureMeeting(data.populatedSet, data.futureDate);
+        assertTrue(id2 > 0 && id != id2);
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void testContactNull(){
-        int id = manager.addFutureMeeting(populatedSetWithNullContact, futureDate);
+        int id = data.manager.addFutureMeeting(data.populatedSetWithNullContact, data.futureDate);
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void testContactUnknown(){
-        int id = manager.addFutureMeeting(populatedSetWithInvalidContact, futureDate);
+        int id = data.manager.addFutureMeeting(data.populatedSetWithInvalidContact, data.futureDate);
     }
 
     @Test(expected=NullPointerException.class)
     public void testContactsNull(){
-        int id = manager.addFutureMeeting(null, futureDate);
+        int id = data.manager.addFutureMeeting(null, data.futureDate);
     }
 
     @Test(expected=NullPointerException.class)
     public void testDateNull(){
-        int id = manager.addFutureMeeting(populatedSet, null);
+        int id = data.manager.addFutureMeeting(data.populatedSet, null);
     }
 }
