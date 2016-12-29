@@ -41,38 +41,12 @@ public class ContactManagerImplTestAddFutureMeeting {
         pastDate = DateFns.getPastDate();
         futureDate = DateFns.getFutureDate();
         emptySet = new HashSet<>();
-        populatedSet = generateValidContacts(500_000);
-        populatedSetWithInvalidContact = generateInvalidContacts(500_000);
-        populatedSetWithNullContact = generateNullContacts(10_000);
+        populatedSet = ContactManagerImplTestsFns.generateValidContacts(500_000, manager);
+        populatedSetWithInvalidContact = ContactManagerImplTestsFns.generateInvalidContacts(500_000, manager);
+        populatedSetWithNullContact = ContactManagerImplTestsFns.generateNullContacts(10_000, manager);
     }
 
-    private Set<Contact> generateNullContacts(int number) {
-        int[] contactIds = IntStream.range(1,number)
-                .map(i -> manager.addNewContact("Name"+i, ""))
-                .toArray();
 
-        Set<Contact> contacts =  manager.getContacts(contactIds);
-        contacts.add(null);
-        return contacts;
-    }
-
-    private Set<Contact> generateValidContacts(int number){
-        int[] contactIds = IntStream.range(0,number)
-                    .map(i -> manager.addNewContact("Name"+i, ""))
-                    .toArray();
-
-        return manager.getContacts(contactIds);
-    }
-
-    private Set<Contact> generateInvalidContacts(int number){
-        int[] contactIds = IntStream.range(0,number)
-                    .map(i -> manager.addNewContact("Name"+(number+i), ""))
-                    .toArray();
-
-        Set<Contact> contacts =  manager.getContacts(contactIds);
-        contacts.add(new ContactImpl(number*3,"Unknown", ""));
-        return contacts;
-    }
 
     @Test
     public void testIdReturned(){
