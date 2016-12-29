@@ -33,6 +33,7 @@ public class ContactManagerImplTestAddFutureMeeting {
     private Calendar futureDate;
     private Set<Contact> emptySet;
     private Set<Contact> populatedSet;
+    private Set<Contact> populatedSetWithInvalidContact;
     private Set<Contact> populatedSetWithNullContact;
 
     {
@@ -40,8 +41,19 @@ public class ContactManagerImplTestAddFutureMeeting {
         pastDate = DateFns.getPastDate();
         futureDate = DateFns.getFutureDate();
         emptySet = new HashSet<>();
-        populatedSet = generateValidContacts(1_000_000);
-        populatedSetWithNullContact = generateInvalidContacts(1_000_000);
+        populatedSet = generateValidContacts(500_000);
+        populatedSetWithInvalidContact = generateInvalidContacts(500_000);
+        populatedSetWithNullContact = generateNullContacts(10_000);
+    }
+
+    private Set<Contact> generateNullContacts(int number) {
+        int[] contactIds = IntStream.range(1,number)
+                .map(i -> manager.addNewContact("Name"+i, ""))
+                .toArray();
+
+        Set<Contact> contacts =  manager.getContacts(contactIds);
+        contacts.add(null);
+        return contacts;
     }
 
     private Set<Contact> generateValidContacts(int number){
@@ -73,21 +85,21 @@ public class ContactManagerImplTestAddFutureMeeting {
 
     @Test(expected=IllegalArgumentException.class)
     public void testContactNull(){
-
+        int id = manager.addFutureMeeting(populatedSetWithNullContact, futureDate);
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void testContactUnknown(){
-
+        int id = manager.addFutureMeeting(populatedSetWithInvalidContact, futureDate);
     }
 
     @Test(expected=NullPointerException.class)
-    public void testMeetingNull(){
-
+    public void testContactsNull(){
+        int id = manager.addFutureMeeting(null, futureDate);
     }
 
     @Test(expected=NullPointerException.class)
     public void testDateNull(){
-
+        int id = manager.addFutureMeeting(populatedSet, null);
     }
 }
