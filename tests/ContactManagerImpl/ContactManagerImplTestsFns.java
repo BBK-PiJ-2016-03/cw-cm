@@ -5,6 +5,7 @@ import java.util.stream.IntStream;
  * Created by Alexander Worton on 29/12/2016.
  */
 public class ContactManagerImplTestsFns {
+
     public static Set<Contact> generateNullContacts(int number, ContactManager manager) {
         int[] contactIds = IntStream.range(1,number)
                 .map(i -> manager.addNewContact("Name"+i, ""))

@@ -1,15 +1,7 @@
 import org.junit.Test;
+
 import static org.junit.Assert.assertTrue;
-import tests.DateFns;
 
-import java.util.Calendar;
-import java.util.HashSet;
-import java.util.Set;
-import tests.DateFns;
-
-import java.util.Calendar;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Created by Alexander Worton on 29/12/2016.

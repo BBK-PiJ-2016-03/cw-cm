@@ -1,13 +1,6 @@
-import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.assertTrue;
-import tests.DateFns;
 
-import java.util.Calendar;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by Alexander Worton on 29/12/2016.
