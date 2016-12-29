@@ -6,6 +6,8 @@ import java.util.Set;
  * Created by Alexander Worton on 27/12/2016.
  */
 public class ContactManagerImpl implements ContactManager{
+
+
     @Override
     public int addFutureMeeting(Set<Contact> contacts, Calendar date) {
         return 0;
