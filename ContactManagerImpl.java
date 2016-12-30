@@ -1,11 +1,21 @@
-import java.util.Calendar;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by Alexander Worton on 27/12/2016.
  */
 public class ContactManagerImpl implements ContactManager{
+
+    private int lastContactId;
+    private Map<Integer, Contact> contacts;
+
+    {
+        lastContactId = 0;
+        contacts = new HashMap<>();
+    }
+
+    public ContactManagerImpl(){
+        //load data from file if exists
+    }
 
 
     @Override
@@ -55,7 +65,15 @@ public class ContactManagerImpl implements ContactManager{
 
     @Override
     public int addNewContact(String name, String notes) {
-        return 0;
+        int id = getNewContactId();
+        System.out.println("id: "+id);
+        contacts.put(id, new ContactImpl(id, name, notes));
+        return id;
+    }
+
+    private int getNewContactId() {
+        this.lastContactId++;
+        return this.lastContactId;
     }
 
     @Override
