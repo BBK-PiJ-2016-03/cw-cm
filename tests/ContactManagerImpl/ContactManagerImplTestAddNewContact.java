@@ -1,5 +1,7 @@
 import org.junit.Test;
 
+import java.util.Set;
+
 import static org.junit.Assert.assertTrue;
 
 
@@ -26,17 +28,27 @@ public class ContactManagerImplTestAddNewContact {
 
     @Test
     public void testGetId(){
-        int returnedId = data.manager.addNewContact("Name", "Notes");
+        int returnedId = data.manager.addNewContact("Name1", "Notes1");
         assertTrue(returnedId > 0);
 
-        int returnedId2 = data.manager.addNewContact("Name", "Notes");
+        int returnedId2 = data.manager.addNewContact("Name2", "Notes2");
         assertTrue(returnedId2 > 0 && returnedId2 != returnedId);
     }
 
-    @Test(expected=IllegalArgumentException.class)
-    public void testNameEmpty(){
-        data.manager.addNewContact("", "Notes");
+    @Test
+    public void testContactAdded(){
+        String name = "Barry White";
+        String notes = "These are the notes";
+        int id = data.manager.addNewContact(name, notes);
+        int[] ids = new int[1];
+        ids[0] = id;
+        Set<Contact> contacts = data.manager.getContacts(ids);
+        assertTrue(contacts.stream()
+                .anyMatch(c -> c.getName() == name));
     }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void testNameEmpty(){ data.manager.addNewContact("", "Notes"); }
 
     @Test(expected=IllegalArgumentException.class)
     public void testNotesEmpty(){
