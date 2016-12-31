@@ -38,4 +38,12 @@ public class Validation {
         if(length != size)
             throw new IllegalArgumentException("Not all input values are known");
     }
+
+    public static void validateStringNotNullOrEmpty(String str, String variableName) {
+        if(str == null)
+            throw new NullPointerException(variableName + " supplied was null");
+
+        if(str.equals(""))
+            throw new IllegalArgumentException(variableName + " supplied is empty: "+str);
+    }
 }

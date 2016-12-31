@@ -67,6 +67,9 @@ public class ContactManagerImpl implements ContactManager{
 
     @Override
     public int addNewContact(String name, String notes) {
+        Validation.validateStringNotNullOrEmpty(name, "name");
+        Validation.validateStringNotNullOrEmpty(notes, "notes");
+
         int id = getNewContactId();
         contacts.put(id, new ContactImpl(id, name, notes));
         return id;
