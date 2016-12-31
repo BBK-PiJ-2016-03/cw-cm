@@ -33,4 +33,24 @@ public class ContactManagerImplTestsFns {
         contacts.add(new ContactImpl(number*3,"Unknown", ""));
         return contacts;
     }
+
+    public static int[] generateInvalidContactIds(int number, ContactManager manager) {
+        int[] contactIds = IntStream.range(1,number)
+                .map(i -> {
+                    if(i > 1)
+                        return manager.addNewContact("Name"+i, "");
+                    return Integer.MAX_VALUE;
+                })
+                .toArray();
+
+        return contactIds;
+    }
+
+    public static int[] generateValidContactIds(int number, ContactManager manager){
+        int[] contactIds = IntStream.range(0,number)
+                .map(i -> manager.addNewContact("Name"+i, ""))
+                .toArray();
+
+        return contactIds;
+    }
 }
