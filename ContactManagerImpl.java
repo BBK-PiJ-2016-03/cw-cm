@@ -1,4 +1,6 @@
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * Created by Alexander Worton on 27/12/2016.
@@ -66,14 +68,12 @@ public class ContactManagerImpl implements ContactManager{
     @Override
     public int addNewContact(String name, String notes) {
         int id = getNewContactId();
-        System.out.println("id: "+id);
         contacts.put(id, new ContactImpl(id, name, notes));
         return id;
     }
 
     private int getNewContactId() {
-        this.lastContactId++;
-        return this.lastContactId;
+        return ++this.lastContactId;
     }
 
     @Override
@@ -83,7 +83,17 @@ public class ContactManagerImpl implements ContactManager{
 
     @Override
     public Set<Contact> getContacts(int... ids) {
-        return null;
+
+        Validation.validateSetPopulated(ids, "Contact Ids array");
+
+        Set<Contact> result = contacts.entrySet().stream()
+                .filter(e -> IntStream.of(ids).anyMatch(i -> i == e.getKey()))
+                .map(e -> e.getValue())
+                .collect(Collectors.toSet());
+
+        Validation.validateArgumentSizeMatch(ids.length, result.size());
+
+        return result;
     }
 
     @Override

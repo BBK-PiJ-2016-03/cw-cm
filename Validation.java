@@ -27,4 +27,15 @@ public class Validation {
         if(collection.size() < 1)
             throw new IllegalArgumentException(collectionName + " supplied is empty");
     }
+
+    public static void validateSetPopulated(int[] collection, String collectionName) {
+        if(collection.length < 1)
+            throw new IllegalArgumentException(collectionName + " supplied is empty");
+    }
+
+
+    public static void validateArgumentSizeMatch(int length, int size) {
+        if(length != size)
+            throw new IllegalArgumentException("Not all input values are known");
+    }
 }
