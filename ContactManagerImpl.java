@@ -27,12 +27,19 @@ public class ContactManagerImpl implements ContactManager{
 
     @Override
     public int addFutureMeeting(Set<Contact> contacts, Calendar date) {
+        validateAddNewFutureMeeting(contacts, date);
+        return createNewFutureMeeting(contacts, date);
+    }
+
+    private void validateAddNewFutureMeeting(Set<Contact> contacts, Calendar date) {
         Validation.validateObjectNotNull(contacts, "Contacts");
         Validation.validateSetPopulated(contacts, "Contacts");
         Validation.validateObjectNotNull(date, "Date");
         Validation.validateDateInFuture(date);
-        Validation.validateAllContactsKnown(contacts, this.contacts); //last as computationally intensive
+        Validation.validateAllContactsKnown(contacts, this.contacts); //last as computationally intensive O(n)
+    }
 
+    private int createNewFutureMeeting(Set<Contact> contacts, Calendar date){
         int id = getNewMeetingId();
         Meeting meeting = new FutureMeetingImpl(id, date, contacts);
         meetings.put(id, meeting);
@@ -71,16 +78,25 @@ public class ContactManagerImpl implements ContactManager{
 
     @Override
     public int addNewPastMeeting(Set<Contact> contacts, Calendar date, String text) {
+        validateAddNewPastMeeting(contacts, date, text);
+        return createNewPastMeeting(contacts, date, text);
+    }
+
+    private void validateAddNewPastMeeting(Set<Contact> contacts, Calendar date, String text){
         Validation.validateObjectNotNull(contacts, "Contacts");
         Validation.validateObjectNotNull(date, "Date");
         Validation.validateDateInPast(date);
         Validation.validateObjectNotNull(text, "Text");
+        Validation.validateAllContactsKnown(contacts, this.contacts); //last as computationally intensive O(n)
+    }
 
+    private int createNewPastMeeting(Set<Contact> contacts, Calendar date, String text) {
         int id = getNewMeetingId();
         Meeting meeting = new PastMeetingImpl(id, date, contacts, text);
         meetings.put(id, meeting);
         return id;
     }
+
 
     @Override
     public PastMeeting addMeetingNotes(int id, String text) {
@@ -111,8 +127,7 @@ public class ContactManagerImpl implements ContactManager{
         if(name.equals(""))
             return getContactsAsSet();
 
-        Set<Contact> result = getContactsFromName(name);
-        return result;
+        return getContactsFromName(name);
     }
 
     private Set<Contact> getContactsAsSet() {

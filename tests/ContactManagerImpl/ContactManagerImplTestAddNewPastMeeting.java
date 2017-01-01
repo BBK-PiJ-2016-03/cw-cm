@@ -35,9 +35,6 @@ public class ContactManagerImplTestAddNewPastMeeting {
         int id = data.manager.addNewPastMeeting(data.populatedSet, data.pastDate, note);
         assertTrue(id > 0);
 
-        PastMeeting meeting = (PastMeeting)data.manager.getMeeting(id);
-        assertTrue(meeting.getNotes().equals(note));
-
         int id2 = data.manager.addNewPastMeeting(data.populatedSet, data.pastDate, "");
         assertTrue(id2 > 0 && id != id2);
     }
