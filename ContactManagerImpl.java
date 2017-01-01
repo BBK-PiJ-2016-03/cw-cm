@@ -53,7 +53,11 @@ public class ContactManagerImpl implements ContactManager{
 
     @Override
     public FutureMeeting getFutureMeeting(int id) {
-        return null;
+        Meeting meeting = meetings.get(id);
+        if(meeting != null)
+            Validation.validateStateInFuture(meeting.getDate());
+
+        return (FutureMeeting)meeting;
     }
 
     @Override

@@ -48,7 +48,7 @@ public class ContactManagerImplTestGetFutureMeeting {
 
     @Test(expected=IllegalStateException.class)
     public void testGetMeetingPast(){
-        int id = data.manager.addNewPastMeeting(data.populatedSet, data.futureDate, "");
+        int id = data.manager.addNewPastMeeting(data.populatedSet, data.pastDate, "");
         data.manager.getFutureMeeting(id);
     }
 }
