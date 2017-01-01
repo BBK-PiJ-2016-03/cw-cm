@@ -67,4 +67,19 @@ public class Validation {
         if(!date.before(Calendar.getInstance()))
             throw new IllegalArgumentException("Supplied date is not in the past");
     }
+
+    public static void validateStateInFuture(Calendar date) {
+        if(!date.after(Calendar.getInstance()))
+            throw new IllegalStateException("Supplied date is not in the future");
+    }
+
+    public static void validateStateInPast(Calendar date) {
+        if(!date.before(Calendar.getInstance()))
+            throw new IllegalStateException("Supplied date is not in the past");
+    }
+
+    public static void validateArgumentNotNull(Object obj, String argumentName) {
+        if(obj == null)
+            throw new IllegalArgumentException(argumentName + " supplied was null");
+    }
 }

@@ -100,7 +100,17 @@ public class ContactManagerImpl implements ContactManager{
 
     @Override
     public PastMeeting addMeetingNotes(int id, String text) {
-        return null;
+        Validation.validateObjectNotNull(text, "Text");
+        Meeting meeting = meetings.get(id);
+        Validation.validateArgumentNotNull(meeting, "Meeting");
+        Validation.validateStateInPast(meeting.getDate());
+        return addNotesToPastMeeting(meeting, text);
+    }
+
+    private PastMeeting addNotesToPastMeeting(Meeting meeting, String text) {
+        PastMeeting meetingWithNotes = new PastMeetingImpl(meeting.getId(), meeting.getDate(), meeting.getContacts(), text);
+        meetings.put(meetingWithNotes.getId(), meetingWithNotes); //overwrite previous meeting without notes
+        return meetingWithNotes;
     }
 
     @Override

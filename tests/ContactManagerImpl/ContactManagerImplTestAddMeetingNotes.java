@@ -32,7 +32,7 @@ public class ContactManagerImplTestAddMeetingNotes {
 
     @Before
     public void before(){
-        futureToPastMeetingId = data.manager.addFutureMeeting(data.populatedSet, data.futureDate);
+        futureToPastMeetingId = data.manager.addFutureMeeting(data.populatedSet, data.slightlyFutureDate);
     }
 
     @Test
@@ -65,7 +65,7 @@ public class ContactManagerImplTestAddMeetingNotes {
         }
     }
 
-    @Test(expected=IllegalStateException.class)
+    @Test(expected=IllegalArgumentException.class)
     public void testAddNotesNoExistMeeting(){
         String notes = "Some notes added to the meeting\n\n\nYeah!!!";
         data.manager.addMeetingNotes(Integer.MAX_VALUE, notes);
