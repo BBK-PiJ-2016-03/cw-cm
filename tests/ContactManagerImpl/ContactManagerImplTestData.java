@@ -22,8 +22,8 @@ public class ContactManagerImplTestData {
         pastDate = DateFns.getPastDate();
         futureDate = DateFns.getFutureDate();
         emptySet = new HashSet<>();
-        populatedSet = ContactManagerImplTestsFns.generateValidContacts(5_000, manager);
-        populatedSetWithInvalidContact = ContactManagerImplTestsFns.generateInvalidContacts(5_000, manager);
-        populatedSetWithNullContact = ContactManagerImplTestsFns.generateNullContacts(5_000, manager);
+        populatedSet = ContactManagerImplTestsFns.generateValidContacts(50, manager);
+        populatedSetWithInvalidContact = ContactManagerImplTestsFns.generateInvalidContacts(50, manager);
+        populatedSetWithNullContact = ContactManagerImplTestsFns.generateNullContacts(50, manager);
     }
 }
