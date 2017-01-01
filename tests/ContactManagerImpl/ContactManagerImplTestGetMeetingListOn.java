@@ -22,4 +22,6 @@ public class ContactManagerImplTestGetMeetingListOn {
      * @throws NullPointerException if the date are null
      */
 
+
+
 }

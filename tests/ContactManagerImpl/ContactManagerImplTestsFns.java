@@ -53,4 +53,13 @@ public class ContactManagerImplTestsFns {
 
         return contactIds;
     }
+
+    public static void wait2Secs() {
+        try {
+            Thread.sleep(2_000);
+        }
+        catch(InterruptedException e){
+            //wait less
+        }
+    }
 }

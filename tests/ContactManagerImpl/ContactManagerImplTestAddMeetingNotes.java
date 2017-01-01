@@ -49,20 +49,11 @@ public class ContactManagerImplTestAddMeetingNotes {
 
     @Test
     public void testAddNotesToExistingFutureMeeting() {
-        wait2Secs();
+        ContactManagerImplTestsFns.wait2Secs();
         String notes = "Some notes added to the meeting\n\n\nYeah!!";
         PastMeeting meeting = data.manager.addMeetingNotes(futureToPastMeetingId, notes);
         assertEquals(futureToPastMeetingId, meeting.getId());
         assertEquals(notes, meeting.getNotes());
-    }
-
-    private void wait2Secs() {
-        try {
-            Thread.sleep(2_000);
-        }
-        catch(InterruptedException e){
-            //wait less
-        }
     }
 
     @Test(expected=IllegalArgumentException.class)
