@@ -71,6 +71,12 @@ public class ContactManagerImpl implements ContactManager{
 
     @Override
     public int addNewPastMeeting(Set<Contact> contacts, Calendar date, String text) {
+        Validation.validateObjectNotNull(contacts, "Contacts");
+        Validation.validateObjectNotNull(date, "Date");
+        Validation.validateObjectNotNull(text, "Text");
+
+
+
         return 0;
     }
 
