@@ -67,7 +67,16 @@ public class ContactManagerImpl implements ContactManager{
 
     @Override
     public List<Meeting> getFutureMeetingList(Contact contact) {
-        return null;
+        Validation.validateObjectNotNull(contact, "Contact");
+        Validation.validateContactKnown(contact, this.contacts); //last as computationally intensive O(n)
+        return getContactsFutureMeetingsAsList(contact);
+    }
+
+    private List<Meeting> getContactsFutureMeetingsAsList(Contact contact) {
+        return meetings.values().stream()
+                .filter(e -> e.getDate().after(Calendar.getInstance()))
+                .filter(e -> e.getContacts().contains(contact))
+                .collect(Collectors.toList());
     }
 
     @Override

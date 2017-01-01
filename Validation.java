@@ -82,4 +82,10 @@ public class Validation {
         if(obj == null)
             throw new IllegalArgumentException(argumentName + " supplied was null");
     }
+
+    public static void validateContactKnown(Contact contact, Map<Integer, Contact> contacts) {
+        Contact verify = contacts.get(contact.getId());
+        if(!contact.equals(verify))
+            throw new IllegalArgumentException("Contact not known");
+    }
 }
