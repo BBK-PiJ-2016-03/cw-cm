@@ -38,7 +38,7 @@ public class ContactManagerImplTestsFns {
         int[] contactIds = IntStream.range(1,number)
                 .map(i -> {
                     if(i > 1)
-                        return manager.addNewContact("Name"+i, "");
+                        return manager.addNewContact("Name"+i, " ");
                     return Integer.MAX_VALUE;
                 })
                 .toArray();
@@ -48,7 +48,7 @@ public class ContactManagerImplTestsFns {
 
     public static int[] generateValidContactIds(int number, ContactManager manager){
         int[] contactIds = IntStream.range(0,number)
-                .map(i -> manager.addNewContact("Name"+i, ""))
+                .map(i -> manager.addNewContact("Name"+i, " "))
                 .toArray();
 
         return contactIds;
