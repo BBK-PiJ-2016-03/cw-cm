@@ -10,9 +10,14 @@ public class ContactManagerImpl implements ContactManager{
     private int lastContactId;
     private Map<Integer, Contact> contacts;
 
+    private int lastMeetingId;
+    private Map<Integer, Meeting> meetings;
+
     {
         lastContactId = 0;
+        lastMeetingId = 0;
         contacts = new HashMap<>();
+        meetings = new HashMap<>();
     }
 
     public ContactManagerImpl(){
@@ -22,7 +27,16 @@ public class ContactManagerImpl implements ContactManager{
 
     @Override
     public int addFutureMeeting(Set<Contact> contacts, Calendar date) {
-        return 0;
+        Validation.validateObjectNotNull(contacts, "Contacts");
+        Validation.validateSetPopulated(contacts, "Contacts");
+        Validation.validateObjectNotNull(date, "Date");
+        Validation.validateDateInFuture(date);
+        Validation.validateAllContactsKnown(contacts, this.contacts); //last as computationally intensive
+
+        int id = getNewMeetingId();
+        Meeting meeting = new FutureMeetingImpl(id, date, contacts);
+        meetings.put(id, meeting);
+        return id;
     }
 
     @Override
@@ -79,6 +93,10 @@ public class ContactManagerImpl implements ContactManager{
         return ++this.lastContactId;
     }
 
+    private int getNewMeetingId() {
+        return ++this.lastMeetingId;
+    }
+
     @Override
     public Set<Contact> getContacts(String name) {
         return null;
@@ -86,17 +104,17 @@ public class ContactManagerImpl implements ContactManager{
 
     @Override
     public Set<Contact> getContacts(int... ids) {
-
         Validation.validateSetPopulated(ids, "Contact Ids array");
+        Set<Contact> result = getContactsFromIds(ids);
+        Validation.validateArgumentSizeMatch(ids.length, result.size());
+        return result;
+    }
 
-        Set<Contact> result = contacts.entrySet().stream()
+    private Set<Contact> getContactsFromIds(int[] ids) {
+        return contacts.entrySet().stream()
                 .filter(e -> IntStream.of(ids).anyMatch(i -> i == e.getKey()))
                 .map(e -> e.getValue())
                 .collect(Collectors.toSet());
-
-        Validation.validateArgumentSizeMatch(ids.length, result.size());
-
-        return result;
     }
 
     @Override

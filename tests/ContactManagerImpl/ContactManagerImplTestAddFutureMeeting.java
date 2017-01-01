@@ -1,5 +1,7 @@
 import org.junit.Test;
 
+import java.util.Calendar;
+
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -40,21 +42,31 @@ public class ContactManagerImplTestAddFutureMeeting {
 
     @Test(expected=IllegalArgumentException.class)
     public void testContactNull(){
-        int id = data.manager.addFutureMeeting(data.populatedSetWithNullContact, data.futureDate);
+        data.manager.addFutureMeeting(data.populatedSetWithNullContact, data.futureDate);
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void testContactUnknown(){
-        int id = data.manager.addFutureMeeting(data.populatedSetWithInvalidContact, data.futureDate);
+        data.manager.addFutureMeeting(data.populatedSetWithInvalidContact, data.futureDate);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void testDateInPast(){
+        data.manager.addFutureMeeting(data.populatedSetWithInvalidContact, data.pastDate);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void testDateCurrent(){
+        data.manager.addFutureMeeting(data.populatedSetWithInvalidContact, Calendar.getInstance());
     }
 
     @Test(expected=NullPointerException.class)
     public void testContactsNull(){
-        int id = data.manager.addFutureMeeting(null, data.futureDate);
+        data.manager.addFutureMeeting(null, data.futureDate);
     }
 
     @Test(expected=NullPointerException.class)
     public void testDateNull(){
-        int id = data.manager.addFutureMeeting(data.populatedSet, null);
+        data.manager.addFutureMeeting(data.populatedSet, null);
     }
 }
