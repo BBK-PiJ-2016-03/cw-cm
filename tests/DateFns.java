@@ -27,4 +27,16 @@ public class DateFns {
         cal.set(year+1, month, day);
         return cal;
     }
+
+    public static Calendar getSlightlyFutureDate() {
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.SECOND, 1);
+        return cal;
+    }
+
+    public static Calendar getSlightlyPastDate() {
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.SECOND, -1);
+        return cal;
+    }
 }

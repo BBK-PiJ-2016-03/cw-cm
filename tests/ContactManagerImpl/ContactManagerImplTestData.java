@@ -11,7 +11,9 @@ public class ContactManagerImplTestData {
 
     public ContactManager manager;
     public Calendar pastDate;
+    public Calendar slightlyPastDate;
     public Calendar futureDate;
+    public Calendar slightlyFutureDate;
     public Set<Contact> emptySet;
     public Set<Contact> populatedSet;
     public Set<Contact> populatedSetWithInvalidContact;
@@ -21,6 +23,8 @@ public class ContactManagerImplTestData {
         manager = new ContactManagerImpl();
         pastDate = DateFns.getPastDate();
         futureDate = DateFns.getFutureDate();
+        slightlyPastDate = DateFns.getSlightlyPastDate();
+        slightlyFutureDate = DateFns.getSlightlyFutureDate();
         emptySet = new HashSet<>();
         populatedSet = ContactManagerImplTestsFns.generateValidContacts(50, manager);
         populatedSetWithInvalidContact = ContactManagerImplTestsFns.generateInvalidContacts(50, manager);
