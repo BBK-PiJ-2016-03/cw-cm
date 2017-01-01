@@ -12,6 +12,7 @@ public class ContactManagerImplTestGetContactsName {
 
     {
         data = new ContactManagerImplTestData();
+        data.manager = new ContactManagerImpl();
         data.manager.addNewContact("Name1", "Notes");
         data.manager.addNewContact("Name2", "Notes");
         data.manager.addNewContact("Name2", "Notes");
@@ -36,7 +37,7 @@ public class ContactManagerImplTestGetContactsName {
 
     @Test
     public void testGetExistingContacts(){
-        Set<Contact> contacts = data.manager.getContacts("Name1");
+        Set<Contact> contacts = data.manager.getContacts("Name2");
         assertTrue(contacts.size() == 2);
     }
 

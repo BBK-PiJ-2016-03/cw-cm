@@ -99,7 +99,17 @@ public class ContactManagerImpl implements ContactManager{
 
     @Override
     public Set<Contact> getContacts(String name) {
-        return null;
+        Validation.validateObjectNotNull(name, "Name");
+        if(name.equals(""))
+            return getContactsAsSet();
+
+        Set<Contact> result = getContactsFromName(name);
+        return result;
+    }
+
+    private Set<Contact> getContactsAsSet() {
+        return contacts.values().stream()
+                .collect(Collectors.toSet());
     }
 
     @Override
@@ -113,6 +123,13 @@ public class ContactManagerImpl implements ContactManager{
     private Set<Contact> getContactsFromIds(int[] ids) {
         return contacts.entrySet().stream()
                 .filter(e -> IntStream.of(ids).anyMatch(i -> i == e.getKey()))
+                .map(e -> e.getValue())
+                .collect(Collectors.toSet());
+    }
+
+    private Set<Contact> getContactsFromName(String name) {
+        return contacts.entrySet().stream()
+                .filter(e -> e.getValue().getName().equals(name))
                 .map(e -> e.getValue())
                 .collect(Collectors.toSet());
     }
