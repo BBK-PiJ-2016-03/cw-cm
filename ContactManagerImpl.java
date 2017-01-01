@@ -73,11 +73,13 @@ public class ContactManagerImpl implements ContactManager{
     public int addNewPastMeeting(Set<Contact> contacts, Calendar date, String text) {
         Validation.validateObjectNotNull(contacts, "Contacts");
         Validation.validateObjectNotNull(date, "Date");
+        Validation.validateDateInPast(date);
         Validation.validateObjectNotNull(text, "Text");
 
-
-
-        return 0;
+        int id = getNewMeetingId();
+        Meeting meeting = new PastMeetingImpl(id, date, contacts, text);
+        meetings.put(id, meeting);
+        return id;
     }
 
     @Override
