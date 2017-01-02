@@ -1,5 +1,6 @@
 import java.util.*;
 import java.util.function.BiPredicate;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -78,18 +79,13 @@ public class ContactManagerImpl implements ContactManager{
     public List<Meeting> getFutureMeetingList(Contact contact) {
         Validation.validateObjectNotNull(contact, "Contact");
         Validation.validateContactKnown(contact, this.contacts); //last as computationally intensive O(n)
-        return getContactsFutureMeetingsAsList(contact);
+        return getElementsFromMapAsList(this.meetings, (k,v) -> v.getContacts().contains(contact));
     }
 
-    private List<Meeting> getContactsFutureMeetingsAsList(Contact contact) {
-        return this.meetings.values().stream()
-                .filter(e -> e.getDate().after(Calendar.getInstance()))
-                .filter(e -> e.getContacts().contains(contact))
-                .collect(Collectors.toList());
-    }
 
     @Override
     public List<Meeting> getMeetingListOn(Calendar date) {
+        getElementsFromMapAsList(this.meetings, (k,v) -> v.getDate().equals(date));
         return null;
     }
 
@@ -118,7 +114,6 @@ public class ContactManagerImpl implements ContactManager{
         this.meetings.put(id, meeting);
         return id;
     }
-
 
     @Override
     public PastMeeting addMeetingNotes(int id, String text) {
@@ -159,7 +154,7 @@ public class ContactManagerImpl implements ContactManager{
         if(name.equals(""))
             return getContactsAsSet();
 
-        return getContactsFromMap((k, v) -> v.getName().equals(name));
+        return getElementsFromMapAsSet(this.contacts, (k, v) -> v.getName().equals(name));
     }
 
     private Set<Contact> getContactsAsSet() {
@@ -170,17 +165,23 @@ public class ContactManagerImpl implements ContactManager{
     @Override
     public Set<Contact> getContacts(int... ids) {
         Validation.validateSetPopulated(ids, "Contact Ids array");
-        Set<Contact> result = getContactsFromMap((k, v) -> IntStream.of(ids).anyMatch(i -> i == k));
-
+        Set<Contact> result = getElementsFromMapAsSet(this.contacts, (k, v) -> IntStream.of(ids).anyMatch(i -> i == k));
         Validation.validateArgumentSizeMatch(ids.length, result.size());
         return result;
     }
 
-    private Set<Contact> getContactsFromMap(BiPredicate<Integer, Contact> predicate) {
-        return this.contacts.entrySet().stream()
+    private <T> Set<T> getElementsFromMapAsSet(Map<Integer, T> map, BiPredicate<Integer, T> predicate) {
+        return map.entrySet().stream()
                 .filter(e -> predicate.test(e.getKey(), e.getValue()))
                 .map(e -> e.getValue())
                 .collect(Collectors.toSet());
+    }
+
+    private <T> List<T> getElementsFromMapAsList(Map<Integer, T> map, BiPredicate<Integer, T> predicate) {
+        return map.entrySet().stream()
+                .filter(e -> predicate.test(e.getKey(), e.getValue()))
+                .map(e -> e.getValue())
+                .collect(Collectors.toList());
     }
 
     @Override
