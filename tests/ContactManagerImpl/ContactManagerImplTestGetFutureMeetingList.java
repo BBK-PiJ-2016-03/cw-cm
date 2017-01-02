@@ -1,5 +1,7 @@
 import org.junit.Before;
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
@@ -46,8 +48,11 @@ public class ContactManagerImplTestGetFutureMeetingList {
     @Test
     public void testAllMeetingsReturned(){
         List<Meeting> meetings = data.manager.getFutureMeetingList(selectedContact);
+        assertEquals(9, meetings.size());
 
         List<Meeting> unSelectedMeetings = data.manager.getFutureMeetingList(unSelectedContact);
+        assertEquals(6, unSelectedMeetings.size());
+
     }
 
     @Test(expected=IllegalArgumentException.class)

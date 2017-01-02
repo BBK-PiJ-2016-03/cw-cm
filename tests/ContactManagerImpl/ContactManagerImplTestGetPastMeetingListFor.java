@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static org.junit.Assert.assertEquals;
+
 /**
  * Created by Alexander Worton on 29/12/2016.
  */
@@ -44,18 +46,20 @@ public class ContactManagerImplTestGetPastMeetingListFor {
 
     @Test
     public void testAllMeetingsReturned(){
-        List<Meeting> meetings = data.manager.getFutureMeetingList(selectedContact);
+        List<PastMeeting> meetings = data.manager.getPastMeetingListFor(selectedContact);
+        assertEquals(9, meetings.size());
 
-        List<Meeting> unSelectedMeetings = data.manager.getFutureMeetingList(unSelectedContact);
+        List<PastMeeting> unSelectedMeetings = data.manager.getPastMeetingListFor(unSelectedContact);
+        assertEquals(6, unSelectedMeetings.size());
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void testNonExistContact(){
-        data.manager.getFutureMeetingList(nonExistContact);
+        data.manager.getPastMeetingListFor(nonExistContact);
     }
 
     @Test(expected=NullPointerException.class)
     public void testNullContact(){
-        data.manager.getFutureMeetingList(null);
+        data.manager.getPastMeetingListFor(null);
     }
 }
