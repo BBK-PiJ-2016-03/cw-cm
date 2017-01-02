@@ -1,4 +1,6 @@
 import java.util.*;
+import java.util.function.BiPredicate;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -42,18 +44,19 @@ public class ContactManagerImpl implements ContactManager{
     private int createNewFutureMeeting(Set<Contact> contacts, Calendar date){
         int id = getNewMeetingId();
         Meeting meeting = new FutureMeetingImpl(id, date, contacts);
-        meetings.put(id, meeting);
+        this.meetings.put(id, meeting);
         return id;
     }
 
     @Override
     public PastMeeting getPastMeeting(int id) {
+        Meeting meeting = this.meetings.get(id);
         return null;
     }
 
     @Override
     public FutureMeeting getFutureMeeting(int id) {
-        Meeting meeting = meetings.get(id);
+        Meeting meeting = this.meetings.get(id);
         if(meeting != null)
             Validation.validateStateInFuture(meeting.getDate());
 
@@ -73,7 +76,7 @@ public class ContactManagerImpl implements ContactManager{
     }
 
     private List<Meeting> getContactsFutureMeetingsAsList(Contact contact) {
-        return meetings.values().stream()
+        return this.meetings.values().stream()
                 .filter(e -> e.getDate().after(Calendar.getInstance()))
                 .filter(e -> e.getContacts().contains(contact))
                 .collect(Collectors.toList());
@@ -106,7 +109,7 @@ public class ContactManagerImpl implements ContactManager{
     private int createNewPastMeeting(Set<Contact> contacts, Calendar date, String text) {
         int id = getNewMeetingId();
         Meeting meeting = new PastMeetingImpl(id, date, contacts, text);
-        meetings.put(id, meeting);
+        this.meetings.put(id, meeting);
         return id;
     }
 
@@ -122,7 +125,7 @@ public class ContactManagerImpl implements ContactManager{
 
     private PastMeeting addNotesToPastMeeting(Meeting meeting, String text) {
         PastMeeting meetingWithNotes = new PastMeetingImpl(meeting.getId(), meeting.getDate(), meeting.getContacts(), text);
-        meetings.put(meetingWithNotes.getId(), meetingWithNotes); //overwrite previous meeting without notes
+        this.meetings.put(meetingWithNotes.getId(), meetingWithNotes); //overwrite previous meeting without notes
         return meetingWithNotes;
     }
 
@@ -132,7 +135,7 @@ public class ContactManagerImpl implements ContactManager{
         Validation.validateStringNotNullOrEmpty(notes, "notes");
 
         int id = getNewContactId();
-        contacts.put(id, new ContactImpl(id, name, notes));
+        this.contacts.put(id, new ContactImpl(id, name, notes));
         return id;
     }
 
@@ -150,7 +153,7 @@ public class ContactManagerImpl implements ContactManager{
         if(name.equals(""))
             return getContactsAsSet();
 
-        return getContactsFromName(name);
+        return getContactsFromMap((k, v) -> v.getName().equals(name));
     }
 
     private Set<Contact> getContactsAsSet() {
@@ -161,21 +164,15 @@ public class ContactManagerImpl implements ContactManager{
     @Override
     public Set<Contact> getContacts(int... ids) {
         Validation.validateSetPopulated(ids, "Contact Ids array");
-        Set<Contact> result = getContactsFromIds(ids);
+        Set<Contact> result = getContactsFromMap((k, v) -> IntStream.of(ids).anyMatch(i -> i == k));
+
         Validation.validateArgumentSizeMatch(ids.length, result.size());
         return result;
     }
 
-    private Set<Contact> getContactsFromIds(int[] ids) {
-        return contacts.entrySet().stream()
-                .filter(e -> IntStream.of(ids).anyMatch(i -> i == e.getKey()))
-                .map(e -> e.getValue())
-                .collect(Collectors.toSet());
-    }
-
-    private Set<Contact> getContactsFromName(String name) {
-        return contacts.entrySet().stream()
-                .filter(e -> e.getValue().getName().equals(name))
+    private Set<Contact> getContactsFromMap(BiPredicate<Integer, Contact> predicate) {
+        return this.contacts.entrySet().stream()
+                .filter(e -> predicate.test(e.getKey(), e.getValue()))
                 .map(e -> e.getValue())
                 .collect(Collectors.toSet());
     }
