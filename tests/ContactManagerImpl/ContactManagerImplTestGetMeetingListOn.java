@@ -1,3 +1,11 @@
+import org.junit.Before;
+import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 /**
  * Created by Alexander Worton on 29/12/2016.
  */
@@ -22,6 +30,36 @@ public class ContactManagerImplTestGetMeetingListOn {
      * @throws NullPointerException if the date are null
      */
 
+    @Before
+    public void before(){
+        data.manager.addFutureMeeting(data.populatedSet, data.futureDate);
+        data.manager.addFutureMeeting(data.populatedSet, data.futureDate);
+        data.manager.addFutureMeeting(data.populatedSet, data.futureDate);
+        data.manager.addFutureMeeting(data.populatedSet, data.futureDate);
+        data.manager.addFutureMeeting(data.populatedSet, data.futureDate);
+        data.manager.addFutureMeeting(data.populatedSet, data.futureDate);
 
+        data.manager.addNewPastMeeting(data.populatedSet, data.pastDate, "");
+        data.manager.addNewPastMeeting(data.populatedSet, data.pastDate, "");
+        data.manager.addNewPastMeeting(data.populatedSet, data.pastDate, "");
+        data.manager.addNewPastMeeting(data.populatedSet, data.pastDate, "");
+    }
+
+    @Test(expected=NullPointerException.class)
+    public void testGetMeetingListOnNullDate(){
+        List<Meeting> meetings = data.manager.getMeetingListOn(null);
+    }
+
+    @Test
+    public void testGetMeetingListOnFutureDate(){
+        List<Meeting> meetings = data.manager.getMeetingListOn(data.futureDate);
+        assertEquals(6, meetings.size());
+    }
+
+    @Test
+    public void testGetMeetingListOnPastDate(){
+        List<Meeting> meetings = data.manager.getMeetingListOn(data.pastDate);
+        assertEquals(4, meetings.size());
+    }
 
 }

@@ -49,16 +49,15 @@ public class ContactManagerImplTestGetPastMeeting {
         assertEquals(data.populatedSet, meeting.getContacts());
     }
 
-    // can we assume that only events that occurred has notes added to them
-    // and if en event was scheduled for the future, but did not happen, it's
-    // listed as a futureMeeting with a past date?
-//    @Test
-//    public void testGetMeetingNotHappened(){
-//        int id = data.manager.addFutureMeeting(data.populatedSet, data.slightlyFutureDate);
-//        ContactManagerImplTestsFns.wait2Secs();
-//        Meeting meeting = data.manager.getPastMeeting(id);
-//        assertNull(meeting);
-//    }
+    // can we assume that future events that now have a date in the past, but have not had
+    // notes added to them did not actually take place?
+    @Test
+    public void testGetMeetingNotHappened(){
+        int id = data.manager.addFutureMeeting(data.populatedSet, data.slightlyFutureDate);
+        ContactManagerImplTestsFns.wait2Secs();
+        Meeting meeting = data.manager.getPastMeeting(id);
+        assertNull(meeting);
+    }
 
     @Test(expected=IllegalStateException.class)
     public void testGetMeetingFuture(){

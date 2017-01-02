@@ -56,10 +56,8 @@ public class ContactManagerImplTestGetFutureMeetingList {
     @Test
     public void testAllMeetingsReturned(){
         List<Meeting> meetings = data.manager.getFutureMeetingList(selectedContact);
-        System.out.println(String.format("expected 8, got %d", meetings.size()));
 
         List<Meeting> unSelectedMeetings = data.manager.getFutureMeetingList(unSelectedContact);
-        System.out.println(String.format("expected 3, got %d", unSelectedMeetings.size()));
     }
 
     @Test(expected=IllegalArgumentException.class)
