@@ -85,8 +85,9 @@ public class ContactManagerImpl implements ContactManager{
 
     @Override
     public List<Meeting> getMeetingListOn(Calendar date) {
-        getElementsFromMapAsList(this.meetings, (k,v) -> v.getDate().equals(date));
-        return null;
+        Validation.validateObjectNotNull(date);
+        List<Meeting> meetingList = getElementsFromMapAsList(this.meetings, (k,v) -> v.getDate().equals(date));
+        return meetingList;
     }
 
     @Override
