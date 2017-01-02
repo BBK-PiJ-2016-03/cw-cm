@@ -51,7 +51,13 @@ public class ContactManagerImpl implements ContactManager{
     @Override
     public PastMeeting getPastMeeting(int id) {
         Meeting meeting = this.meetings.get(id);
-        return null;
+        if(meeting == null) return null;
+        Validation.validateStateInPast(meeting.getDate());
+
+        if(!meeting.getClass().equals(PastMeetingImpl.class)) //enforces the event must have occurred and had notes added
+            return null;
+
+        return (PastMeeting)meeting;
     }
 
     @Override
