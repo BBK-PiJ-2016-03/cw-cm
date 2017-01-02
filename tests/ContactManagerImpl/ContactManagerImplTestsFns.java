@@ -1,4 +1,5 @@
 import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /**
@@ -61,5 +62,23 @@ public class ContactManagerImplTestsFns {
         catch(InterruptedException e){
             //wait less
         }
+    }
+
+    public static Set<Contact> generateExcludedSet(Set<Contact> contacts, Contact excludedContact){
+        return contacts.stream()
+                .filter(e -> !e.equals(excludedContact))
+                .collect(Collectors.toSet());
+    }
+
+    public static void generateMeetingsInclusiveAndExclusiveOfContact(ContactManagerImplTestData data){
+        data.manager.addFutureMeeting(data.populatedSet, data.futureDate);
+        data.manager.addFutureMeeting(data.excludedSet, data.futureDate);
+        data.manager.addFutureMeeting(data.populatedSet, data.futureDate);
+        data.manager.addFutureMeeting(data.populatedSet, data.futureDate);
+        data.manager.addFutureMeeting(data.excludedSet, data.futureDate);
+        data.manager.addFutureMeeting(data.populatedSet, data.futureDate);
+        data.manager.addFutureMeeting(data.excludedSet, data.futureDate);
+        data.manager.addFutureMeeting(data.populatedSet, data.futureDate);
+        data.manager.addFutureMeeting(data.populatedSet, data.futureDate);
     }
 }

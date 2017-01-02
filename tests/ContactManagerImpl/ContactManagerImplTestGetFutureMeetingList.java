@@ -20,7 +20,8 @@ public class ContactManagerImplTestGetFutureMeetingList {
     {
         data = new ContactManagerImplTestData();
         selectedContact = (Contact)data.manager.getContacts(5).toArray()[0];
-        unSelectedContact = (Contact)data.manager.getContacts(3).toArray()[0];
+        unSelectedContact = data.excludedContact;
+        excludedSet = data.excludedSet;
         nonExistContact = new ContactImpl(Integer.MAX_VALUE, "I Don't Exist");
     }
 
@@ -39,18 +40,7 @@ public class ContactManagerImplTestGetFutureMeetingList {
 
     @Before
     public void before(){
-        excludedSet = data.populatedSet.stream()
-                .filter(e -> !e.equals(unSelectedContact))
-                .collect(Collectors.toSet());
-
-        data.manager.addFutureMeeting(data.populatedSet, data.futureDate);
-        data.manager.addFutureMeeting(excludedSet, data.futureDate);
-        data.manager.addFutureMeeting(data.populatedSet, data.futureDate);
-        data.manager.addFutureMeeting(data.populatedSet, data.futureDate);
-        data.manager.addFutureMeeting(excludedSet, data.futureDate);
-        data.manager.addFutureMeeting(data.populatedSet, data.futureDate);
-        data.manager.addFutureMeeting(excludedSet, data.futureDate);
-        data.manager.addFutureMeeting(data.populatedSet, data.futureDate);
+        ContactManagerImplTestsFns.generateMeetingsInclusiveAndExclusiveOfContact(data);
     }
 
     @Test

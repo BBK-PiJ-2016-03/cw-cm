@@ -18,6 +18,8 @@ public class ContactManagerImplTestData {
     public Set<Contact> populatedSet;
     public Set<Contact> populatedSetWithInvalidContact;
     public Set<Contact> populatedSetWithNullContact;
+    public Set<Contact> excludedSet;
+    public Contact excludedContact;
 
     {
         manager = new ContactManagerImpl();
@@ -29,5 +31,7 @@ public class ContactManagerImplTestData {
         populatedSet = ContactManagerImplTestsFns.generateValidContacts(50, manager);
         populatedSetWithInvalidContact = ContactManagerImplTestsFns.generateInvalidContacts(50, manager);
         populatedSetWithNullContact = ContactManagerImplTestsFns.generateNullContacts(50, manager);
+        excludedContact = (Contact)manager.getContacts(3).toArray()[0];
+        excludedSet = ContactManagerImplTestsFns.generateExcludedSet(populatedSet, excludedContact);
     }
 }
