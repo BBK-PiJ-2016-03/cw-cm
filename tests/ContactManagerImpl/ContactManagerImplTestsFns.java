@@ -80,5 +80,15 @@ public class ContactManagerImplTestsFns {
         data.manager.addFutureMeeting(data.excludedSet, data.futureDate);
         data.manager.addFutureMeeting(data.populatedSet, data.futureDate);
         data.manager.addFutureMeeting(data.populatedSet, data.futureDate);
+
+        data.manager.addNewPastMeeting(data.populatedSet, data.pastDate, "");
+        data.manager.addNewPastMeeting(data.excludedSet, data.pastDate, "");
+        data.manager.addNewPastMeeting(data.populatedSet, data.pastDate, "");
+        data.manager.addNewPastMeeting(data.populatedSet, data.pastDate, "");
+        data.manager.addNewPastMeeting(data.excludedSet, data.pastDate, "");
+        data.manager.addNewPastMeeting(data.populatedSet, data.pastDate, "");
+        data.manager.addNewPastMeeting(data.excludedSet, data.pastDate, "");
+        data.manager.addNewPastMeeting(data.populatedSet, data.pastDate, "");
+        data.manager.addNewPastMeeting(data.populatedSet, data.pastDate, "");
     }
 }

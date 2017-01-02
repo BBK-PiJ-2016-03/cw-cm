@@ -79,7 +79,11 @@ public class ContactManagerImpl implements ContactManager{
     public List<Meeting> getFutureMeetingList(Contact contact) {
         Validation.validateObjectNotNull(contact, "Contact");
         Validation.validateContactKnown(contact, this.contacts); //last as computationally intensive O(n)
-        return getElementsFromMapAsList(this.meetings, (k,v) -> v.getContacts().contains(contact));
+        return getElementsFromMapAsList(this.meetings,
+                (k,v) ->
+                        v.getContacts().contains(contact)
+                        && v.getDate().after(Calendar.getInstance())
+        );
     }
 
 
@@ -92,7 +96,12 @@ public class ContactManagerImpl implements ContactManager{
 
     @Override
     public List<PastMeeting> getPastMeetingListFor(Contact contact) {
-        return null;
+        Validation.validateObjectNotNull(contact);
+        Validation.validateContactKnown(contact, this.contacts); //last as computationally intensive O(n)
+        List<PastMeeting> meetingList = getPastMeetingsFromMapAsList(this.meetings,
+                meeting -> meeting.getContacts().contains(contact)
+                            && meeting.getDate().before(Calendar.getInstance()) );
+        return meetingList;
     }
 
     @Override
@@ -182,6 +191,14 @@ public class ContactManagerImpl implements ContactManager{
         return map.entrySet().stream()
                 .filter(e -> predicate.test(e.getKey(), e.getValue()))
                 .map(e -> e.getValue())
+                .collect(Collectors.toList());
+    }
+
+    private List<PastMeeting> getPastMeetingsFromMapAsList(Map<Integer, Meeting> map, Predicate<PastMeeting> predicate) {
+        return map.entrySet().stream()
+                .filter(e -> PastMeetingImpl.class.equals(e.getValue().getClass()))
+                .map(e -> (PastMeeting)e.getValue())
+                .filter(e -> predicate.test(e))
                 .collect(Collectors.toList());
     }
 
