@@ -1,5 +1,6 @@
 import org.junit.Before;
 import org.junit.Test;
+import tests.DateFns;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -15,16 +16,12 @@ import java.util.stream.IntStream;
 public class ContactManagerImplTestGetFutureMeetingList {
 
     private ContactManagerImplTestData data;
-    private Contact selectedContact;
-    private Contact unSelectedContact;
     private Contact nonExistContact;
     private Set<Contact> excludedSet;
 
     {
         data = new ContactManagerImplTestData();
-        selectedContact = (Contact)data.manager.getContacts(5).toArray()[0];
-        unSelectedContact = data.excludedContact;
-        excludedSet = data.excludedSet;
+        excludedSet = data.getExcludedSet();
         nonExistContact = new ContactImpl(Integer.MAX_VALUE, "I Don't Exist");
     }
 
@@ -41,19 +38,23 @@ public class ContactManagerImplTestGetFutureMeetingList {
      * @throws NullPointerException if the contact is null
      */
 
-    @Before
-    public void before(){
-        ContactManagerImplTestsFns.generateMeetingsInclusiveAndExclusiveOfContact(data);
-    }
-
     @Test
     public void testAllMeetingsReturned(){
-        List<Meeting> meetings = data.manager.getFutureMeetingList(selectedContact);
-        assertEquals(9, meetings.size());
+        int selectedBefore = data.manager.getFutureMeetingList(data.getSelectedContact()).size();
+        int unSelectedBefore = data.manager.getFutureMeetingList(data.getExcludedContact()).size();
 
-        List<Meeting> unSelectedMeetings = data.manager.getFutureMeetingList(unSelectedContact);
-        assertEquals(6, unSelectedMeetings.size());
+        data.manager.addFutureMeeting(data.getpopulatedSet(), DateFns.getFutureDate(2));
+        data.manager.addFutureMeeting(data.getpopulatedSet(), DateFns.getFutureDate(2));
+        data.manager.addFutureMeeting(data.getpopulatedSet(), DateFns.getFutureDate(2));
 
+        data.manager.addFutureMeeting(data.getExcludedSet(), DateFns.getFutureDate(2));
+        data.manager.addFutureMeeting(data.getExcludedSet(), DateFns.getFutureDate(2));
+
+        int selectedAfter = data.manager.getFutureMeetingList(data.getSelectedContact()).size();
+        int unSelectedAfter = data.manager.getFutureMeetingList(data.getExcludedContact()).size();
+
+        assertEquals(5, selectedAfter - selectedBefore);
+        assertEquals(3, unSelectedAfter - unSelectedBefore);
     }
 
     @Test(expected=IllegalArgumentException.class)
@@ -68,7 +69,7 @@ public class ContactManagerImplTestGetFutureMeetingList {
 
     @Test
     public void testNoDuplicates(){
-        List<Meeting> meetings = data.manager.getFutureMeetingList(selectedContact);
+        List<Meeting> meetings = data.manager.getFutureMeetingList(data.getSelectedContact());
         List<Meeting> noDupes = meetings.stream()
                 .distinct()
                 .collect(Collectors.toList());
@@ -78,7 +79,7 @@ public class ContactManagerImplTestGetFutureMeetingList {
 
     @Test
     public void testChronologicallySorted(){
-        List<Meeting> meetings = data.manager.getFutureMeetingList(selectedContact);
+        List<Meeting> meetings = data.manager.getFutureMeetingList(data.getSelectedContact());
         boolean sorted = true;
         MEETINGS_ITERATION: for (int i = 1; i < meetings.size(); i++){
             if(meetings.get(i-1).getDate().after(meetings.get(i).getDate())){

@@ -32,17 +32,17 @@ public class ContactManagerImplTestGetMeetingListOn {
 
     @Before
     public void before(){
-        data.manager.addFutureMeeting(data.populatedSet, data.futureDate);
-        data.manager.addFutureMeeting(data.populatedSet, data.futureDate);
-        data.manager.addFutureMeeting(data.populatedSet, data.futureDate);
-        data.manager.addFutureMeeting(data.populatedSet, data.futureDate);
-        data.manager.addFutureMeeting(data.populatedSet, data.futureDate);
-        data.manager.addFutureMeeting(data.populatedSet, data.futureDate);
+        data.manager.addFutureMeeting(data.getpopulatedSet(), data.futureDate);
+        data.manager.addFutureMeeting(data.getpopulatedSet(), data.futureDate);
+        data.manager.addFutureMeeting(data.getpopulatedSet(), data.futureDate);
+        data.manager.addFutureMeeting(data.getpopulatedSet(), data.futureDate);
+        data.manager.addFutureMeeting(data.getpopulatedSet(), data.futureDate);
+        data.manager.addFutureMeeting(data.getpopulatedSet(), data.futureDate);
 
-        data.manager.addNewPastMeeting(data.populatedSet, data.pastDate, "");
-        data.manager.addNewPastMeeting(data.populatedSet, data.pastDate, "");
-        data.manager.addNewPastMeeting(data.populatedSet, data.pastDate, "");
-        data.manager.addNewPastMeeting(data.populatedSet, data.pastDate, "");
+        data.manager.addNewPastMeeting(data.getpopulatedSet(), data.pastDate, "");
+        data.manager.addNewPastMeeting(data.getpopulatedSet(), data.pastDate, "");
+        data.manager.addNewPastMeeting(data.getpopulatedSet(), data.pastDate, "");
+        data.manager.addNewPastMeeting(data.getpopulatedSet(), data.pastDate, "");
     }
 
     @Test(expected=NullPointerException.class)

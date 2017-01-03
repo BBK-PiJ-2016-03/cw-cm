@@ -33,27 +33,27 @@ public class ContactManagerImplTestGetPastMeeting {
 
     @Test
     public void testGetMeetingPast(){
-        int id = data.manager.addNewPastMeeting(data.populatedSet, data.pastDate, "");
+        int id = data.manager.addNewPastMeeting(data.getpopulatedSet(), data.pastDate, "");
         PastMeeting meeting = data.manager.getPastMeeting(id);
         assertEquals(id, meeting.getId());
         assertEquals(data.pastDate, meeting.getDate());
-        assertEquals(data.populatedSet, meeting.getContacts());
+        assertEquals(data.getpopulatedSet(), meeting.getContacts());
     }
 
     @Test
     public void testGetMeetingSlightlyPast(){
-        int id = data.manager.addNewPastMeeting(data.populatedSet, data.slightlyPastDate, "");
+        int id = data.manager.addNewPastMeeting(data.getpopulatedSet(), data.slightlyPastDate, "");
         PastMeeting meeting = data.manager.getPastMeeting(id);
         assertEquals(id, meeting.getId());
         assertEquals(data.slightlyPastDate, meeting.getDate());
-        assertEquals(data.populatedSet, meeting.getContacts());
+        assertEquals(data.getpopulatedSet(), meeting.getContacts());
     }
 
     // can we assume that future events that now have a date in the past, but have not had
     // notes added to them did not actually take place?
     @Test
     public void testGetMeetingNotHappened(){
-        int id = data.manager.addFutureMeeting(data.populatedSet, data.slightlyFutureDate);
+        int id = data.manager.addFutureMeeting(data.getpopulatedSet(), data.slightlyFutureDate);
         ContactManagerImplTestsFns.wait2Secs();
         Meeting meeting = data.manager.getPastMeeting(id);
         assertNull(meeting);
@@ -61,7 +61,7 @@ public class ContactManagerImplTestGetPastMeeting {
 
     @Test(expected=IllegalStateException.class)
     public void testGetMeetingFuture(){
-        int id = data.manager.addFutureMeeting(data.populatedSet, data.futureDate);
+        int id = data.manager.addFutureMeeting(data.getpopulatedSet(), data.futureDate);
         data.manager.getPastMeeting(id);
     }
 }

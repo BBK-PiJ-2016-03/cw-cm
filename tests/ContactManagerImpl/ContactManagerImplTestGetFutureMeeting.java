@@ -30,25 +30,25 @@ public class ContactManagerImplTestGetFutureMeeting {
 
     @Test
     public void testGetMeetingFuture(){
-        int id = data.manager.addFutureMeeting(data.populatedSet, data.futureDate);
+        int id = data.manager.addFutureMeeting(data.getpopulatedSet(), data.futureDate);
         Meeting meeting = data.manager.getFutureMeeting(id);
         assertEquals(id, meeting.getId());
         assertEquals(data.futureDate, meeting.getDate());
-        assertEquals(data.populatedSet, meeting.getContacts());
+        assertEquals(data.getpopulatedSet(), meeting.getContacts());
     }
 
     @Test
     public void testGetMeetingSlightlyFuture(){
-        int id = data.manager.addFutureMeeting(data.populatedSet, data.slightlyFutureDate);
+        int id = data.manager.addFutureMeeting(data.getpopulatedSet(), data.slightlyFutureDate);
         Meeting meeting = data.manager.getFutureMeeting(id);
         assertEquals(id, meeting.getId());
         assertEquals(data.slightlyFutureDate, meeting.getDate());
-        assertEquals(data.populatedSet, meeting.getContacts());
+        assertEquals(data.getpopulatedSet(), meeting.getContacts());
     }
 
     @Test(expected=IllegalStateException.class)
     public void testGetMeetingPast(){
-        int id = data.manager.addNewPastMeeting(data.populatedSet, data.pastDate, "");
+        int id = data.manager.addNewPastMeeting(data.getpopulatedSet(), data.pastDate, "");
         data.manager.getFutureMeeting(id);
     }
 }

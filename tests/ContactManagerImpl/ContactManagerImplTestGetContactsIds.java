@@ -28,12 +28,12 @@ public class ContactManagerImplTestGetContactsIds {
     @Test
     public void testGetExistingContact(){
         data.manager = new ContactManagerImpl();
-        int[] contactIds = ContactManagerImplTestsFns.generateValidContactIds(1, data.manager);
-        Set<Contact> contacts = data.manager.getContacts(contactIds);
-        assertTrue(verifyContactIdsReturned(contacts, contactIds));
+        int contactId = data.manager.addNewContact("New", "Notes");
+        Set<Contact> contacts = data.manager.getContacts(contactId);
+        assertTrue(verifyContactIdsReturned(contacts, contactId));
     }
 
-    private boolean verifyContactIdsReturned(Set<Contact> contacts, int[] contactIds) {
+    private boolean verifyContactIdsReturned(Set<Contact> contacts, int... contactIds) {
         return contacts.stream()
                 .map(c -> IntStream.of(contactIds).anyMatch(i -> i == c.getId()))
                 .reduce((b1, b2) -> b1 && b2)
@@ -42,7 +42,6 @@ public class ContactManagerImplTestGetContactsIds {
 
     @Test
     public void testGetExistingContacts(){
-        data.manager = new ContactManagerImpl();
         int[] contactIds = ContactManagerImplTestsFns.generateValidContactIds(100, data.manager);
         Set<Contact> contacts = data.manager.getContacts(contactIds);
         assertTrue(verifyContactIdsReturned(contacts, contactIds));

@@ -1,6 +1,7 @@
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -20,9 +21,7 @@ public class ContactManagerImplTestGetPastMeetingListFor {
 
     {
         data = new ContactManagerImplTestData();
-        selectedContact = (Contact)data.manager.getContacts(5).toArray()[0];
-        unSelectedContact = data.excludedContact;
-        excludedSet = data.excludedSet;
+        excludedSet = data.getExcludedSet();
         nonExistContact = new ContactImpl(Integer.MAX_VALUE, "I Don't Exist");
     }
 
@@ -39,18 +38,32 @@ public class ContactManagerImplTestGetPastMeetingListFor {
      * @throws NullPointerException if the contact is null
      */
 
-    @Before
-    public void before(){
-        ContactManagerImplTestsFns.generateMeetingsInclusiveAndExclusiveOfContact(data);
-    }
-
     @Test
     public void testAllMeetingsReturned(){
-        List<PastMeeting> meetings = data.manager.getPastMeetingListFor(selectedContact);
-        assertEquals(9, meetings.size());
+        int meetingsSizeBefore = data.manager.getPastMeetingListFor(data.getSelectedContact()).size();
+        int unSelectedMeetingsSizeBefore = data.manager.getPastMeetingListFor(data.getExcludedContact()).size();
 
-        List<PastMeeting> unSelectedMeetings = data.manager.getPastMeetingListFor(unSelectedContact);
-        assertEquals(6, unSelectedMeetings.size());
+        Set<Contact> bothSet = new HashSet<>();
+        bothSet.add(data.getSelectedContact());
+        bothSet.add(data.getExcludedContact());
+
+        Set<Contact> selectedSet = new HashSet<>();
+        selectedSet.add(data.getSelectedContact());
+
+        data.manager.addNewPastMeeting(bothSet, data.pastDate, " ");
+        data.manager.addNewPastMeeting(bothSet, data.pastDate, " ");
+        data.manager.addNewPastMeeting(bothSet, data.pastDate, " ");
+        data.manager.addNewPastMeeting(bothSet, data.pastDate, " ");
+
+        data.manager.addNewPastMeeting(selectedSet, data.pastDate, " ");
+        data.manager.addNewPastMeeting(selectedSet, data.pastDate, " ");
+        data.manager.addNewPastMeeting(selectedSet, data.pastDate, " ");
+
+        int meetingsSizeAfter = data.manager.getPastMeetingListFor(data.getSelectedContact()).size();
+        int unSelectedMeetingsSizeAfter = data.manager.getPastMeetingListFor(data.getExcludedContact()).size();
+
+        assertEquals(7, meetingsSizeAfter - meetingsSizeBefore);
+        assertEquals(4, unSelectedMeetingsSizeAfter - unSelectedMeetingsSizeBefore);
     }
 
     @Test(expected=IllegalArgumentException.class)

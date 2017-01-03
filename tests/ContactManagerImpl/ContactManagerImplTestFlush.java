@@ -53,15 +53,15 @@ public class ContactManagerImplTestFlush {
 
     @Test
     public void testRestoreOfMeetings(){
-        Contact selectedContact = (Contact)data.populatedSet.toArray()[2];
+        Contact selectedContact = (Contact)data.getpopulatedSet().toArray()[2];
         Calendar selectedPastDate = DateFns.getPastDate(12);
         Calendar selectedFutureDate = DateFns.getFutureDate(12);
 
         int initialPastSize = data.manager.getPastMeetingListFor(selectedContact).size();
         int initialFutureSize = data.manager.getFutureMeetingList(selectedContact).size();
 
-        int id1 = data.manager.addNewPastMeeting(data.populatedSet, selectedPastDate, "");
-        int id2 = data.manager.addFutureMeeting(data.populatedSet, selectedFutureDate);
+        int id1 = data.manager.addNewPastMeeting(data.getpopulatedSet(), selectedPastDate, "");
+        int id2 = data.manager.addFutureMeeting(data.getpopulatedSet(), selectedFutureDate);
 
         flushAndReload();
 
@@ -74,8 +74,8 @@ public class ContactManagerImplTestFlush {
         assertNotNull(futureMeeting);
         assertEquals(id1, pastMeeting.getId());
         assertEquals(id2, futureMeeting.getId());
-        assertEquals(data.populatedSet.size(), pastMeeting.getContacts().size());
-        assertEquals(data.populatedSet.size(), futureMeeting.getContacts().size());
+        assertEquals(data.getpopulatedSet().size(), pastMeeting.getContacts().size());
+        assertEquals(data.getpopulatedSet().size(), futureMeeting.getContacts().size());
         assertEquals(selectedPastDate, pastMeeting.getDate());
         assertEquals(selectedFutureDate, futureMeeting.getDate());
         assertEquals(initialPastSize+1, data.manager.getPastMeetingListFor(newSelectedContact).size());

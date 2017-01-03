@@ -32,12 +32,12 @@ public class ContactManagerImplTestAddMeetingNotes {
 
     @Before
     public void before(){
-        futureToPastMeetingId = data.manager.addFutureMeeting(data.populatedSet, data.slightlyFutureDate);
+        futureToPastMeetingId = data.manager.addFutureMeeting(data.getpopulatedSet(), data.slightlyFutureDate);
     }
 
     @Test
     public void testAddNotesToExistingPastMeeting(){
-        int id = data.manager.addNewPastMeeting(data.populatedSet, data.pastDate, "");
+        int id = data.manager.addNewPastMeeting(data.getpopulatedSet(), data.pastDate, "");
         PastMeeting meeting = (PastMeeting)data.manager.getMeeting(id);
         assertEquals("", meeting.getNotes());
 
@@ -64,7 +64,7 @@ public class ContactManagerImplTestAddMeetingNotes {
 
     @Test(expected=IllegalStateException.class)
     public void testAddNotesFutureMeeting(){
-        int id = data.manager.addFutureMeeting(data.populatedSet, data.futureDate);
+        int id = data.manager.addFutureMeeting(data.getpopulatedSet(), data.futureDate);
 
         String notes = "Some notes added to the meeting\n\n\nYeah!!!!";
         PastMeeting meeting = data.manager.addMeetingNotes(id, notes);
@@ -72,7 +72,7 @@ public class ContactManagerImplTestAddMeetingNotes {
 
     @Test(expected=NullPointerException.class)
     public void testAddNotesNull(){
-        int id = data.manager.addNewPastMeeting(data.populatedSet, data.pastDate, "");
+        int id = data.manager.addNewPastMeeting(data.getpopulatedSet(), data.pastDate, "");
 
         String notes = "Some notes added to the meeting\n\n\nYeah!!!!!";
         PastMeeting meeting = data.manager.addMeetingNotes(id, null);

@@ -33,31 +33,31 @@ public class ContactManagerImplTestAddFutureMeeting {
 
     @Test
     public void testIdReturned(){
-        int id = data.manager.addFutureMeeting(data.populatedSet, data.futureDate);
+        int id = data.manager.addFutureMeeting(data.getpopulatedSet(), data.futureDate);
         assertTrue(id > 0);
 
-        int id2 = data.manager.addFutureMeeting(data.populatedSet, data.futureDate);
+        int id2 = data.manager.addFutureMeeting(data.getpopulatedSet(), data.futureDate);
         assertTrue(id2 > 0 && id != id2);
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void testContactNull(){
-        data.manager.addFutureMeeting(data.populatedSetWithNullContact, data.futureDate);
+        data.manager.addFutureMeeting(data.getpopulatedSetWithNullContact(), data.futureDate);
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void testContactUnknown(){
-        data.manager.addFutureMeeting(data.populatedSetWithInvalidContact, data.futureDate);
+        data.manager.addFutureMeeting(data.getpopulatedSetWithNullContact(), data.futureDate);
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void testDateInPast(){
-        data.manager.addFutureMeeting(data.populatedSetWithInvalidContact, data.pastDate);
+        data.manager.addFutureMeeting(data.getpopulatedSetWithNullContact(), data.pastDate);
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void testDateCurrent(){
-        data.manager.addFutureMeeting(data.populatedSetWithInvalidContact, Calendar.getInstance());
+        data.manager.addFutureMeeting(data.getpopulatedSetWithNullContact(), Calendar.getInstance());
     }
 
     @Test(expected=NullPointerException.class)
@@ -67,6 +67,6 @@ public class ContactManagerImplTestAddFutureMeeting {
 
     @Test(expected=NullPointerException.class)
     public void testDateNull(){
-        data.manager.addFutureMeeting(data.populatedSet, null);
+        data.manager.addFutureMeeting(data.getpopulatedSet(), null);
     }
 }
