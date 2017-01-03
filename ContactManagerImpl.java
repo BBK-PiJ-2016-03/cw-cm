@@ -79,10 +79,11 @@ public class ContactManagerImpl implements ContactManager{
     public List<Meeting> getFutureMeetingList(Contact contact) {
         Validation.validateObjectNotNull(contact, "Contact");
         Validation.validateContactKnown(contact, this.contacts); //last as computationally intensive O(n)
-        return getElementsFromMapAsList(this.meetings,
+        return getSortedElementsFromMapAsList(this.meetings,
                 (k,v) ->
                         v.getContacts().contains(contact)
-                        && v.getDate().after(Calendar.getInstance())
+                        && v.getDate().after(Calendar.getInstance()),
+                Comparator.comparing(Meeting::getDate)
         );
     }
 
@@ -190,6 +191,14 @@ public class ContactManagerImpl implements ContactManager{
         return map.entrySet().stream()
                 .filter(e -> predicate.test(e.getKey(), e.getValue()))
                 .map(e -> e.getValue())
+                .collect(Collectors.toList());
+    }
+
+    private <T> List<T> getSortedElementsFromMapAsList(Map<Integer, T> map, BiPredicate<Integer, T> predicate, Comparator<T> comparator) {
+        return map.entrySet().stream()
+                .filter(e -> predicate.test(e.getKey(), e.getValue()))
+                .map(e -> e.getValue())
+                .sorted(comparator)
                 .collect(Collectors.toList());
     }
 
