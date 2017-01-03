@@ -7,6 +7,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * Created by Alexander Worton on 29/12/2016.
@@ -63,5 +64,28 @@ public class ContactManagerImplTestGetFutureMeetingList {
     @Test(expected=NullPointerException.class)
     public void testNullContact(){
         data.manager.getFutureMeetingList(null);
+    }
+
+    @Test
+    public void testNoDuplicates(){
+        List<Meeting> meetings = data.manager.getFutureMeetingList(selectedContact);
+        List<Meeting> noDupes = meetings.stream()
+                .distinct()
+                .collect(Collectors.toList());
+
+        assertEquals(meetings.size(), noDupes.size());
+    }
+
+    @Test
+    public void testChronologicallySorted(){
+        List<Meeting> meetings = data.manager.getFutureMeetingList(selectedContact);
+        boolean sorted = true;
+        MEETINGS_ITERATION: for (int i = 1; i < meetings.size(); i++){
+            if(meetings.get(i-1).getDate().after(meetings.get(i).getDate())){
+                sorted = false;
+                break MEETINGS_ITERATION;
+            }
+        }
+        assertTrue(sorted);
     }
 }

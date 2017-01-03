@@ -1,3 +1,6 @@
+import tests.DateFns;
+
+import java.util.Calendar;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -72,23 +75,23 @@ public class ContactManagerImplTestsFns {
 
     public static void generateMeetingsInclusiveAndExclusiveOfContact(ContactManagerImplTestData data){
         data.manager.addFutureMeeting(data.populatedSet, data.futureDate);
-        data.manager.addFutureMeeting(data.excludedSet, data.futureDate);
-        data.manager.addFutureMeeting(data.populatedSet, data.futureDate);
-        data.manager.addFutureMeeting(data.populatedSet, data.futureDate);
-        data.manager.addFutureMeeting(data.excludedSet, data.futureDate);
-        data.manager.addFutureMeeting(data.populatedSet, data.futureDate);
-        data.manager.addFutureMeeting(data.excludedSet, data.futureDate);
-        data.manager.addFutureMeeting(data.populatedSet, data.futureDate);
-        data.manager.addFutureMeeting(data.populatedSet, data.futureDate);
+        data.manager.addFutureMeeting(data.populatedSet, DateFns.getFutureDate(2));
+        data.manager.addFutureMeeting(data.populatedSet, DateFns.getFutureDate(7));
+        data.manager.addFutureMeeting(data.populatedSet, DateFns.getFutureDate(3));
+        data.manager.addFutureMeeting(data.excludedSet, DateFns.getFutureDate(6));
+        data.manager.addFutureMeeting(data.excludedSet, DateFns.getFutureDate(4));
+        data.manager.addFutureMeeting(data.populatedSet, DateFns.getFutureDate(8));
+        data.manager.addFutureMeeting(data.populatedSet, DateFns.getFutureDate(5));
+        data.manager.addFutureMeeting(data.excludedSet, DateFns.getFutureDate(1));
 
         data.manager.addNewPastMeeting(data.populatedSet, data.pastDate, "");
-        data.manager.addNewPastMeeting(data.excludedSet, data.pastDate, "");
-        data.manager.addNewPastMeeting(data.populatedSet, data.pastDate, "");
-        data.manager.addNewPastMeeting(data.populatedSet, data.pastDate, "");
-        data.manager.addNewPastMeeting(data.excludedSet, data.pastDate, "");
-        data.manager.addNewPastMeeting(data.populatedSet, data.pastDate, "");
-        data.manager.addNewPastMeeting(data.excludedSet, data.pastDate, "");
-        data.manager.addNewPastMeeting(data.populatedSet, data.pastDate, "");
-        data.manager.addNewPastMeeting(data.populatedSet, data.pastDate, "");
+        data.manager.addNewPastMeeting(data.excludedSet, DateFns.getPastDate(1), "");
+        data.manager.addNewPastMeeting(data.populatedSet, DateFns.getPastDate(2), "");
+        data.manager.addNewPastMeeting(data.populatedSet, DateFns.getPastDate(5), "");
+        data.manager.addNewPastMeeting(data.populatedSet, DateFns.getPastDate(3), "");
+        data.manager.addNewPastMeeting(data.populatedSet, DateFns.getPastDate(8), "");
+        data.manager.addNewPastMeeting(data.excludedSet, DateFns.getPastDate(4), "");
+        data.manager.addNewPastMeeting(data.excludedSet, DateFns.getPastDate(6), "");
+        data.manager.addNewPastMeeting(data.populatedSet, DateFns.getPastDate(7), "");
     }
 }

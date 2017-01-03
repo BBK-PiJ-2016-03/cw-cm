@@ -86,7 +86,6 @@ public class ContactManagerImpl implements ContactManager{
         );
     }
 
-
     @Override
     public List<Meeting> getMeetingListOn(Calendar date) {
         Validation.validateObjectNotNull(date);

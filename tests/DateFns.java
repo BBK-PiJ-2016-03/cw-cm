@@ -18,13 +18,27 @@ public class DateFns {
 
     public static Calendar getPastDate(){
         Calendar cal = Calendar.getInstance();
-        cal.set(year-1, month, day);
+        cal.set(year-1, month, 1);
+        return cal;
+    }
+
+    public static Calendar getPastDate(int offset){
+        Calendar cal = Calendar.getInstance();
+        cal.set(year-1, month, 1);
+        cal.add(Calendar.DATE, offset);
         return cal;
     }
 
     public static Calendar getFutureDate(){
         Calendar cal = Calendar.getInstance();
-        cal.set(year+1, month, day);
+        cal.set(year+1, month, 1);
+        return cal;
+    }
+
+    public static Calendar getFutureDate(int offset){
+        Calendar cal = Calendar.getInstance();
+        cal.set(year+1, month, 1);
+        cal.add(Calendar.DATE, offset);
         return cal;
     }
 
