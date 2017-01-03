@@ -1,4 +1,8 @@
 import org.junit.Test;
+import tests.DateFns;
+
+import java.util.Calendar;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -30,9 +34,12 @@ public class ContactManagerImplTestFlush {
         String name2 = "Alt name", notes2 = "Some notes";
         int id1 = data.manager.addNewContact(name1, notes1);
         int id2 = data.manager.addNewContact(name2, notes2);
+
         flushAndReload();
+
         Contact contact1 = (Contact)data.manager.getContacts(id1).toArray()[0];
         Contact contact2 = (Contact)data.manager.getContacts(id2).toArray()[0];
+
         assertNotNull(contact1);
         assertNotNull(contact2);
         assertEquals(id1, contact1.getId());
@@ -46,6 +53,27 @@ public class ContactManagerImplTestFlush {
 
     @Test
     public void testRestoreOfMeetings(){
+        Calendar selectedPastDate = DateFns.getPastDate(12);
+        Calendar selectedFutureDate = DateFns.getFutureDate(12);
+        int initialSize = data.manager.getFutureMeetingList(data.excludedContact).size();
+        int id1 = data.manager.addFutureMeeting(data.populatedSet, selectedFutureDate);
+        int id2 = data.manager.addNewPastMeeting(data.populatedSet, selectedPastDate, "");
+
+        flushAndReload();
+
+        Meeting futureMeeting = data.manager.getFutureMeeting(id1);
+        Meeting pastMeeting = data.manager.getPastMeeting(id1);
+
+        assertNotNull(pastMeeting);
+        assertNotNull(futureMeeting);
+        assertEquals(id2, pastMeeting.getId());
+        assertEquals(id1, futureMeeting.getId());
+        assertEquals(data.populatedSet.size(), pastMeeting.getContacts().size());
+        assertEquals(data.populatedSet.size(), futureMeeting.getContacts().size());
+        assertEquals(selectedPastDate, pastMeeting.getDate());
+        assertEquals(selectedFutureDate, futureMeeting.getDate());
+        assertEquals(data.manager.getPastMeetingListFor(data.excludedContact).size(), initialSize+1);
+        assertEquals(data.manager.getFutureMeetingList(data.excludedContact).size(), initialSize+1);
 
     }
 
