@@ -2,6 +2,7 @@ import tests.DateFns;
 
 import java.util.Calendar;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -83,5 +84,41 @@ public class ContactManagerImplTestsFns {
         data.manager.addNewPastMeeting(data.getExcludedSet(), DateFns.getPastDate(3), "");
         data.manager.addNewPastMeeting(data.getExcludedSet(), DateFns.getPastDate(2), "");
         data.manager.addNewPastMeeting(data.getpopulatedSet(), DateFns.getPastDate(1), "");
+    }
+
+    public static boolean testChronologicallySorted(List<Meeting> meetings){
+        boolean sorted = true;
+        MEETINGS_ITERATION: for (int i = 1; i < meetings.size(); i++){
+            if(meetings.get(i-1).getDate().after(meetings.get(i).getDate())){
+                sorted = false;
+                break MEETINGS_ITERATION;
+            }
+        }
+        return sorted;
+    }
+
+    public static boolean testChronologicallySortedPastMeetings(List<PastMeeting> meetings){
+        boolean sorted = true;
+        MEETINGS_ITERATION: for (int i = 1; i < meetings.size(); i++){
+            if(meetings.get(i-1).getDate().after(meetings.get(i).getDate())){
+                sorted = false;
+                break MEETINGS_ITERATION;
+            }
+        }
+        return sorted;
+    }
+
+    public static boolean testDuplicateMeetings(List<Meeting> meetings){
+        return meetings.size() ==  meetings.stream()
+                .map(m -> m.getDate().getTimeInMillis())
+                .distinct()
+                .collect(Collectors.toList()).size();
+    }
+
+    public static boolean testDuplicatePastMeetings(List<PastMeeting> meetings){
+        return meetings.size() == meetings.stream()
+                .map(m -> m.getDate().getTimeInMillis())
+                .distinct()
+                .collect(Collectors.toList()).size();
     }
 }

@@ -1,5 +1,6 @@
 import org.junit.Before;
 import org.junit.Test;
+import tests.DateFns;
 
 import java.util.HashSet;
 import java.util.List;
@@ -7,6 +8,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by Alexander Worton on 29/12/2016.
@@ -43,6 +45,18 @@ public class ContactManagerImplTestGetPastMeetingListFor {
         int meetingsSizeBefore = data.manager.getPastMeetingListFor(data.getSelectedContact()).size();
         int unSelectedMeetingsSizeBefore = data.manager.getPastMeetingListFor(data.getExcludedContact()).size();
 
+
+
+        addPastMeetings();
+
+        int meetingsSizeAfter = data.manager.getPastMeetingListFor(data.getSelectedContact()).size();
+        int unSelectedMeetingsSizeAfter = data.manager.getPastMeetingListFor(data.getExcludedContact()).size();
+
+        assertEquals(7, meetingsSizeAfter - meetingsSizeBefore);
+        assertEquals(4, unSelectedMeetingsSizeAfter - unSelectedMeetingsSizeBefore);
+    }
+
+    private void addPastMeetings(){
         Set<Contact> bothSet = new HashSet<>();
         bothSet.add(data.getSelectedContact());
         bothSet.add(data.getExcludedContact());
@@ -51,19 +65,13 @@ public class ContactManagerImplTestGetPastMeetingListFor {
         selectedSet.add(data.getSelectedContact());
 
         data.manager.addNewPastMeeting(bothSet, data.pastDate, " ");
+        data.manager.addNewPastMeeting(bothSet, DateFns.getPastDate(12), " ");
         data.manager.addNewPastMeeting(bothSet, data.pastDate, " ");
-        data.manager.addNewPastMeeting(bothSet, data.pastDate, " ");
-        data.manager.addNewPastMeeting(bothSet, data.pastDate, " ");
+        data.manager.addNewPastMeeting(bothSet, DateFns.getPastDate(7), " ");
 
         data.manager.addNewPastMeeting(selectedSet, data.pastDate, " ");
+        data.manager.addNewPastMeeting(selectedSet, DateFns.getPastDate(2), " ");
         data.manager.addNewPastMeeting(selectedSet, data.pastDate, " ");
-        data.manager.addNewPastMeeting(selectedSet, data.pastDate, " ");
-
-        int meetingsSizeAfter = data.manager.getPastMeetingListFor(data.getSelectedContact()).size();
-        int unSelectedMeetingsSizeAfter = data.manager.getPastMeetingListFor(data.getExcludedContact()).size();
-
-        assertEquals(7, meetingsSizeAfter - meetingsSizeBefore);
-        assertEquals(4, unSelectedMeetingsSizeAfter - unSelectedMeetingsSizeBefore);
     }
 
     @Test(expected=IllegalArgumentException.class)
@@ -74,5 +82,27 @@ public class ContactManagerImplTestGetPastMeetingListFor {
     @Test(expected=NullPointerException.class)
     public void testNullContact(){
         data.manager.getPastMeetingListFor(null);
+    }
+
+    @Test
+    public void testNoDuplicates(){
+        addPastMeetings();
+
+        List<PastMeeting> meetingsPastSelected = data.manager.getPastMeetingListFor(data.getSelectedContact());
+        assertTrue(ContactManagerImplTestsFns.testDuplicatePastMeetings(meetingsPastSelected));
+
+        List<PastMeeting> meetingsPastExcluded = data.manager.getPastMeetingListFor(data.getExcludedContact());
+        assertTrue(ContactManagerImplTestsFns.testDuplicatePastMeetings(meetingsPastExcluded));
+    }
+
+    @Test
+    public void testSorted(){
+        addPastMeetings();
+
+        List<PastMeeting> meetingsPastSelected = data.manager.getPastMeetingListFor(data.getSelectedContact());
+        assertTrue(ContactManagerImplTestsFns.testChronologicallySortedPastMeetings(meetingsPastSelected));
+
+        List<PastMeeting> meetingsPastExcluded = data.manager.getPastMeetingListFor(data.getExcludedContact());
+        assertTrue(ContactManagerImplTestsFns.testChronologicallySortedPastMeetings(meetingsPastExcluded));
     }
 }

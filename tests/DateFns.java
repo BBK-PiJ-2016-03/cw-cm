@@ -25,7 +25,7 @@ public class DateFns {
     public static Calendar getPastDate(int offset){
         Calendar cal = Calendar.getInstance();
         cal.set(year-1, month, 1);
-        cal.add(Calendar.DATE, offset);
+        cal.add(Calendar.HOUR, offset);
         return cal;
     }
 
@@ -38,7 +38,7 @@ public class DateFns {
     public static Calendar getFutureDate(int offset){
         Calendar cal = Calendar.getInstance();
         cal.set(year+1, month, 1);
-        cal.add(Calendar.DATE, offset);
+        cal.add(Calendar.HOUR, offset);
         return cal;
     }
 
