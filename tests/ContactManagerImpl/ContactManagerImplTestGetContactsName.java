@@ -1,4 +1,5 @@
 import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Set;
@@ -13,9 +14,9 @@ public class ContactManagerImplTestGetContactsName {
     {
         data = new ContactManagerImplTestData();
         data.manager = new ContactManagerImpl();
-        data.manager.addNewContact("Name1", "Notes");
-        data.manager.addNewContact("Name2", "Notes");
-        data.manager.addNewContact("Name2", "Notes");
+        data.manager.addNewContact("GetContactsName1", "Notes");
+        data.manager.addNewContact("GetContactsName2", "Notes");
+        data.manager.addNewContact("GetContactsName2", "Notes");
     }
 
     /**
@@ -31,25 +32,30 @@ public class ContactManagerImplTestGetContactsName {
 
     @Test
     public void testGetExistingContact(){
-        Set<Contact> contacts = data.manager.getContacts("Name1");
-        assertTrue(contacts.size() == 1);
+        Set<Contact> contacts = data.manager.getContacts("GetContactsName1");
+        assertEquals(1, contacts.size());
     }
 
     @Test
     public void testGetExistingContacts(){
-        Set<Contact> contacts = data.manager.getContacts("Name2");
-        assertTrue(contacts.size() == 2);
+        Set<Contact> contacts = data.manager.getContacts("GetContactsName2");
+        assertEquals(2, contacts.size());
     }
 
     @Test
     public void testGetExistingContactEmpty(){
         Set<Contact> contacts = data.manager.getContacts("");
-        assertTrue(contacts.size() == 3);
+        int beforeSize = contacts.size();
+        data.manager.addNewContact("Name X", "Notes X");
+        data.manager.addNewContact("Name Y", "Notes Y");
+
+        int afterSize = data.manager.getContacts("").size();
+        assertEquals(beforeSize+2, afterSize);
     }
 
     @Test
     public void testGetExistingContactUnknown(){
-        Set<Contact> contacts = data.manager.getContacts("Name5");
+        Set<Contact> contacts = data.manager.getContacts("GetContactsName-Name5");
         assertTrue(contacts.size() == 0);
     }
 
