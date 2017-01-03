@@ -1,3 +1,4 @@
+import java.io.*;
 import java.util.*;
 import java.util.function.BiPredicate;
 import java.util.function.Function;
@@ -16,17 +17,22 @@ public class ContactManagerImpl implements ContactManager{
     private int lastMeetingId;
     private Map<Integer, Meeting> meetings;
 
+    private String fileName;
+    private File file;
+
     {
         lastContactId = 0;
         lastMeetingId = 0;
         contacts = new HashMap<>();
         meetings = new HashMap<>();
+        fileName = "contacts.txt";
+        file = new File(fileName);
     }
 
     public ContactManagerImpl(){
         //load data from file if exists
+        readDumpFromFile();
     }
-
 
     @Override
     public int addFutureMeeting(Set<Contact> contacts, Calendar date) {
@@ -212,6 +218,102 @@ public class ContactManagerImpl implements ContactManager{
 
     @Override
     public void flush() {
+        ContactManagerDump dump = new ContactManagerDump();
+        storeDataInDump(dump);
+    }
 
+    private void storeDataInDump(ContactManagerDump dump) {
+        dump.setLastContactId(this.lastContactId);
+        dump.setLastMeetingId(this.lastMeetingId);
+        dump.setContacts(this.contacts);
+        dump.setMeetings(this.meetings);
+        writeDumpToFile(dump);
+    }
+
+    private void writeDumpToFile(ContactManagerDump dump) {
+//        if(!file.canWrite()){
+//            System.out.println("Failed to write dump to file, file not writable.");
+//            return;
+//        }
+
+
+        try (FileOutputStream fileStream = new FileOutputStream(this.fileName);
+             ObjectOutputStream out = new ObjectOutputStream(fileStream))
+        {
+            out.writeObject(dump);
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    private void readDumpFromFile() {
+        if(!file.exists()){
+            System.out.println("Failed to read file, does not exist.");
+            return;
+        }
+
+        try(FileInputStream fileStream = new FileInputStream(this.fileName);
+            ObjectInputStream in = new ObjectInputStream(fileStream))
+        {
+            ContactManagerDump restoredData = (ContactManagerDump)in.readObject();
+            restoreValuesFromDump(restoredData);
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
+        catch(ClassNotFoundException e){
+            e.printStackTrace();
+        }
+    }
+
+    private void restoreValuesFromDump(ContactManagerDump restored) {
+        this.lastContactId = restored.getLastContactId();
+        this.lastMeetingId = restored.getLastMeetingId();
+        this.contacts = restored.getContacts();
+        this.meetings = restored.getMeetings();
+    }
+}
+
+class ContactManagerDump implements Serializable
+{
+    private static final long serialVersionUID = 1L;
+
+    private int lastContactId;
+    private Map<Integer, Contact> contacts;
+
+    private int lastMeetingId;
+    private Map<Integer, Meeting> meetings;
+
+    public int getLastContactId() {
+        return lastContactId;
+    }
+
+    public void setLastContactId(int lastContactId) {
+        this.lastContactId = lastContactId;
+    }
+
+    public Map<Integer, Contact> getContacts() {
+        return contacts;
+    }
+
+    public void setContacts(Map<Integer, Contact> contacts) {
+        this.contacts = contacts;
+    }
+
+    public int getLastMeetingId() {
+        return lastMeetingId;
+    }
+
+    public void setLastMeetingId(int lastMeetingId) {
+        this.lastMeetingId = lastMeetingId;
+    }
+
+    public Map<Integer, Meeting> getMeetings() {
+        return meetings;
+    }
+
+    public void setMeetings(Map<Integer, Meeting> meetings) {
+        this.meetings = meetings;
     }
 }
