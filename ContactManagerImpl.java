@@ -231,11 +231,7 @@ public class ContactManagerImpl implements ContactManager{
     }
 
     private void writeDumpToFile(ContactManagerDump dump) {
-//        if(!file.canWrite()){
-//            System.out.println("Failed to write dump to file, file not writable.");
-//            return;
-//        }
-
+        createFileIfNotExists();
 
         try (FileOutputStream fileStream = new FileOutputStream(this.fileName);
              ObjectOutputStream out = new ObjectOutputStream(fileStream))
@@ -247,11 +243,34 @@ public class ContactManagerImpl implements ContactManager{
         }
     }
 
+    private void createFileIfNotExists(){
+        if(!file.exists()){
+            try{
+                file.createNewFile();
+                file.setWritable(true);
+                file.setReadable(true);
+            }
+            catch(IOException e){
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void handleExistingFilePermissions(){
+        if(!file.canRead())
+            file.setReadable(true);
+
+        if(!file.canWrite())
+            file.setWritable(true);
+    }
+
     private void readDumpFromFile() {
         if(!file.exists()){
             System.out.println("Failed to read file, does not exist.");
             return;
         }
+
+        handleExistingFilePermissions();
 
         try(FileInputStream fileStream = new FileInputStream(this.fileName);
             ObjectInputStream in = new ObjectInputStream(fileStream))
