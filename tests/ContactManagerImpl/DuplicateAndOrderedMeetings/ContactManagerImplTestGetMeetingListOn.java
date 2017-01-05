@@ -18,10 +18,13 @@ public class ContactManagerImplTestGetMeetingListOn {
     private ContactManagerImplTestData data;
     int numFutureMeetingsOnFutureDateBefore;
     int numFutureMeetingsOnFutureDateAfter;
+    int numPastMeetingsOnFutureDateBefore;
+    int numPastMeetingsOnFutureDateAfter;
 
     {
         data = new ContactManagerImplTestData();
         numFutureMeetingsOnFutureDateBefore = data.manager.getMeetingListOn(data.futureDate).size();
+        numPastMeetingsOnFutureDateBefore = data.manager.getMeetingListOn(data.pastDate).size();
     }
 
     /**
@@ -51,6 +54,7 @@ public class ContactManagerImplTestGetMeetingListOn {
         data.manager.addNewPastMeeting(data.getpopulatedSet(), data.pastDate, "");
         data.manager.addNewPastMeeting(data.getpopulatedSet(), DateFns.getPastDate(3), "");
         numFutureMeetingsOnFutureDateAfter = data.manager.getMeetingListOn(data.futureDate).size();
+        numPastMeetingsOnFutureDateAfter = data.manager.getMeetingListOn(data.pastDate).size();
     }
 
     @Test(expected=NullPointerException.class)
@@ -66,8 +70,7 @@ public class ContactManagerImplTestGetMeetingListOn {
 
     @Test
     public void testGetMeetingListOnPastDate(){
-        List<Meeting> meetings = data.manager.getMeetingListOn(data.pastDate);
-        assertEquals(4, meetings.size());
+        assertEquals(4, numPastMeetingsOnFutureDateAfter - numPastMeetingsOnFutureDateBefore);
     }
 
     @Test
