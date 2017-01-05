@@ -16,9 +16,11 @@ import java.util.stream.Collectors;
 public class ContactManagerImplTestGetMeetingListOn {
 
     private ContactManagerImplTestData data;
+    int numFutureMeetingsOnFutureDateBefore;
 
     {
         data = new ContactManagerImplTestData();
+        numFutureMeetingsOnFutureDateBefore = data.manager.getMeetingListOn(data.futureDate).size();
     }
 
     /**
@@ -80,7 +82,10 @@ public class ContactManagerImplTestGetMeetingListOn {
         List<Meeting> meetingsFuture = data.manager.getMeetingListOn(data.futureDate);
         System.out.println("Sorted check: "+meetingsFuture.size());
         System.out.println("data.futureDate: "+data.futureDate.getTime());
-        System.out.println("Offset 3: "+DateFns.getFutureDate(3).getTime());
+        System.out.println("Date offset 3: "+DateFns.getFutureDate(3));
+
+        int numFutureMeetingsOnFutureDateAfter = data.manager.getMeetingListOn(data.futureDate).size();
+        assertEquals(6, numFutureMeetingsOnFutureDateAfter - numFutureMeetingsOnFutureDateBefore);
         assertTrue(ContactManagerImplTestsFns.testChronologicallySorted(meetingsFuture));
 
         List<Meeting> meetingsPast = data.manager.getMeetingListOn(data.pastDate);
