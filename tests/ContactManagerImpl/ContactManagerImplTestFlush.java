@@ -5,6 +5,7 @@ import java.util.Calendar;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by Alexander Worton on 29/12/2016.
@@ -70,6 +71,9 @@ public class ContactManagerImplTestFlush {
         Meeting pastMeeting = data.manager.getPastMeeting(id1);
         Meeting futureMeeting = data.manager.getFutureMeeting(id2);
 
+        int id3 = data.manager.addNewPastMeeting(data.getpopulatedSet(), selectedPastDate, "");
+        int id4 = data.manager.addFutureMeeting(data.getpopulatedSet(), selectedFutureDate);
+
         assertNotNull(pastMeeting);
         assertNotNull(futureMeeting);
         assertEquals(id1, pastMeeting.getId());
@@ -78,9 +82,30 @@ public class ContactManagerImplTestFlush {
         assertEquals(data.getpopulatedSet().size(), futureMeeting.getContacts().size());
         assertEquals(selectedPastDate, pastMeeting.getDate());
         assertEquals(selectedFutureDate, futureMeeting.getDate());
-        assertEquals(initialPastSize+1, data.manager.getPastMeetingListFor(newSelectedContact).size());
-        assertEquals(initialFutureSize+1, data.manager.getFutureMeetingList(newSelectedContact).size());
+        assertEquals(initialPastSize+2, data.manager.getPastMeetingListFor(newSelectedContact).size());
+        assertEquals(initialFutureSize+2, data.manager.getFutureMeetingList(newSelectedContact).size());
 
+    }
+
+    @Test
+    public void testRestoreOfMeetingId(){
+        Calendar selectedFutureDate = DateFns.getFutureDate(48);
+        int id1 = data.manager.addFutureMeeting(data.getpopulatedSet(), selectedFutureDate);
+        flushAndReload();
+        int id2 = data.manager.addFutureMeeting(data.getpopulatedSet(), selectedFutureDate);
+
+        assertTrue(id2 > id1);
+    }
+
+    @Test
+    public void testRestoreOfContactId(){
+        String name1 = "Contact ID 1", notes1 = "notes1";
+        String name2 = "Contact ID 1", notes2 = "notes2";
+        int id1 = data.manager.addNewContact(name1, notes1);
+        flushAndReload();
+        int id2 = data.manager.addNewContact(name2, notes2);
+
+        assertTrue(id2 > id1);
     }
 
 

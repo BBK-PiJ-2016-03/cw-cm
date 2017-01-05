@@ -17,6 +17,7 @@ public class ContactManagerImplTestGetMeetingListOn {
 
     private ContactManagerImplTestData data;
     int numFutureMeetingsOnFutureDateBefore;
+    int numFutureMeetingsOnFutureDateAfter;
 
     {
         data = new ContactManagerImplTestData();
@@ -49,6 +50,7 @@ public class ContactManagerImplTestGetMeetingListOn {
         data.manager.addNewPastMeeting(data.getpopulatedSet(), DateFns.getPastDate(8), "");
         data.manager.addNewPastMeeting(data.getpopulatedSet(), data.pastDate, "");
         data.manager.addNewPastMeeting(data.getpopulatedSet(), DateFns.getPastDate(3), "");
+        numFutureMeetingsOnFutureDateAfter = data.manager.getMeetingListOn(data.futureDate).size();
     }
 
     @Test(expected=NullPointerException.class)
@@ -59,7 +61,7 @@ public class ContactManagerImplTestGetMeetingListOn {
     @Test
     public void testGetMeetingListOnFutureDate(){
         List<Meeting> meetings = data.manager.getMeetingListOn(data.futureDate);
-        assertEquals(6, meetings.size());
+        assertEquals(6, numFutureMeetingsOnFutureDateAfter - numFutureMeetingsOnFutureDateBefore);
     }
 
     @Test
@@ -84,7 +86,7 @@ public class ContactManagerImplTestGetMeetingListOn {
         System.out.println("data.futureDate: "+data.futureDate.getTime());
         System.out.println("Date offset 3: "+DateFns.getFutureDate(3));
 
-        int numFutureMeetingsOnFutureDateAfter = data.manager.getMeetingListOn(data.futureDate).size();
+
         assertEquals(6, numFutureMeetingsOnFutureDateAfter - numFutureMeetingsOnFutureDateBefore);
         assertTrue(ContactManagerImplTestsFns.testChronologicallySorted(meetingsFuture));
 
