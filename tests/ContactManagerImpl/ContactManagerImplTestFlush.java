@@ -1,6 +1,8 @@
 import org.junit.Test;
 import tests.DateFns;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Calendar;
 
 import static org.junit.Assert.assertEquals;
@@ -106,6 +108,26 @@ public class ContactManagerImplTestFlush {
         int id2 = data.manager.addNewContact(name2, notes2);
 
         assertTrue(id2 > id1);
+    }
+
+    @Test
+    public void testNoWriteExceptionRaised(){
+        File file = new File("contacts.txt");
+        if(!file.exists()){
+            try{
+                file.createNewFile();
+            }
+            catch(IOException e){
+                e.printStackTrace();
+            }
+        }
+
+        file.setWritable(false);
+        file.setReadable(false);
+
+        flushAndReload();
+
+
     }
 
 
