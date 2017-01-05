@@ -1,4 +1,8 @@
 import java.io.*;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.*;
 import java.util.function.BiPredicate;
 import java.util.function.Function;
@@ -49,6 +53,10 @@ public class ContactManagerImpl implements ContactManager{
     }
 
     private int createNewFutureMeeting(Set<Contact> contacts, Calendar date){
+//        int duplicateId = getDuplicateDate();
+//        if(duplicateId > 0)
+//            return ;
+
         int id = getNewMeetingId();
         Meeting meeting = new FutureMeetingImpl(id, date, contacts);
         this.meetings.put(id, meeting);
@@ -96,8 +104,18 @@ public class ContactManagerImpl implements ContactManager{
     @Override
     public List<Meeting> getMeetingListOn(Calendar date) {
         Validation.validateObjectNotNull(date);
-        List<Meeting> meetingList = getElementsFromMapAsList(this.meetings, (k,v) -> v.getDate().equals(date));
+        LocalDate dateOnly = getDateOnly(date);
+        List<Meeting> meetingList = getSortedElementsFromMapAsList(this.meetings,
+                (k,v) -> getDateOnly(v.getDate()).equals(dateOnly),
+                Comparator.comparing(Meeting::getDate));
         return meetingList;
+    }
+
+    private LocalDate getDateOnly(Calendar date) {
+        return LocalDate.from(date.getTime()
+                .toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate());
     }
 
     @Override
