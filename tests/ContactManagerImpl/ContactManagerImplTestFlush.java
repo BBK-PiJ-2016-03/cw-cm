@@ -100,7 +100,7 @@ public class ContactManagerImplTestFlush {
     @Test
     public void testRestoreOfContactId(){
         String name1 = "Contact ID 1", notes1 = "notes1";
-        String name2 = "Contact ID 1", notes2 = "notes2";
+        String name2 = "Contact ID 2", notes2 = "notes2";
         int id1 = data.manager.addNewContact(name1, notes1);
         flushAndReload();
         int id2 = data.manager.addNewContact(name2, notes2);
