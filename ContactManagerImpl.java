@@ -124,7 +124,8 @@ public class ContactManagerImpl implements ContactManager{
         Validation.validateContactKnown(contact, this.contacts); //last as computationally intensive O(n)
         List<PastMeeting> meetingList = getPastMeetingsFromMapAsList(this.meetings,
                 meeting -> meeting.getContacts().contains(contact)
-                            && meeting.getDate().before(Calendar.getInstance()) );
+                            && meeting.getDate().before(Calendar.getInstance()),
+                Comparator.comparing(PastMeeting::getDate));
         return meetingList;
     }
 
@@ -226,11 +227,12 @@ public class ContactManagerImpl implements ContactManager{
                 .collect(Collectors.toList());
     }
 
-    private List<PastMeeting> getPastMeetingsFromMapAsList(Map<Integer, Meeting> map, Predicate<PastMeeting> predicate) {
+    private List<PastMeeting> getPastMeetingsFromMapAsList(Map<Integer, Meeting> map, Predicate<PastMeeting> predicate, Comparator<PastMeeting> comparator) {
         return map.entrySet().stream()
                 .filter(e -> PastMeetingImpl.class.equals(e.getValue().getClass()))
                 .map(e -> (PastMeeting)e.getValue())
                 .filter(e -> predicate.test(e))
+                .sorted(comparator)
                 .collect(Collectors.toList());
     }
 
