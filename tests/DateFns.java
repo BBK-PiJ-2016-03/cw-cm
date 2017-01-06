@@ -17,39 +17,39 @@ public class DateFns {
     }
 
     public static Calendar getPastDate(){
-        Calendar cal = Calendar.getInstance();
+        Calendar cal = getCurrentDate();
         cal.set(year-1, month, 1);
         return cal;
     }
 
     public static Calendar getPastDate(int offset){
-        Calendar cal = Calendar.getInstance();
+        Calendar cal = getCurrentDate();
         cal.set(year-1, month, 1);
         cal.add(Calendar.MINUTE, offset);
         return cal;
     }
 
     public static Calendar getFutureDate(){
-        Calendar cal = Calendar.getInstance();
+        Calendar cal = getCurrentDate();
         cal.set(year+1, month, 1);
         return cal;
     }
 
     public static Calendar getFutureDate(int offset){
-        Calendar cal = Calendar.getInstance();
+        Calendar cal = getCurrentDate();
         cal.set(year+1, month, 1);
         cal.add(Calendar.MINUTE, offset);
         return cal;
     }
 
     public static Calendar getSlightlyFutureDate() {
-        Calendar cal = Calendar.getInstance();
+        Calendar cal = getCurrentDate();
         cal.add(Calendar.SECOND, 1);
         return cal;
     }
 
     public static Calendar getSlightlyPastDate() {
-        Calendar cal = Calendar.getInstance();
+        Calendar cal = getCurrentDate();
         cal.add(Calendar.SECOND, -1);
         return cal;
     }

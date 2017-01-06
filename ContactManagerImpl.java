@@ -53,10 +53,6 @@ public class ContactManagerImpl implements ContactManager{
     }
 
     private int createNewFutureMeeting(Set<Contact> contacts, Calendar date){
-//        int duplicateId = getDuplicateDate();
-//        if(duplicateId > 0)
-//            return ;
-
         int id = getNewMeetingId();
         Meeting meeting = new FutureMeetingImpl(id, date, contacts);
         this.meetings.put(id, meeting);
@@ -210,13 +206,6 @@ public class ContactManagerImpl implements ContactManager{
                 .filter(e -> predicate.test(e.getKey(), e.getValue()))
                 .map(e -> e.getValue())
                 .collect(Collectors.toSet());
-    }
-
-    private <T> List<T> getElementsFromMapAsList(Map<Integer, T> map, BiPredicate<Integer, T> predicate) {
-        return map.entrySet().stream()
-                .filter(e -> predicate.test(e.getKey(), e.getValue()))
-                .map(e -> e.getValue())
-                .collect(Collectors.toList());
     }
 
     private <T> List<T> getSortedElementsFromMapAsList(Map<Integer, T> map, BiPredicate<Integer, T> predicate, Comparator<T> comparator) {
