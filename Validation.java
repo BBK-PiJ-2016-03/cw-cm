@@ -22,10 +22,6 @@ public class Validation {
             throw new NullPointerException(variableName + " supplied was null");
     }
 
-//    public static void validateSetPopulated(Set collection) {
-//        validateSetPopulated(collection, "Collection");
-//    }
-
     public static void validateSetPopulated(Set collection, String collectionName) {
         if(collection.size() < 1)
             throw new IllegalArgumentException(collectionName + " supplied is empty");
