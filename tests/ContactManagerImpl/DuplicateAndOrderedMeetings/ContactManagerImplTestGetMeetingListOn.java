@@ -59,12 +59,11 @@ public class ContactManagerImplTestGetMeetingListOn {
 
     @Test(expected = NullPointerException.class)
     public void testGetMeetingListOnNullDate() {
-        List<Meeting> meetings = data.manager.getMeetingListOn(null);
+        data.manager.getMeetingListOn(null);
     }
 
     @Test
     public void testGetMeetingListOnFutureDate() {
-        List<Meeting> meetings = data.manager.getMeetingListOn(data.futureDate);
         assertEquals(6, numFutureMeetingsOnFutureDateAfter - numFutureMeetingsOnFutureDateBefore);
     }
 
@@ -92,7 +91,4 @@ public class ContactManagerImplTestGetMeetingListOn {
         List<Meeting> meetingsPast = data.manager.getMeetingListOn(data.pastDate);
         assertTrue(ContactManagerImplTestsFns.testChronologicallySorted(meetingsPast));
     }
-
-
-
 }

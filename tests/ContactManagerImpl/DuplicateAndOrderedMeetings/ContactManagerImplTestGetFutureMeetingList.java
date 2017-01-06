@@ -17,11 +17,9 @@ public class ContactManagerImplTestGetFutureMeetingList {
 
     private ContactManagerImplTestData data;
     private Contact nonExistContact;
-    private Set<Contact> excludedSet;
 
     {
         data = new ContactManagerImplTestData();
-        excludedSet = data.getExcludedSet();
         nonExistContact = new ContactImpl(Integer.MAX_VALUE, "I Don't Exist");
     }
 

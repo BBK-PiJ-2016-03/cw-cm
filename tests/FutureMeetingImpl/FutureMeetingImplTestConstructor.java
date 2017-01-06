@@ -10,8 +10,6 @@ import java.util.Set;
  * Created by Alexander Worton on 27/12/2016.
  */
 public class FutureMeetingImplTestConstructor {
-
-    private FutureMeeting meeting;
     private Calendar date;
 
     private Set<Contact> emptySet;
@@ -33,19 +31,17 @@ public class FutureMeetingImplTestConstructor {
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void constructorIDZero(){ meeting = new FutureMeetingImpl(0, date, populatedSet); }
+    public void constructorIDZero(){ new FutureMeetingImpl(0, date, populatedSet); }
 
     @Test(expected=IllegalArgumentException.class)
-    public void constructorIDNegative(){ meeting = new FutureMeetingImpl(-1000, date, populatedSet); }
+    public void constructorIDNegative(){ new FutureMeetingImpl(-1000, date, populatedSet); }
 
     @Test(expected=IllegalArgumentException.class)
-    public void constructorSetEmpty(){ meeting = new FutureMeetingImpl(1, date, emptySet); }
+    public void constructorSetEmpty(){ new FutureMeetingImpl(1, date, emptySet); }
 
     @Test(expected=NullPointerException.class)
-    public void constructorDateNull(){ meeting = new FutureMeetingImpl(1, null, populatedSet); }
+    public void constructorDateNull(){ new FutureMeetingImpl(1, null, populatedSet); }
 
     @Test(expected=NullPointerException.class)
-    public void constructorSetNull(){ meeting = new FutureMeetingImpl(1, date, null); }
-
-
+    public void constructorSetNull(){ new FutureMeetingImpl(1, date, null); }
 }

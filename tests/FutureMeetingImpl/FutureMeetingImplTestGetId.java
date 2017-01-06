@@ -15,12 +15,10 @@ public class FutureMeetingImplTestGetId {
     private FutureMeeting meeting;
     private Calendar date;
 
-    private Set<Contact> emptySet;
     private Set<Contact> populatedSet;
 
     {
         date = Calendar.getInstance();
-        emptySet = new HashSet<>();
         populatedSet = new HashSet<>();
     }
 

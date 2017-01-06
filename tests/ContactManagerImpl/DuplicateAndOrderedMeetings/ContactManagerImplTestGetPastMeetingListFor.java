@@ -1,11 +1,9 @@
-import org.junit.Before;
 import org.junit.Test;
 import tests.DateFns;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -16,14 +14,10 @@ import static org.junit.Assert.assertTrue;
 public class ContactManagerImplTestGetPastMeetingListFor {
 
     private ContactManagerImplTestData data;
-    private Contact selectedContact;
-    private Contact unSelectedContact;
     private Contact nonExistContact;
-    private Set<Contact> excludedSet;
 
     {
         data = new ContactManagerImplTestData();
-        excludedSet = data.getExcludedSet();
         nonExistContact = new ContactImpl(Integer.MAX_VALUE, "I Don't Exist");
     }
 
@@ -45,15 +39,16 @@ public class ContactManagerImplTestGetPastMeetingListFor {
         int meetingsSizeBefore = data.manager.getPastMeetingListFor(data.getSelectedContact()).size();
         int unSelectedMeetingsSizeBefore = data.manager.getPastMeetingListFor(data.getExcludedContact()).size();
 
-
-
         addPastMeetings();
 
         int meetingsSizeAfter = data.manager.getPastMeetingListFor(data.getSelectedContact()).size();
         int unSelectedMeetingsSizeAfter = data.manager.getPastMeetingListFor(data.getExcludedContact()).size();
 
-        assertEquals(7, meetingsSizeAfter - meetingsSizeBefore);
-        assertEquals(4, unSelectedMeetingsSizeAfter - unSelectedMeetingsSizeBefore);
+        int expectedMeetingSizeChange = 7;
+        int expectedUnselectedMeetingSizeChange = 4;
+
+        assertEquals(expectedMeetingSizeChange, meetingsSizeAfter - meetingsSizeBefore);
+        assertEquals(expectedUnselectedMeetingSizeChange, unSelectedMeetingsSizeAfter - unSelectedMeetingsSizeBefore);
     }
 
     private void addPastMeetings(){
@@ -65,12 +60,15 @@ public class ContactManagerImplTestGetPastMeetingListFor {
         selectedSet.add(data.getSelectedContact());
 
         data.manager.addNewPastMeeting(bothSet, data.pastDate, " ");
-        data.manager.addNewPastMeeting(bothSet, DateFns.getPastDate(12), " ");
+        int minuteOffset = 12;
+        data.manager.addNewPastMeeting(bothSet, DateFns.getPastDate(minuteOffset), " ");
         data.manager.addNewPastMeeting(bothSet, data.pastDate, " ");
-        data.manager.addNewPastMeeting(bothSet, DateFns.getPastDate(7), " ");
+        minuteOffset = 7;
+        data.manager.addNewPastMeeting(bothSet, DateFns.getPastDate(minuteOffset), " ");
 
         data.manager.addNewPastMeeting(selectedSet, data.pastDate, " ");
-        data.manager.addNewPastMeeting(selectedSet, DateFns.getPastDate(2), " ");
+        minuteOffset = 2;
+        data.manager.addNewPastMeeting(selectedSet, DateFns.getPastDate(minuteOffset), " ");
         data.manager.addNewPastMeeting(selectedSet, data.pastDate, " ");
     }
 

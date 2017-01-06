@@ -10,7 +10,6 @@ public class DateFns {
     private static final Calendar calendar = Calendar.getInstance();
     private static final int year = calendar.get(Calendar.YEAR);
     private static final int month = calendar.get(Calendar.MONTH);
-    private static final int day = calendar.get(Calendar.DAY_OF_WEEK);
 
     public static Calendar getCurrentDate(){
         return Calendar.getInstance();

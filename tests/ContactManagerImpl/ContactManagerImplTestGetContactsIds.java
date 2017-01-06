@@ -51,13 +51,13 @@ public class ContactManagerImplTestGetContactsIds {
     public void testGetEmptySet(){
         data.manager = new ContactManagerImpl();
         int[] contactIds = new int[0];
-        Set<Contact> contacts = data.manager.getContacts(contactIds);
+        data.manager.getContacts(contactIds);
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void testGetUnknownContact(){
         data.manager = new ContactManagerImpl();
         int[] contactIds = {1,9876543,2324253,323537};
-        Set<Contact> contacts = data.manager.getContacts(contactIds);
+        data.manager.getContacts(contactIds);
     }
 }

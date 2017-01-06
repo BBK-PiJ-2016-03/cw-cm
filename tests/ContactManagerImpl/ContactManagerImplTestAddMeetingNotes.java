@@ -8,11 +8,12 @@ import static org.junit.Assert.assertEquals;
 public class ContactManagerImplTestAddMeetingNotes {
 
     private ContactManagerImplTestData data;
+    private String notes;
     int futureToPastMeetingId;
 
     {
         data = new ContactManagerImplTestData();
-
+        notes = "Some notes added to the meeting\n\n\nYeah!";
     }
 
     /**
@@ -41,8 +42,8 @@ public class ContactManagerImplTestAddMeetingNotes {
         PastMeeting meeting = (PastMeeting)data.manager.getMeeting(id);
         assertEquals("", meeting.getNotes());
 
-        String notes = "Some notes added to the meeting\n\n\nYeah!";
-        meeting = data.manager.addMeetingNotes(id, notes);
+        meeting = data.manager.addMeetingNotes(id, this.notes);
+
         assertEquals(id, meeting.getId());
         assertEquals(notes, meeting.getNotes());
     }
@@ -50,31 +51,25 @@ public class ContactManagerImplTestAddMeetingNotes {
     @Test
     public void testAddNotesToExistingFutureMeeting() {
         ContactManagerImplTestsFns.wait2Secs();
-        String notes = "Some notes added to the meeting\n\n\nYeah!!";
-        PastMeeting meeting = data.manager.addMeetingNotes(futureToPastMeetingId, notes);
+        PastMeeting meeting = data.manager.addMeetingNotes(futureToPastMeetingId, this.notes);
         assertEquals(futureToPastMeetingId, meeting.getId());
         assertEquals(notes, meeting.getNotes());
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void testAddNotesNoExistMeeting(){
-        String notes = "Some notes added to the meeting\n\n\nYeah!!!";
-        data.manager.addMeetingNotes(Integer.MAX_VALUE, notes);
+        data.manager.addMeetingNotes(Integer.MAX_VALUE, this.notes);
     }
 
     @Test(expected=IllegalStateException.class)
     public void testAddNotesFutureMeeting(){
         int id = data.manager.addFutureMeeting(data.getpopulatedSet(), data.futureDate);
-
-        String notes = "Some notes added to the meeting\n\n\nYeah!!!!";
-        PastMeeting meeting = data.manager.addMeetingNotes(id, notes);
+        data.manager.addMeetingNotes(id, this.notes);
     }
 
     @Test(expected=NullPointerException.class)
     public void testAddNotesNull(){
         int id = data.manager.addNewPastMeeting(data.getpopulatedSet(), data.pastDate, "");
-
-        String notes = "Some notes added to the meeting\n\n\nYeah!!!!!";
-        PastMeeting meeting = data.manager.addMeetingNotes(id, null);
+        data.manager.addMeetingNotes(id, null);
     }
 }

@@ -15,16 +15,11 @@ import static org.junit.Assert.assertEquals;
 public class FutureMeetingImplTestGetDate {
 
     private FutureMeeting meeting;
-    private Calendar date;
     private Calendar pastDate;
     private Calendar futureDate;
-
-    private Set<Contact> emptySet;
     private Set<Contact> populatedSet;
 
     {
-        date = Calendar.getInstance();
-        emptySet = new HashSet<>();
         populatedSet = new HashSet<>();
         futureDate = DateFns.getFutureDate();
         pastDate = DateFns.getPastDate();

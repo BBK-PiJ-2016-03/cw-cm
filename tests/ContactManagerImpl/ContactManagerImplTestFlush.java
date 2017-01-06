@@ -73,8 +73,8 @@ public class ContactManagerImplTestFlush {
         Meeting pastMeeting = data.manager.getPastMeeting(id1);
         Meeting futureMeeting = data.manager.getFutureMeeting(id2);
 
-        int id3 = data.manager.addNewPastMeeting(data.getpopulatedSet(), selectedPastDate, "");
-        int id4 = data.manager.addFutureMeeting(data.getpopulatedSet(), selectedFutureDate);
+        data.manager.addNewPastMeeting(data.getpopulatedSet(), selectedPastDate, "");
+        data.manager.addFutureMeeting(data.getpopulatedSet(), selectedFutureDate);
 
         assertNotNull(pastMeeting);
         assertNotNull(futureMeeting);

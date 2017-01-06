@@ -44,8 +44,7 @@ public class ContactManagerImplTestGetContactsName {
 
     @Test
     public void testGetExistingContactEmpty(){
-        Set<Contact> contacts = data.manager.getContacts("");
-        int beforeSize = contacts.size();
+        int beforeSize = data.manager.getContacts("").size();
         data.manager.addNewContact("Name X", "Notes X");
         data.manager.addNewContact("Name Y", "Notes Y");
 
@@ -55,12 +54,12 @@ public class ContactManagerImplTestGetContactsName {
 
     @Test
     public void testGetExistingContactUnknown(){
-        Set<Contact> contacts = data.manager.getContacts("GetContactsName-Name5");
-        assertTrue(contacts.size() == 0);
+        int contactsSize = data.manager.getContacts("GetContactsName-Name5").size();
+        assertTrue(contactsSize == 0);
     }
 
     @Test(expected=NullPointerException.class)
     public void testGetContactNullName(){
-        Set<Contact> contacts = data.manager.getContacts((String)null);
+        data.manager.getContacts((String)null);
     }
 }

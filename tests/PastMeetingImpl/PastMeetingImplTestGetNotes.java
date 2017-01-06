@@ -14,15 +14,10 @@ public class PastMeetingImplTestGetNotes {
 
     private PastMeeting meeting;
     private Calendar date;
-    private String notes;
-
-    private Set<Contact> emptySet;
     private Set<Contact> populatedSet;
 
     {
         date = Calendar.getInstance();
-        notes = "";
-        emptySet = new HashSet<>();
         populatedSet = new HashSet<>();
     }
 

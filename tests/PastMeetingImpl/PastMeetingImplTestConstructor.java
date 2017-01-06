@@ -13,7 +13,6 @@ import java.util.HashSet;
  */
 public class PastMeetingImplTestConstructor {
 
-    private PastMeeting meeting;
     private Calendar date;
     private String notes;
 
@@ -37,22 +36,22 @@ public class PastMeetingImplTestConstructor {
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void constructorIDZero(){ meeting = new PastMeetingImpl(0, date, populatedSet, notes); }
+    public void constructorIDZero(){ new PastMeetingImpl(0, date, populatedSet, notes); }
 
     @Test(expected=IllegalArgumentException.class)
-    public void constructorIDNegative(){ meeting = new PastMeetingImpl(-1000, date, populatedSet, notes); }
+    public void constructorIDNegative(){ new PastMeetingImpl(-1000, date, populatedSet, notes); }
 
     @Test(expected=IllegalArgumentException.class)
-    public void constructorSetEmpty(){ meeting = new PastMeetingImpl(1, date, emptySet, notes); }
+    public void constructorSetEmpty(){ new PastMeetingImpl(1, date, emptySet, notes); }
 
     @Test(expected=NullPointerException.class)
-    public void constructorDateNull(){ meeting = new PastMeetingImpl(1, null, populatedSet, notes); }
+    public void constructorDateNull(){ new PastMeetingImpl(1, null, populatedSet, notes); }
 
     @Test(expected=NullPointerException.class)
-    public void constructorSetNull(){ meeting = new PastMeetingImpl(1, date, null, notes); }
+    public void constructorSetNull(){ new PastMeetingImpl(1, date, null, notes); }
 
     @Test(expected=NullPointerException.class)
-    public void constructorNotesNull(){ meeting = new PastMeetingImpl(1, date, populatedSet, null); }
+    public void constructorNotesNull(){ new PastMeetingImpl(1, date, populatedSet, null); }
 
 
 }

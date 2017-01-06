@@ -6,60 +6,58 @@ import static org.junit.Assert.*;
  */
 public class ContactImplTestGetNotes {
     private ContactImpl contact;
+    private String name;
+
+    {
+        name = "Test";
+    }
 
     @Test
     public void getNotesTestSingle(){
-        String name = "Test";
-        String notes = "Test";
-        contact = new ContactImpl(1, name, notes);
+        String notes = "getNotesTestSingleNotes";
+        contact = new ContactImpl(1, this.name, notes);
         Assert.assertEquals(notes, contact.getNotes());
     }
 
     @Test
-    public void getNameTestSpaced(){
-        String name = "Test";
+    public void getNotesTestSpaced(){
         String notes = "Test Test";
-        contact = new ContactImpl(1, name, notes);
+        contact = new ContactImpl(1, this.name, notes);
         Assert.assertEquals(notes, contact.getNotes());
     }
 
     @Test
-    public void getNameTestSpacedMultiple(){
-        String name = "Test";
+    public void getNotesTestSpacedMultiple(){
         String notes = "Test Test Test Test Test";
-        contact = new ContactImpl(1, name, notes);
+        contact = new ContactImpl(1, this.name, notes);
         Assert.assertEquals(notes, contact.getNotes());
     }
 
     @Test
-    public void getNameTestEmpty(){
-        String name = "Test";
+    public void getNotesTestEmpty(){
         String notes = "";
-        contact = new ContactImpl(1, name, notes);
+        contact = new ContactImpl(1, this.name, notes);
         Assert.assertEquals(notes, contact.getNotes());
     }
 
     @Test
-    public void getNameTestSpecialChars(){
-        String name = "Test";
+    public void getNotesTestSpecialChars(){
         String notes = "*&^%£\"'@";
-        contact = new ContactImpl(1, name, notes);
+        contact = new ContactImpl(1, this.name, notes);
         Assert.assertEquals(notes, contact.getNotes());
     }
 
     @Test
-    public void getNameTestNewLine(){
-        String name = "Test";
+    public void getNotesTestNewLine(){
         String notes = "A\nB\nC";
-        contact = new ContactImpl(1, name, notes);
+        contact = new ContactImpl(1, this.name, notes);
         Assert.assertEquals(notes, contact.getNotes());
     }
 
     @Test
-    public void getNameTestTab(){
-        String name = "Test";
+    public void getNotesTestTab(){
         String notes = "A\tB\tC";
-        contact = new ContactImpl(1, name, notes);
+        contact = new ContactImpl(1, this.name, notes);
         Assert.assertEquals(notes, contact.getNotes());
     }
 }

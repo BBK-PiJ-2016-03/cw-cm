@@ -261,9 +261,10 @@ public class ContactManagerImpl implements ContactManager{
 
     private void createFile(){
         try{
-            file.createNewFile();
-            file.setWritable(true);
-            file.setReadable(true);
+            Boolean result = file.createNewFile();
+            if(result){
+                handleExistingFilePermissions();
+            }
         }
         catch(IOException e){
             e.printStackTrace();
