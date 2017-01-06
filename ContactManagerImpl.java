@@ -266,14 +266,18 @@ public class ContactManagerImpl implements ContactManager{
 
     private void createFileIfNotExists(){
         if(!file.exists()){
-            try{
-                file.createNewFile();
-                file.setWritable(true);
-                file.setReadable(true);
-            }
-            catch(IOException e){
-                e.printStackTrace();
-            }
+            createFile();
+        }
+    }
+
+    private void createFile(){
+        try{
+            file.createNewFile();
+            file.setWritable(true);
+            file.setReadable(true);
+        }
+        catch(IOException e){
+            e.printStackTrace();
         }
     }
 
@@ -288,6 +292,7 @@ public class ContactManagerImpl implements ContactManager{
     private void readDumpFromFile() {
         if(!file.exists()){
             System.out.println("Failed to read file, does not exist.");
+            createFile();
             return;
         }
 

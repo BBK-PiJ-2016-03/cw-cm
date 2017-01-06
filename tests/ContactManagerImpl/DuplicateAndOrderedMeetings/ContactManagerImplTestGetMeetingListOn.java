@@ -85,10 +85,6 @@ public class ContactManagerImplTestGetMeetingListOn {
     @Test
     public void testSorted(){
         List<Meeting> meetingsFuture = data.manager.getMeetingListOn(data.futureDate);
-        System.out.println("Sorted check: "+meetingsFuture.size());
-        System.out.println("data.futureDate: "+data.futureDate.getTime());
-        System.out.println("Date offset 3: "+DateFns.getFutureDate(3).getTime());
-
 
         assertEquals(6, numFutureMeetingsOnFutureDateAfter - numFutureMeetingsOnFutureDateBefore);
         assertTrue(ContactManagerImplTestsFns.testChronologicallySorted(meetingsFuture));
