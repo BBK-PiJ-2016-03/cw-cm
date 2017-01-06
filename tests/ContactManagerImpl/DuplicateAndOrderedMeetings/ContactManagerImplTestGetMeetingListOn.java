@@ -30,7 +30,7 @@ public class ContactManagerImplTestGetMeetingListOn {
     /**
      * Returns the list of meetings that are scheduled for, or that took
      * place on, the specified date
-     *
+     * <p>
      * If there are none, the returned list will be empty. Otherwise,
      * the list will be chronologically sorted and will not contain any
      * duplicates.
@@ -41,7 +41,7 @@ public class ContactManagerImplTestGetMeetingListOn {
      */
 
     @Before
-    public void before(){
+    public void before() {
         data.manager.addFutureMeeting(data.getpopulatedSet(), data.futureDate);
         data.manager.addFutureMeeting(data.getpopulatedSet(), data.futureDate);
         data.manager.addFutureMeeting(data.getpopulatedSet(), DateFns.getFutureDate(3));
@@ -57,19 +57,19 @@ public class ContactManagerImplTestGetMeetingListOn {
         numPastMeetingsOnFutureDateAfter = data.manager.getMeetingListOn(data.pastDate).size();
     }
 
-    @Test(expected=NullPointerException.class)
-    public void testGetMeetingListOnNullDate(){
+    @Test(expected = NullPointerException.class)
+    public void testGetMeetingListOnNullDate() {
         List<Meeting> meetings = data.manager.getMeetingListOn(null);
     }
 
     @Test
-    public void testGetMeetingListOnFutureDate(){
+    public void testGetMeetingListOnFutureDate() {
         List<Meeting> meetings = data.manager.getMeetingListOn(data.futureDate);
         assertEquals(6, numFutureMeetingsOnFutureDateAfter - numFutureMeetingsOnFutureDateBefore);
     }
 
     @Test
-    public void testGetMeetingListOnPastDate(){
+    public void testGetMeetingListOnPastDate() {
         assertEquals(4, numPastMeetingsOnFutureDateAfter - numPastMeetingsOnFutureDateBefore);
     }
 

@@ -252,6 +252,7 @@ public class ContactManagerImpl implements ContactManager{
 
     private void writeDumpToFile(ContactManagerDump dump) {
         createFileIfNotExists();
+        handleExistingFilePermissions();
 
         try (FileOutputStream fileStream = new FileOutputStream(this.fileName);
              ObjectOutputStream out = new ObjectOutputStream(fileStream))

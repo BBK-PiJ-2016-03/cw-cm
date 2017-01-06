@@ -108,16 +108,30 @@ public class ContactManagerImplTestsFns {
         return sorted;
     }
 
+//    public static boolean testDuplicateMeetings(List<Meeting> meetings){
+//        return meetings.size() ==  meetings.stream()
+//                .map(m -> m.getDate().getTimeInMillis())
+//                .distinct()
+//                .collect(Collectors.toList()).size();
+//    }
+
     public static boolean testDuplicateMeetings(List<Meeting> meetings){
         return meetings.size() ==  meetings.stream()
-                .map(m -> m.getDate().getTimeInMillis())
+                .map(m -> m.getId())
                 .distinct()
                 .collect(Collectors.toList()).size();
     }
 
+//    public static boolean testDuplicatePastMeetings(List<PastMeeting> meetings){
+//        return meetings.size() == meetings.stream()
+//                .map(m -> m.getDate().getTimeInMillis())
+//                .distinct()
+//                .collect(Collectors.toList()).size();
+//    }
+
     public static boolean testDuplicatePastMeetings(List<PastMeeting> meetings){
         return meetings.size() == meetings.stream()
-                .map(m -> m.getDate().getTimeInMillis())
+                .map(m -> m.getId())
                 .distinct()
                 .collect(Collectors.toList()).size();
     }
