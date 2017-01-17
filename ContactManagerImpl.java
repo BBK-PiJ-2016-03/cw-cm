@@ -310,8 +310,18 @@ public class ContactManagerImpl implements ContactManager{
     }
 }
 
+/**
+ * ContactManagerDump is a tightly coupled pojo used to serialize data from ContactManagerImpl.
+ * Its purpose is to reduce the size of data written out to disc by dropping all non data aspects
+ * of the serialized object.
+ * Since the class is completely dependent on the ContactManagerImpl class, and needs to be updated
+ * to keep in sync with any changes to the data structure, it is included as a nested class.
+ */
 class ContactManagerDump implements Serializable
 {
+    /**
+     * serialVersionUID holds the version for the dump. Increment when changes to the data model occur.
+     */
     private static final long serialVersionUID = 1L;
 
     private int lastContactId;
