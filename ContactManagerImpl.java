@@ -1,11 +1,8 @@
 import java.io.*;
-import java.time.Instant;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
 import java.util.function.BiPredicate;
-import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -220,7 +217,7 @@ public class ContactManagerImpl implements ContactManager{
         return map.entrySet().stream()
                 .filter(e -> PastMeetingImpl.class.equals(e.getValue().getClass()))
                 .map(e -> (PastMeeting)e.getValue())
-                .filter(e -> predicate.test(e))
+                .filter(predicate::test)
                 .sorted(comparator)
                 .collect(Collectors.toList());
     }
