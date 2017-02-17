@@ -20,7 +20,7 @@ public class ContactManagerImplTestAddNewContact {
      * @throws NullPointerException if the name or the notes are null
      */
 
-    private ContactManagerImplTestData data;
+    private final ContactManagerImplTestData data;
 
     {
         data = new ContactManagerImplTestData();

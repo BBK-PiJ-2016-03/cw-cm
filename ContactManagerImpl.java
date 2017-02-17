@@ -18,8 +18,8 @@ public class ContactManagerImpl implements ContactManager{
     private int lastMeetingId;
     private Map<Integer, Meeting> meetings;
 
-    private String fileName;
-    private File file;
+    private final String fileName;
+    private final File file;
 
     {
         lastContactId = 0;
@@ -98,10 +98,9 @@ public class ContactManagerImpl implements ContactManager{
     public List<Meeting> getMeetingListOn(Calendar date) {
         Validation.validateObjectNotNull(date);
         LocalDate dateOnly = getDateOnly(date);
-        List<Meeting> meetingList = getSortedElementsFromMapAsList(this.meetings,
+        return getSortedElementsFromMapAsList(this.meetings,
                 (k,v) -> getDateOnly(v.getDate()).equals(dateOnly),
                 Comparator.comparing(Meeting::getDate));
-        return meetingList;
     }
 
     private LocalDate getDateOnly(Calendar date) {
@@ -115,11 +114,10 @@ public class ContactManagerImpl implements ContactManager{
     public List<PastMeeting> getPastMeetingListFor(Contact contact) {
         Validation.validateObjectNotNull(contact);
         Validation.validateContactKnown(contact, this.contacts); //last as computationally intensive O(n)
-        List<PastMeeting> meetingList = getPastMeetingsFromMapAsList(this.meetings,
+        return getPastMeetingsFromMapAsList(this.meetings,
                 meeting -> meeting.getContacts().contains(contact)
                             && meeting.getDate().before(Calendar.getInstance()),
                 Comparator.comparing(PastMeeting::getDate));
-        return meetingList;
     }
 
     @Override
@@ -201,14 +199,14 @@ public class ContactManagerImpl implements ContactManager{
     private <T> Set<T> getElementsFromMapAsSet(Map<Integer, T> map, BiPredicate<Integer, T> predicate) {
         return map.entrySet().stream()
                 .filter(e -> predicate.test(e.getKey(), e.getValue()))
-                .map(e -> e.getValue())
+                .map(Map.Entry::getValue)
                 .collect(Collectors.toSet());
     }
 
     private <T> List<T> getSortedElementsFromMapAsList(Map<Integer, T> map, BiPredicate<Integer, T> predicate, Comparator<T> comparator) {
         return map.entrySet().stream()
                 .filter(e -> predicate.test(e.getKey(), e.getValue()))
-                .map(e -> e.getValue())
+                .map(Map.Entry::getValue)
                 .sorted(comparator)
                 .collect(Collectors.toList());
     }
@@ -217,7 +215,7 @@ public class ContactManagerImpl implements ContactManager{
         return map.entrySet().stream()
                 .filter(e -> PastMeetingImpl.class.equals(e.getValue().getClass()))
                 .map(e -> (PastMeeting)e.getValue())
-                .filter(predicate::test)
+                .filter(predicate)
                 .sorted(comparator)
                 .collect(Collectors.toList());
     }
@@ -291,10 +289,7 @@ public class ContactManagerImpl implements ContactManager{
             ContactManagerDump restoredData = (ContactManagerDump)in.readObject();
             restoreValuesFromDump(restoredData);
         }
-        catch(IOException e){
-            e.printStackTrace();
-        }
-        catch(ClassNotFoundException e){
+        catch(IOException | ClassNotFoundException e){
             e.printStackTrace();
         }
     }

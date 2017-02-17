@@ -8,26 +8,19 @@ import static org.junit.Assert.assertNull;
  */
 public class ContactManagerImplTestGetMeeting {
 
-    private ContactManagerImplTestData data;
+    private final ContactManagerImplTestData data;
 
     {
         data = new ContactManagerImplTestData();
     }
 
-    /**
-     * Returns the meeting with the requested ID, or null if it there is none.
-     *
-     * @param id the ID for the meeting
-     * @return the meeting with the requested ID, or null if it there is none.
-     */
-
     @Test
     public void testGetMeetingExisting(){
         String note = "note";
-        int id = data.manager.addNewPastMeeting(data.getpopulatedSet(), data.pastDate, note);
+        int id = data.manager.addNewPastMeeting(data.getPopulatedSet(), data.pastDate, note);
 
         PastMeeting meeting = (PastMeeting)data.manager.getMeeting(id);
-        assertTrue(meeting.getContacts().equals(data.getpopulatedSet()));
+        assertTrue(meeting.getContacts().equals(data.getPopulatedSet()));
         assertTrue(meeting.getDate().equals(data.pastDate));
         assertTrue(meeting.getNotes().equals(note));
     }

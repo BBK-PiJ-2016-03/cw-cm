@@ -2,7 +2,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -10,10 +9,10 @@ import java.util.Set;
  * Created by Alexander Worton on 27/12/2016.
  */
 public class FutureMeetingImplTestConstructor {
-    private Calendar date;
+    private final Calendar date;
 
-    private Set<Contact> emptySet;
-    private Set<Contact> populatedSet;
+    private final Set<Contact> emptySet;
+    private final Set<Contact> populatedSet;
 
     {
         date = Calendar.getInstance();

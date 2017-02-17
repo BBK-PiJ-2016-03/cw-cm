@@ -13,8 +13,8 @@ import static org.junit.Assert.assertEquals;
 public class PastMeetingImplTestGetNotes {
 
     private PastMeeting meeting;
-    private Calendar date;
-    private Set<Contact> populatedSet;
+    private final Calendar date;
+    private final Set<Contact> populatedSet;
 
     {
         date = Calendar.getInstance();

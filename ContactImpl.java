@@ -9,10 +9,21 @@ public class ContactImpl implements Contact, Serializable{
     private String name;
     private String notes;
 
+    /**
+     * Overload constructor to apply a default value for notes
+     * @param id the id of the contact
+     * @param name the name of the contact
+     */
     public ContactImpl(int id, String name){
         this(id, name, "");
     }
 
+    /**
+     * Constructor to apply id, name and notes
+     * @param id the id of the contact
+     * @param name the name of the contact
+     * @param notes attached notes for the contact
+     */
     public ContactImpl(int id, String name, String notes){
         Validation.validateIdPositive(id);
         Validation.validateObjectNotNull(name, "name");
@@ -50,10 +61,11 @@ public class ContactImpl implements Contact, Serializable{
         return this.notes;
     }
 
-    @Override
+
     /*since there is no ability to delete notes, I have made the assumption that
     addNotes replaces the existing notes rather than appends to it. Appending is
     still supported externally by utilising getNotes, appending and then addNotes. */
+    @Override
     public void addNotes(String note) {
         Validation.validateObjectNotNull(note, "notes");
         this.notes = note;

@@ -15,8 +15,8 @@ import static org.junit.Assert.assertTrue;
 public class FutureMeetingImplTestGetContacts {
 
     private FutureMeeting meeting;
-    private Calendar date;
-    private Set<Contact> populatedSet;
+    private final Calendar date;
+    private final Set<Contact> populatedSet;
 
     {
         date = Calendar.getInstance();

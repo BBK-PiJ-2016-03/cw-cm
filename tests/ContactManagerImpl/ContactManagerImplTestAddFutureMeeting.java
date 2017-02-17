@@ -9,21 +9,8 @@ import static org.junit.Assert.assertTrue;
  */
 public class ContactManagerImplTestAddFutureMeeting {
 
-    /**
-     * Add a new meeting to be held in the future.
-     *
-     * An ID is returned when the meeting is put into the system. This
-     * ID must be positive and non-zero.
-     *
-     * @param contacts a set of contacts that will participate in the meeting
-     * @param date the date on which the meeting will take place
-     * @return the ID for the meeting
-     * @throws IllegalArgumentException if the meeting is set for a time
-     *       in the past, of if any contact is unknown / non-existent.
-     * @throws NullPointerException if the meeting or the date are null
-     */
 
-    private ContactManagerImplTestData data;
+    private final ContactManagerImplTestData data;
 
     {
         data = new ContactManagerImplTestData();
@@ -33,31 +20,31 @@ public class ContactManagerImplTestAddFutureMeeting {
 
     @Test
     public void testIdReturned(){
-        int id = data.manager.addFutureMeeting(data.getpopulatedSet(), data.futureDate);
+        int id = data.manager.addFutureMeeting(data.getPopulatedSet(), data.futureDate);
         assertTrue(id > 0);
 
-        int id2 = data.manager.addFutureMeeting(data.getpopulatedSet(), data.futureDate);
+        int id2 = data.manager.addFutureMeeting(data.getPopulatedSet(), data.futureDate);
         assertTrue(id2 > 0 && id != id2);
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void testContactNull(){
-        data.manager.addFutureMeeting(data.getpopulatedSetWithNullContact(), data.futureDate);
+        data.manager.addFutureMeeting(data.getPopulatedSetWithNullContact(), data.futureDate);
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void testContactUnknown(){
-        data.manager.addFutureMeeting(data.getpopulatedSetWithNullContact(), data.futureDate);
+        data.manager.addFutureMeeting(data.getPopulatedSetWithNullContact(), data.futureDate);
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void testDateInPast(){
-        data.manager.addFutureMeeting(data.getpopulatedSetWithNullContact(), data.pastDate);
+        data.manager.addFutureMeeting(data.getPopulatedSetWithNullContact(), data.pastDate);
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void testDateCurrent(){
-        data.manager.addFutureMeeting(data.getpopulatedSetWithNullContact(), Calendar.getInstance());
+        data.manager.addFutureMeeting(data.getPopulatedSetWithNullContact(), Calendar.getInstance());
     }
 
     @Test(expected=NullPointerException.class)
@@ -67,6 +54,6 @@ public class ContactManagerImplTestAddFutureMeeting {
 
     @Test(expected=NullPointerException.class)
     public void testDateNull(){
-        data.manager.addFutureMeeting(data.getpopulatedSet(), null);
+        data.manager.addFutureMeeting(data.getPopulatedSet(), null);
     }
 }

@@ -1,12 +1,12 @@
 import org.junit.Assert;
 import org.junit.Test;
-import static org.junit.Assert.*;
+
 /**
  * Created by Alexander Worton on 27/12/2016.
  */
 public class ContactImplTestGetNotes {
     private ContactImpl contact;
-    private String name;
+    private final String name;
 
     {
         name = "Test";

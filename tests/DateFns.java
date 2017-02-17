@@ -11,7 +11,7 @@ public class DateFns {
     private static final int year = calendar.get(Calendar.YEAR);
     private static final int month = calendar.get(Calendar.MONTH);
 
-    public static Calendar getCurrentDate(){
+    private static Calendar getCurrentDate(){
         return Calendar.getInstance();
     }
 

@@ -2,8 +2,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Calendar;
-import java.util.Date;
-import java.util.HashSet;
 import java.util.Set;
 
 import java.util.HashSet;
@@ -13,11 +11,11 @@ import java.util.HashSet;
  */
 public class PastMeetingImplTestConstructor {
 
-    private Calendar date;
-    private String notes;
+    private final Calendar date;
+    private final String notes;
 
-    private Set<Contact> emptySet;
-    private Set<Contact> populatedSet;
+    private final Set<Contact> emptySet;
+    private final Set<Contact> populatedSet;
 
     {
         date = Calendar.getInstance();

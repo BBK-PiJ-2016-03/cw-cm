@@ -7,20 +7,11 @@ import static org.junit.Assert.assertNull;
  */
 public class ContactManagerImplTestGetFutureMeeting {
 
-    private ContactManagerImplTestData data;
+    private final ContactManagerImplTestData data;
 
     {
         data = new ContactManagerImplTestData();
     }
-
-    /**
-     * Returns the FUTURE meeting with the requested ID, or null if there is none.
-     *
-     * @param id the ID for the meeting
-     * @return the meeting with the requested ID, or null if it there is none.
-     * @throws IllegalStateException if there is a meeting with that ID happening
-     *         in the past
-     */
 
     @Test
     public void testGetNonExistMeeting(){
@@ -30,25 +21,25 @@ public class ContactManagerImplTestGetFutureMeeting {
 
     @Test
     public void testGetMeetingFuture(){
-        int id = data.manager.addFutureMeeting(data.getpopulatedSet(), data.futureDate);
+        int id = data.manager.addFutureMeeting(data.getPopulatedSet(), data.futureDate);
         Meeting meeting = data.manager.getFutureMeeting(id);
         assertEquals(id, meeting.getId());
         assertEquals(data.futureDate, meeting.getDate());
-        assertEquals(data.getpopulatedSet(), meeting.getContacts());
+        assertEquals(data.getPopulatedSet(), meeting.getContacts());
     }
 
     @Test
     public void testGetMeetingSlightlyFuture(){
-        int id = data.manager.addFutureMeeting(data.getpopulatedSet(), data.slightlyFutureDate);
+        int id = data.manager.addFutureMeeting(data.getPopulatedSet(), data.slightlyFutureDate);
         Meeting meeting = data.manager.getFutureMeeting(id);
         assertEquals(id, meeting.getId());
         assertEquals(data.slightlyFutureDate, meeting.getDate());
-        assertEquals(data.getpopulatedSet(), meeting.getContacts());
+        assertEquals(data.getPopulatedSet(), meeting.getContacts());
     }
 
     @Test(expected=IllegalStateException.class)
     public void testGetMeetingPast(){
-        int id = data.manager.addNewPastMeeting(data.getpopulatedSet(), data.pastDate, "");
+        int id = data.manager.addNewPastMeeting(data.getPopulatedSet(), data.pastDate, "");
         data.manager.getFutureMeeting(id);
     }
 }

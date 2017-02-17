@@ -38,8 +38,8 @@ public class Validation {
 
     /**
      * throws an exception if the supplied set isn't populated
-     * @param collection
-     * @param collectionName
+     * @param collection the set to validate
+     * @param collectionName the name of the collection
      */
     public static void validateSetPopulated(Set collection, String collectionName) {
         if(collection.size() < 1)
@@ -48,8 +48,8 @@ public class Validation {
 
     /**
      * throws an exception if the supplied int array isn't populated
-     * @param collection
-     * @param collectionName
+     * @param collection the collection to validate
+     * @param collectionName the name of the collection
      */
     public static void validateSetPopulated(int[] collection, String collectionName) {
         if(collection.length < 1)
@@ -58,8 +58,8 @@ public class Validation {
 
     /**
      * throws an exception if the supplied arguments are not the same size
-     * @param length
-     * @param size
+     * @param length the first argument to match
+     * @param size the second argument to match
      */
     public static void validateArgumentSizeMatch(int length, int size) {
         if(length != size)
@@ -68,8 +68,8 @@ public class Validation {
 
     /**
      * throws an exception if the supplied string is either null or empty
-     * @param str
-     * @param variableName
+     * @param str the supplied string value
+     * @param variableName the name of the variable
      */
     public static void validateStringNotNullOrEmpty(String str, String variableName) {
         if(str == null)
@@ -81,12 +81,12 @@ public class Validation {
 
     /**
      * throws an exception if any element in the contacts collection are not in the knownContacts collection
-     * @param contacts
-     * @param knownContacts
+     * @param contacts the set of supplied contacts
+     * @param knownContacts the set of known contacts
      */
     public static void validateAllContactsKnown(Set<Contact> contacts, Map<Integer, Contact> knownContacts) {
         Set<Contact> filtered = knownContacts.values().stream()
-                .filter(e -> contacts.contains(e))
+                .filter(contacts::contains)
                 .collect(Collectors.toSet());
 
         validateArgumentSizeMatch(filtered.size(), contacts.size());
@@ -94,7 +94,7 @@ public class Validation {
 
     /**
      * throws an argument exception if the supplied date is not in the future
-     * @param date
+     * @param date the date to check
      */
     public static void validateDateInFuture(Calendar date) {
         if(!date.after(Calendar.getInstance()))
@@ -103,7 +103,7 @@ public class Validation {
 
     /**
      * throws an argument exception if the supplied date is not in the past
-     * @param date
+     * @param date the date to check
      */
     public static void validateDateInPast(Calendar date) {
         if(!date.before(Calendar.getInstance()))
@@ -112,7 +112,7 @@ public class Validation {
 
     /**
      * throws a state exception if the supplied date is not in the future
-     * @param date
+     * @param date the date to check
      */
     public static void validateStateInFuture(Calendar date) {
         if(!date.after(Calendar.getInstance()))
@@ -121,7 +121,7 @@ public class Validation {
 
     /**
      * throws a state exception if the supplied date is not in the past
-     * @param date
+     * @param date the date to check
      */
     public static void validateStateInPast(Calendar date) {
         if(!date.before(Calendar.getInstance()))
@@ -130,8 +130,8 @@ public class Validation {
 
     /**
      * throws an argument exception if the supplied object is null
-     * @param obj
-     * @param argumentName
+     * @param obj the supplied object
+     * @param argumentName the name of the supplied argument
      */
     public static void validateArgumentNotNull(Object obj, String argumentName) {
         if(obj == null)
@@ -140,8 +140,8 @@ public class Validation {
 
     /**
      * throws an argument exception if the supplied contact is not in the contacts collection
-     * @param contact
-     * @param contacts
+     * @param contact the supplied contact
+     * @param contacts the collection of known contacts
      */
     public static void validateContactKnown(Contact contact, Map<Integer, Contact> contacts) {
         Contact verify = contacts.get(contact.getId());

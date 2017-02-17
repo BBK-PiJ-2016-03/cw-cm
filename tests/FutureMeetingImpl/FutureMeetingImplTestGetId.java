@@ -3,7 +3,6 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -13,9 +12,9 @@ import java.util.Set;
 public class FutureMeetingImplTestGetId {
 
     private FutureMeeting meeting;
-    private Calendar date;
+    private final Calendar date;
 
-    private Set<Contact> populatedSet;
+    private final Set<Contact> populatedSet;
 
     {
         date = Calendar.getInstance();

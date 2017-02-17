@@ -10,14 +10,14 @@ import java.util.Set;
 public class ContactManagerImplTestData {
 
     public ContactManager manager;
-    public Calendar pastDate;
-    public Calendar slightlyPastDate;
-    public Calendar futureDate;
-    public Calendar slightlyFutureDate;
-    public Set<Contact> emptySet;
-    public int[] excludedSetIds;
-    public int selectedContactId;
-    public int excludedContactId;
+    public final Calendar pastDate;
+    public final Calendar slightlyPastDate;
+    public final Calendar futureDate;
+    public final Calendar slightlyFutureDate;
+    public final Set<Contact> emptySet;
+    public final int[] excludedSetIds;
+    public final int selectedContactId;
+    public final int excludedContactId;
 
     {
         manager = new ContactManagerImpl();
@@ -30,13 +30,13 @@ public class ContactManagerImplTestData {
         emptySet = new HashSet<>();
         selectedContactId = 5;
         excludedContactId = 3;
-        excludedSetIds = ContactManagerImplTestsFns.generateExcludedSetIds(getpopulatedSet(), excludedContactId);
+        excludedSetIds = ContactManagerImplTestsFns.generateExcludedSetIds(getPopulatedSet(), excludedContactId);
     }
 
     public Contact getSelectedContact(){ return (Contact)manager.getContacts(selectedContactId).toArray()[0]; }
     public Contact getExcludedContact(){ return (Contact)manager.getContacts(excludedContactId).toArray()[0]; }
-    public Set<Contact> getpopulatedSet(){ return manager.getContacts(""); }
+    public Set<Contact> getPopulatedSet(){ return manager.getContacts(""); }
     public Set<Contact> getExcludedSet(){ return manager.getContacts(excludedSetIds); }
-    public Set<Contact> getpopulatedSetWithInvalidContact(){ return ContactManagerImplTestsFns.generateInvalidContacts(); }
-    public Set<Contact> getpopulatedSetWithNullContact(){ return ContactManagerImplTestsFns.generateNullContacts(); }
+    public Set<Contact> getPopulatedSetWithInvalidContact(){ return ContactManagerImplTestsFns.generateInvalidContacts(); }
+    public Set<Contact> getPopulatedSetWithNullContact(){ return ContactManagerImplTestsFns.generateNullContacts(); }
 }

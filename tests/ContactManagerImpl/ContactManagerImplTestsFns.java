@@ -1,6 +1,3 @@
-import tests.DateFns;
-
-import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -19,11 +16,9 @@ public class ContactManagerImplTestsFns {
     }
 
     public static int[] generateValidContactIds(int number, ContactManager manager){
-        int[] contactIds = IntStream.range(0,number)
+        return IntStream.range(0,number)
                 .map(i -> manager.addNewContact("Name"+i, " "))
                 .toArray();
-
-        return contactIds;
     }
 
     public static Set<Contact> generateInvalidContacts(){
@@ -33,19 +28,15 @@ public class ContactManagerImplTestsFns {
     }
 
     public static int[] createValidContacts(int number, ContactManager manager){
-        int[] contactIds = IntStream.range(0,number)
+        return IntStream.range(0,number)
                 .map(i -> manager.addNewContact("Name"+i, " "))
                 .toArray();
-
-        return contactIds;
     }
 
     public static int[] createInvalidContacts(int number, ContactManager manager){
-        int[] contactIds = IntStream.range(0,number)
+        return IntStream.range(0,number)
                 .map(i -> manager.addNewContact("Name"+i, " "))
                 .toArray();
-
-        return contactIds;
     }
 
     public static void wait2Secs() {
@@ -59,17 +50,17 @@ public class ContactManagerImplTestsFns {
 
     public static int[] generateExcludedSetIds(Set<Contact> contacts, int excludedContactId){
         return contacts.stream()
-                .mapToInt(e -> e.getId())
+                .mapToInt(Contact::getId)
                 .filter(e -> !(e == excludedContactId))
                 .toArray();
     }
 
     public static boolean testChronologicallySorted(List<Meeting> meetings){
         boolean sorted = true;
-        MEETINGS_ITERATION: for (int i = 1; i < meetings.size(); i++){
+        for (int i = 1; i < meetings.size(); i++){
             if(meetings.get(i-1).getDate().after(meetings.get(i).getDate())){
                 sorted = false;
-                break MEETINGS_ITERATION;
+                break;
             }
         }
         return sorted;
@@ -77,10 +68,10 @@ public class ContactManagerImplTestsFns {
 
     public static boolean testChronologicallySortedPastMeetings(List<PastMeeting> meetings){
         boolean sorted = true;
-        MEETINGS_ITERATION: for (int i = 1; i < meetings.size(); i++){
+        for (int i = 1; i < meetings.size(); i++){
             if(meetings.get(i-1).getDate().after(meetings.get(i).getDate())){
                 sorted = false;
-                break MEETINGS_ITERATION;
+                break;
             }
         }
         return sorted;
@@ -88,14 +79,14 @@ public class ContactManagerImplTestsFns {
 
     public static boolean testDuplicateMeetings(List<Meeting> meetings){
         return meetings.size() ==  meetings.stream()
-                .map(m -> m.getId())
+                .map(Meeting::getId)
                 .distinct()
                 .collect(Collectors.toList()).size();
     }
 
     public static boolean testDuplicatePastMeetings(List<PastMeeting> meetings){
         return meetings.size() == meetings.stream()
-                .map(m -> m.getId())
+                .map(Meeting::getId)
                 .distinct()
                 .collect(Collectors.toList()).size();
     }

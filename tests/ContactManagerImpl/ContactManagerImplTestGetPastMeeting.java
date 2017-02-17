@@ -8,22 +8,11 @@ import static org.junit.Assert.assertNull;
  */
 public class ContactManagerImplTestGetPastMeeting {
 
-    private ContactManagerImplTestData data;
+    private final ContactManagerImplTestData data;
 
     {
         data = new ContactManagerImplTestData();
     }
-
-    /**
-     * Returns the PAST meeting with the requested ID, or null if it there is none.
-     *
-     * The meeting must have happened at a past date.
-     *
-     * @param id the ID for the meeting
-     * @return the meeting with the requested ID, or null if it there is none.
-     * @throws IllegalStateException if there is a meeting with that ID happening
-     *         in the future
-     */
 
     @Test
     public void testGetNonExistMeeting(){
@@ -33,27 +22,27 @@ public class ContactManagerImplTestGetPastMeeting {
 
     @Test
     public void testGetMeetingPast(){
-        int id = data.manager.addNewPastMeeting(data.getpopulatedSet(), data.pastDate, "");
+        int id = data.manager.addNewPastMeeting(data.getPopulatedSet(), data.pastDate, "");
         PastMeeting meeting = data.manager.getPastMeeting(id);
         assertEquals(id, meeting.getId());
         assertEquals(data.pastDate, meeting.getDate());
-        assertEquals(data.getpopulatedSet(), meeting.getContacts());
+        assertEquals(data.getPopulatedSet(), meeting.getContacts());
     }
 
     @Test
     public void testGetMeetingSlightlyPast(){
-        int id = data.manager.addNewPastMeeting(data.getpopulatedSet(), data.slightlyPastDate, "");
+        int id = data.manager.addNewPastMeeting(data.getPopulatedSet(), data.slightlyPastDate, "");
         PastMeeting meeting = data.manager.getPastMeeting(id);
         assertEquals(id, meeting.getId());
         assertEquals(data.slightlyPastDate, meeting.getDate());
-        assertEquals(data.getpopulatedSet(), meeting.getContacts());
+        assertEquals(data.getPopulatedSet(), meeting.getContacts());
     }
 
     // can we assume that future events that now have a date in the past, but have not had
     // notes added to them did not actually take place?
     @Test
     public void testGetMeetingNotHappened(){
-        int id = data.manager.addFutureMeeting(data.getpopulatedSet(), data.slightlyFutureDate);
+        int id = data.manager.addFutureMeeting(data.getPopulatedSet(), data.slightlyFutureDate);
         ContactManagerImplTestsFns.wait2Secs();
         Meeting meeting = data.manager.getPastMeeting(id);
         assertNull(meeting);
@@ -61,7 +50,7 @@ public class ContactManagerImplTestGetPastMeeting {
 
     @Test(expected=IllegalStateException.class)
     public void testGetMeetingFuture(){
-        int id = data.manager.addFutureMeeting(data.getpopulatedSet(), data.futureDate);
+        int id = data.manager.addFutureMeeting(data.getPopulatedSet(), data.futureDate);
         data.manager.getPastMeeting(id);
     }
 }
