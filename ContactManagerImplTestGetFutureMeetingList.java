@@ -1,5 +1,4 @@
 import org.junit.Test;
-import tests.DateFns;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -14,6 +13,7 @@ public class ContactManagerImplTestGetFutureMeetingList {
 
     private final ContactManagerImplTestData data;
     private final Contact nonExistContact;
+    private final static int DATE_OFFSET = 2;
 
     {
         data = new ContactManagerImplTestData();
@@ -25,18 +25,28 @@ public class ContactManagerImplTestGetFutureMeetingList {
         int selectedBefore = data.manager.getFutureMeetingList(data.getSelectedContact()).size();
         int unSelectedBefore = data.manager.getFutureMeetingList(data.getExcludedContact()).size();
 
-        data.manager.addFutureMeeting(data.getPopulatedSet(), DateFns.getFutureDate(2));
-        data.manager.addFutureMeeting(data.getPopulatedSet(), DateFns.getFutureDate(2));
-        data.manager.addFutureMeeting(data.getPopulatedSet(), DateFns.getFutureDate(2));
-
-        data.manager.addFutureMeeting(data.getExcludedSet(), DateFns.getFutureDate(2));
-        data.manager.addFutureMeeting(data.getExcludedSet(), DateFns.getFutureDate(2));
+        final int numberOfPopulatedSetMeetings = 3;
+        final int numberOfExcludedSetMeetings = 2;
+        final int totalMeetingsAdded = numberOfPopulatedSetMeetings + numberOfExcludedSetMeetings;
+        addNewFutureMeetings(numberOfPopulatedSetMeetings, numberOfExcludedSetMeetings);
 
         int selectedAfter = data.manager.getFutureMeetingList(data.getSelectedContact()).size();
         int unSelectedAfter = data.manager.getFutureMeetingList(data.getExcludedContact()).size();
 
-        assertEquals(5, selectedAfter - selectedBefore);
-        assertEquals(3, unSelectedAfter - unSelectedBefore);
+        assertEquals(totalMeetingsAdded, selectedAfter - selectedBefore);
+        assertEquals(numberOfPopulatedSetMeetings, unSelectedAfter - unSelectedBefore);
+    }
+
+    private void addNewFutureMeetings(int numPopulatedSet, int numExcludedSet) {
+        final int totalMeetings = numPopulatedSet + numExcludedSet;
+        for(int iteration = 0; iteration < totalMeetings; iteration++) {
+            if(iteration < numPopulatedSet){
+                data.manager.addFutureMeeting(data.getPopulatedSet(), DateFns.getFutureDate(DATE_OFFSET));
+            }
+            else{
+                data.manager.addFutureMeeting(data.getExcludedSet(), DateFns.getFutureDate(DATE_OFFSET));
+            }
+        }
     }
 
     @Test(expected=IllegalArgumentException.class)

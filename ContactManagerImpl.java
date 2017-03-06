@@ -35,12 +35,20 @@ public class ContactManagerImpl implements ContactManager{
         readDumpFromFile();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int addFutureMeeting(Set<Contact> contacts, Calendar date) {
         validateAddNewFutureMeeting(contacts, date);
         return createNewFutureMeeting(contacts, date);
     }
 
+    /**
+     * Perform all validation on the public addFutureMeting method
+     * @param contacts
+     * @param date
+     */
     private void validateAddNewFutureMeeting(Set<Contact> contacts, Calendar date) {
         Validation.validateObjectNotNull(contacts, "Contacts");
         Validation.validateSetPopulated(contacts, "Contacts");
@@ -49,6 +57,12 @@ public class ContactManagerImpl implements ContactManager{
         Validation.validateAllContactsKnown(contacts, this.contacts); //last as computationally intensive O(n)
     }
 
+    /**
+     *
+     * @param contacts
+     * @param date
+     * @return
+     */
     private int createNewFutureMeeting(Set<Contact> contacts, Calendar date){
         int id = getNewMeetingId();
         Meeting meeting = new FutureMeetingImpl(id, date, contacts);
@@ -56,6 +70,9 @@ public class ContactManagerImpl implements ContactManager{
         return id;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public PastMeeting getPastMeeting(int id) {
         Meeting meeting = this.meetings.get(id);
@@ -68,6 +85,9 @@ public class ContactManagerImpl implements ContactManager{
         return (PastMeeting)meeting;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FutureMeeting getFutureMeeting(int id) {
         Meeting meeting = this.meetings.get(id);
@@ -77,11 +97,17 @@ public class ContactManagerImpl implements ContactManager{
         return (FutureMeeting)meeting;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Meeting getMeeting(int id) {
         return meetings.get(id);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<Meeting> getFutureMeetingList(Contact contact) {
         Validation.validateObjectNotNull(contact, "Contact");
@@ -94,6 +120,9 @@ public class ContactManagerImpl implements ContactManager{
         );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<Meeting> getMeetingListOn(Calendar date) {
         Validation.validateObjectNotNull(date);
@@ -103,6 +132,11 @@ public class ContactManagerImpl implements ContactManager{
                 Comparator.comparing(Meeting::getDate));
     }
 
+    /**
+     * Get the date component from a calendar object
+     * @param date the calendar object
+     * @return a LocalDate holding the date component only
+     */
     private LocalDate getDateOnly(Calendar date) {
         return LocalDate.from(date.getTime()
                 .toInstant()
@@ -110,6 +144,9 @@ public class ContactManagerImpl implements ContactManager{
                 .toLocalDate());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<PastMeeting> getPastMeetingListFor(Contact contact) {
         Validation.validateObjectNotNull(contact);
@@ -120,6 +157,9 @@ public class ContactManagerImpl implements ContactManager{
                 Comparator.comparing(PastMeeting::getDate));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int addNewPastMeeting(Set<Contact> contacts, Calendar date, String text) {
         validateAddNewPastMeeting(contacts, date, text);
@@ -141,6 +181,9 @@ public class ContactManagerImpl implements ContactManager{
         return id;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public PastMeeting addMeetingNotes(int id, String text) {
         Validation.validateObjectNotNull(text, "Text");
@@ -156,6 +199,9 @@ public class ContactManagerImpl implements ContactManager{
         return meetingWithNotes;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int addNewContact(String name, String notes) {
         Validation.validateStringNotNullOrEmpty(name, "name");
@@ -166,14 +212,25 @@ public class ContactManagerImpl implements ContactManager{
         return id;
     }
 
+    /**
+     * pre increment to return the next contact id
+     * @return next contact id
+     */
     private int getNewContactId() {
         return ++this.lastContactId;
     }
 
+    /**
+     * pre increment to return the next meeting id
+     * @return next meeting id
+     */
     private int getNewMeetingId() {
         return ++this.lastMeetingId;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Set<Contact> getContacts(String name) {
         Validation.validateObjectNotNull(name, "Name");
@@ -183,11 +240,18 @@ public class ContactManagerImpl implements ContactManager{
         return getElementsFromMapAsSet(this.contacts, (k, v) -> v.getName().equals(name));
     }
 
+    /**
+     * convert the contacts map to a set
+     * @return contacts set
+     */
     private Set<Contact> getContactsAsSet() {
         return contacts.values().stream()
                 .collect(Collectors.toSet());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Set<Contact> getContacts(int... ids) {
         Validation.validateSetPopulated(ids, "Contact Ids array");
@@ -196,6 +260,13 @@ public class ContactManagerImpl implements ContactManager{
         return result;
     }
 
+    /**
+     * A generic method to allow retrieval of filtered elements from a provided set
+     * @param map the provided map
+     * @param predicate the filter predicate
+     * @param <T> the generic type held in both the map and as the return set
+     * @return
+     */
     private <T> Set<T> getElementsFromMapAsSet(Map<Integer, T> map, BiPredicate<Integer, T> predicate) {
         return map.entrySet().stream()
                 .filter(e -> predicate.test(e.getKey(), e.getValue()))
@@ -203,6 +274,14 @@ public class ContactManagerImpl implements ContactManager{
                 .collect(Collectors.toSet());
     }
 
+    /**
+     * A generic method to allow retrieval of filtered and sorted elements from a provided set
+     * @param map the provided map
+     * @param predicate the filter bi-predicate
+     * @param comparator the comparator to use for sorting
+     * @param <T> the generic type held in both the map and as the return set
+     * @return
+     */
     private <T> List<T> getSortedElementsFromMapAsList(Map<Integer, T> map, BiPredicate<Integer, T> predicate, Comparator<T> comparator) {
         return map.entrySet().stream()
                 .filter(e -> predicate.test(e.getKey(), e.getValue()))
@@ -211,6 +290,14 @@ public class ContactManagerImpl implements ContactManager{
                 .collect(Collectors.toList());
     }
 
+    /**
+     * A Meeting specific method to allow retrieval of filtered and sorted elements from a provided Map of meetings in order to
+     * allow filtering on the class type
+     * @param map the provided map of Meetings
+     * @param predicate the meeting filter predicate
+     * @param comparator the comparator to use for sorting
+     * @return
+     */
     private List<PastMeeting> getPastMeetingsFromMapAsList(Map<Integer, Meeting> map, Predicate<PastMeeting> predicate, Comparator<PastMeeting> comparator) {
         return map.entrySet().stream()
                 .filter(e -> PastMeetingImpl.class.equals(e.getValue().getClass()))
@@ -220,12 +307,19 @@ public class ContactManagerImpl implements ContactManager{
                 .collect(Collectors.toList());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void flush() {
         ContactManagerDump dump = new ContactManagerDump();
         storeDataInDump(dump);
     }
 
+    /**
+     * Store the persistent values required in the dup pojo
+     * @param dump the instance of the dump pojo to write to
+     */
     private void storeDataInDump(ContactManagerDump dump) {
         dump.setLastContactId(this.lastContactId);
         dump.setLastMeetingId(this.lastMeetingId);
@@ -234,6 +328,10 @@ public class ContactManagerImpl implements ContactManager{
         writeDumpToFile(dump);
     }
 
+    /**
+     * write the state of the object out to disc
+     * @param dump the instance of the dump pojo to serialize
+     */
     private void writeDumpToFile(ContactManagerDump dump) {
         createFileIfNotExists();
         handleExistingFilePermissions();
@@ -248,12 +346,18 @@ public class ContactManagerImpl implements ContactManager{
         }
     }
 
+    /**
+     * if no file exists at the instance variable path, create it
+     */
     private void createFileIfNotExists(){
         if(!file.exists()){
             createFile();
         }
     }
 
+    /**
+     * create the file at the instance variable path
+     */
     private void createFile(){
         try{
             Boolean result = file.createNewFile();
@@ -266,6 +370,9 @@ public class ContactManagerImpl implements ContactManager{
         }
     }
 
+    /**
+     * ensure read and write permissions are set for the instance file
+     */
     private void handleExistingFilePermissions(){
         if(!file.canRead())
             file.setReadable(true);
@@ -274,6 +381,9 @@ public class ContactManagerImpl implements ContactManager{
             file.setWritable(true);
     }
 
+    /**
+     * attempt to read stored data in from the file
+     */
     private void readDumpFromFile() {
         if(!file.exists()){
             System.out.println("Failed to read file, does not exist.");
@@ -294,6 +404,10 @@ public class ContactManagerImpl implements ContactManager{
         }
     }
 
+    /**
+     * restore data from the restored dump file to the instance variables
+     * @param restored the restored dump instance
+     */
     private void restoreValuesFromDump(ContactManagerDump restored) {
         this.lastContactId = restored.getLastContactId();
         this.lastMeetingId = restored.getLastMeetingId();
@@ -314,7 +428,7 @@ class ContactManagerDump implements Serializable
     /**
      * serialVersionUID holds the version for the dump. Increment when changes to the data model occur.
      */
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = Long.MIN_VALUE;
 
     private int lastContactId;
     private Map<Integer, Contact> contacts;

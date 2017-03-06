@@ -1,6 +1,5 @@
 import org.junit.Before;
 import org.junit.Test;
-import tests.DateFns;
 
 import java.util.Calendar;
 import java.util.HashSet;

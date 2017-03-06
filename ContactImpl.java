@@ -34,8 +34,6 @@ public class ContactImpl implements Contact, Serializable{
         setNotes(notes);
     }
 
-
-
     private void setId(int id){
         this.id = id;
     }
@@ -44,6 +42,9 @@ public class ContactImpl implements Contact, Serializable{
         this.name = name;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getId() {
         return this.id;
@@ -65,6 +66,9 @@ public class ContactImpl implements Contact, Serializable{
     /*since there is no ability to delete notes, I have made the assumption that
     addNotes replaces the existing notes rather than appends to it. Appending is
     still supported externally by utilising getNotes, appending and then addNotes. */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void addNotes(String note) {
         Validation.validateObjectNotNull(note, "notes");
