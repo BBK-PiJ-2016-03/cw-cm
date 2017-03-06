@@ -57,17 +57,25 @@ public abstract class MeetingImpl implements Meeting, Serializable{
         this.contacts = contacts;
     }
 
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getId() {
         return this.id;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Calendar getDate() {
         return this.date;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Set<Contact> getContacts() {
         return this.contacts;

@@ -21,6 +21,9 @@ public class PastMeetingImpl extends MeetingImpl implements PastMeeting, Seriali
         setNotes(notes);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getNotes() {
         return this.notes;
