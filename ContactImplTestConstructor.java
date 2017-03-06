@@ -4,27 +4,30 @@ import org.junit.Test;
  */
 public class ContactImplTestConstructor{
 
+    private final int LARGE_NEGATIVE_ID = -10000;
+    private final String EMPTY = "";
+
     @Test(expected=IllegalArgumentException.class)
-    public void constructor3IDZero(){ new ContactImpl(0, "", ""); }
+    public void constructor3IDZero(){ new ContactImpl(0, EMPTY, EMPTY); }
 
     @Test(expected=IllegalArgumentException.class)
     public void constructor2IDZero(){
-        new ContactImpl(0, "");
+        new ContactImpl(0, EMPTY);
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void constructor3IDNegative(){
-        new ContactImpl(-10000, "", "");
+        new ContactImpl(LARGE_NEGATIVE_ID, EMPTY, EMPTY);
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void constructor2IDNegative(){
-        new ContactImpl(-10000, "");
+        new ContactImpl(LARGE_NEGATIVE_ID, EMPTY);
     }
 
     @Test(expected=NullPointerException.class)
     public void constructor3NameNull(){
-        new ContactImpl(1, null, "");
+        new ContactImpl(1, null, EMPTY);
     }
 
     @Test(expected=NullPointerException.class)
@@ -34,6 +37,6 @@ public class ContactImplTestConstructor{
 
     @Test(expected=NullPointerException.class)
     public void constructor3NotesNull(){
-        new ContactImpl(1, "", null);
+        new ContactImpl(1, EMPTY, null);
     }
 }

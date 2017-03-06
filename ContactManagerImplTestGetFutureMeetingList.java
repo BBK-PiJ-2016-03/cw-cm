@@ -13,7 +13,7 @@ public class ContactManagerImplTestGetFutureMeetingList {
 
     private final ContactManagerImplTestData data;
     private final Contact nonExistContact;
-    private final static int DATE_OFFSET = 2;
+    private final int DATE_OFFSET = 2;
 
     {
         data = new ContactManagerImplTestData();

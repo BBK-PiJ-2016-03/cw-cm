@@ -16,11 +16,12 @@ public class ContactManagerImplTestData {
     private final int[] excludedSetIds;
     private final int selectedContactId;
     private final int excludedContactId;
+    private final int NUMBER_OF_CONTACTS = 50;
 
     {
         manager = new ContactManagerImpl();
-        ContactManagerImplTestsFns.createValidContacts(50, manager);
-        ContactManagerImplTestsFns.createInvalidContacts(50, manager);
+        ContactManagerImplTestsFns.createValidContacts(NUMBER_OF_CONTACTS, manager);
+        ContactManagerImplTestsFns.createInvalidContacts(NUMBER_OF_CONTACTS, manager);
         pastDate = DateFns.getPastDate();
         futureDate = DateFns.getFutureDate();
         slightlyPastDate = DateFns.getSlightlyPastDate();
