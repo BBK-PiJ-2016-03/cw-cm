@@ -28,10 +28,10 @@ public class ContactManagerImplTestAddNewContact {
 
     @Test
     public void testGetId(){
-        int returnedId = data.manager.addNewContact("Name1", "Notes1");
+        int returnedId = data.getManager().addNewContact("Name1", "Notes1");
         assertTrue(returnedId > 0);
 
-        int returnedId2 = data.manager.addNewContact("Name2", "Notes2");
+        int returnedId2 = data.getManager().addNewContact("Name2", "Notes2");
         assertTrue(returnedId2 > 0 && returnedId2 != returnedId);
     }
 
@@ -39,30 +39,30 @@ public class ContactManagerImplTestAddNewContact {
     public void testContactAdded(){
         String name = "Barry White";
         String notes = "These are the notes";
-        int id = data.manager.addNewContact(name, notes);
+        int id = data.getManager().addNewContact(name, notes);
         int[] ids = new int[1];
         ids[0] = id;
-        Set<Contact> contacts = data.manager.getContacts(ids);
+        Set<Contact> contacts = data.getManager().getContacts(ids);
         assertTrue(contacts.stream()
                 .anyMatch(c -> c.getName() == name));
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void testNameEmpty(){ data.manager.addNewContact("", "Notes"); }
+    public void testNameEmpty(){ data.getManager().addNewContact("", "Notes"); }
 
     @Test(expected=IllegalArgumentException.class)
     public void testNotesEmpty(){
-        data.manager.addNewContact("Name", "");
+        data.getManager().addNewContact("Name", "");
     }
 
     @Test(expected=NullPointerException.class)
     public void testNameNull(){
-        data.manager.addNewContact(null, "Notes");
+        data.getManager().addNewContact(null, "Notes");
     }
 
     @Test(expected=NullPointerException.class)
     public void testNotesNull(){
-        data.manager.addNewContact("Name", null);
+        data.getManager().addNewContact("Name", null);
     }
 
 }

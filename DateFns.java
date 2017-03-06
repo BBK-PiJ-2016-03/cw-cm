@@ -5,6 +5,9 @@ import java.util.Calendar;
  */
 public class DateFns {
 
+    private DateFns() {
+    }
+
     private static final Calendar CALENDAR = Calendar.getInstance();
     private static final int YEAR = CALENDAR.get(Calendar.YEAR);
     private static final int MONTH = CALENDAR.get(Calendar.MONTH);

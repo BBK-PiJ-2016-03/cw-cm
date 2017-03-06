@@ -17,17 +17,17 @@ public class ContactManagerImplTestGetMeeting {
     @Test
     public void testGetMeetingExisting(){
         String note = "note";
-        int id = data.manager.addNewPastMeeting(data.getPopulatedSet(), data.pastDate, note);
+        int id = data.getManager().addNewPastMeeting(data.getPopulatedSet(), data.getPastDate(), note);
 
-        PastMeeting meeting = (PastMeeting)data.manager.getMeeting(id);
+        PastMeeting meeting = (PastMeeting)data.getManager().getMeeting(id);
         assertTrue(meeting.getContacts().equals(data.getPopulatedSet()));
-        assertTrue(meeting.getDate().equals(data.pastDate));
+        assertTrue(meeting.getDate().equals(data.getPastDate()));
         assertTrue(meeting.getNotes().equals(note));
     }
 
     @Test
     public void testGetMeetingNonExisting(){
-        PastMeeting meeting = (PastMeeting)data.manager.getMeeting(Integer.MAX_VALUE);
+        PastMeeting meeting = (PastMeeting)data.getManager().getMeeting(Integer.MAX_VALUE);
         assertNull(meeting);
     }
 }

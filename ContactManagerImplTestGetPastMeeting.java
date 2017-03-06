@@ -16,25 +16,25 @@ public class ContactManagerImplTestGetPastMeeting {
 
     @Test
     public void testGetNonExistMeeting(){
-        Meeting meeting = data.manager.getPastMeeting(Integer.MAX_VALUE);
+        Meeting meeting = data.getManager().getPastMeeting(Integer.MAX_VALUE);
         assertNull(meeting);
     }
 
     @Test
     public void testGetMeetingPast(){
-        int id = data.manager.addNewPastMeeting(data.getPopulatedSet(), data.pastDate, "");
-        PastMeeting meeting = data.manager.getPastMeeting(id);
+        int id = data.getManager().addNewPastMeeting(data.getPopulatedSet(), data.getPastDate(), "");
+        PastMeeting meeting = data.getManager().getPastMeeting(id);
         assertEquals(id, meeting.getId());
-        assertEquals(data.pastDate, meeting.getDate());
+        assertEquals(data.getPastDate(), meeting.getDate());
         assertEquals(data.getPopulatedSet(), meeting.getContacts());
     }
 
     @Test
     public void testGetMeetingSlightlyPast(){
-        int id = data.manager.addNewPastMeeting(data.getPopulatedSet(), data.slightlyPastDate, "");
-        PastMeeting meeting = data.manager.getPastMeeting(id);
+        int id = data.getManager().addNewPastMeeting(data.getPopulatedSet(), data.getSlightlyPastDate(), "");
+        PastMeeting meeting = data.getManager().getPastMeeting(id);
         assertEquals(id, meeting.getId());
-        assertEquals(data.slightlyPastDate, meeting.getDate());
+        assertEquals(data.getSlightlyPastDate(), meeting.getDate());
         assertEquals(data.getPopulatedSet(), meeting.getContacts());
     }
 
@@ -42,15 +42,15 @@ public class ContactManagerImplTestGetPastMeeting {
     // notes added to them did not actually take place?
     @Test
     public void testGetMeetingNotHappened(){
-        int id = data.manager.addFutureMeeting(data.getPopulatedSet(), data.slightlyFutureDate);
+        int id = data.getManager().addFutureMeeting(data.getPopulatedSet(), data.getSlightlyFutureDate());
         ContactManagerImplTestsFns.wait2Secs();
-        Meeting meeting = data.manager.getPastMeeting(id);
+        Meeting meeting = data.getManager().getPastMeeting(id);
         assertNull(meeting);
     }
 
     @Test(expected=IllegalStateException.class)
     public void testGetMeetingFuture(){
-        int id = data.manager.addFutureMeeting(data.getPopulatedSet(), data.futureDate);
-        data.manager.getPastMeeting(id);
+        int id = data.getManager().addFutureMeeting(data.getPopulatedSet(), data.getFutureDate());
+        data.getManager().getPastMeeting(id);
     }
 }

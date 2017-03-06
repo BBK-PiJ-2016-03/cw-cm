@@ -13,42 +13,42 @@ public class ContactManagerImplTestGetContactsName {
 
     {
         data = new ContactManagerImplTestData();
-        data.manager = new ContactManagerImpl();
-        data.manager.addNewContact("GetContactsName1", "Notes");
-        data.manager.addNewContact("GetContactsName2", "Notes");
-        data.manager.addNewContact("GetContactsName2", "Notes");
+        data.setManager(new ContactManagerImpl());
+        data.getManager().addNewContact("GetContactsName1", "Notes");
+        data.getManager().addNewContact("GetContactsName2", "Notes");
+        data.getManager().addNewContact("GetContactsName2", "Notes");
     }
 
     @Test
     public void testGetExistingContact(){
-        Set<Contact> contacts = data.manager.getContacts("GetContactsName1");
+        Set<Contact> contacts = data.getManager().getContacts("GetContactsName1");
         assertEquals(1, contacts.size());
     }
 
     @Test
     public void testGetExistingContacts(){
-        Set<Contact> contacts = data.manager.getContacts("GetContactsName2");
+        Set<Contact> contacts = data.getManager().getContacts("GetContactsName2");
         assertEquals(2, contacts.size());
     }
 
     @Test
     public void testGetExistingContactEmpty(){
-        int beforeSize = data.manager.getContacts("").size();
-        data.manager.addNewContact("Name X", "Notes X");
-        data.manager.addNewContact("Name Y", "Notes Y");
+        int beforeSize = data.getManager().getContacts("").size();
+        data.getManager().addNewContact("Name X", "Notes X");
+        data.getManager().addNewContact("Name Y", "Notes Y");
 
-        int afterSize = data.manager.getContacts("").size();
+        int afterSize = data.getManager().getContacts("").size();
         assertEquals(beforeSize+2, afterSize);
     }
 
     @Test
     public void testGetExistingContactUnknown(){
-        int contactsSize = data.manager.getContacts("GetContactsName-Name5").size();
+        int contactsSize = data.getManager().getContacts("GetContactsName-Name5").size();
         assertTrue(contactsSize == 0);
     }
 
     @Test(expected=NullPointerException.class)
     public void testGetContactNullName(){
-        data.manager.getContacts((String)null);
+        data.getManager().getContacts((String)null);
     }
 }

@@ -17,9 +17,9 @@ public class ContactManagerImplTestGetContactsIds {
 
     @Test
     public void testGetExistingContact(){
-        data.manager = new ContactManagerImpl();
-        int contactId = data.manager.addNewContact("New", "Notes");
-        Set<Contact> contacts = data.manager.getContacts(contactId);
+        data.setManager(new ContactManagerImpl());
+        int contactId = data.getManager().addNewContact("New", "Notes");
+        Set<Contact> contacts = data.getManager().getContacts(contactId);
         assertTrue(verifyContactIdsReturned(contacts, contactId));
     }
 
@@ -32,22 +32,22 @@ public class ContactManagerImplTestGetContactsIds {
 
     @Test
     public void testGetExistingContacts(){
-        int[] contactIds = ContactManagerImplTestsFns.generateValidContactIds(100, data.manager);
-        Set<Contact> contacts = data.manager.getContacts(contactIds);
+        int[] contactIds = ContactManagerImplTestsFns.generateValidContactIds(100, data.getManager());
+        Set<Contact> contacts = data.getManager().getContacts(contactIds);
         assertTrue(verifyContactIdsReturned(contacts, contactIds));
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void testGetEmptySet(){
-        data.manager = new ContactManagerImpl();
+        data.setManager(new ContactManagerImpl());
         int[] contactIds = new int[0];
-        data.manager.getContacts(contactIds);
+        data.getManager().getContacts(contactIds);
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void testGetUnknownContact(){
-        data.manager = new ContactManagerImpl();
+        data.setManager(new ContactManagerImpl());
         int[] contactIds = {1,9876543,2324253,323537};
-        data.manager.getContacts(contactIds);
+        data.getManager().getContacts(contactIds);
     }
 }

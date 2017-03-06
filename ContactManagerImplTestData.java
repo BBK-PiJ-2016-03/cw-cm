@@ -7,15 +7,15 @@ import java.util.Set;
  */
 public class ContactManagerImplTestData {
 
-    public ContactManager manager;
-    public final Calendar pastDate;
-    public final Calendar slightlyPastDate;
-    public final Calendar futureDate;
-    public final Calendar slightlyFutureDate;
-    public final Set<Contact> emptySet;
-    public final int[] excludedSetIds;
-    public final int selectedContactId;
-    public final int excludedContactId;
+    private ContactManager manager;
+    private final Calendar pastDate;
+    private final Calendar slightlyPastDate;
+    private final Calendar futureDate;
+    private final Calendar slightlyFutureDate;
+    private final Set<Contact> emptySet;
+    private final int[] excludedSetIds;
+    private final int selectedContactId;
+    private final int excludedContactId;
 
     {
         manager = new ContactManagerImpl();
@@ -37,4 +37,44 @@ public class ContactManagerImplTestData {
     public Set<Contact> getExcludedSet(){ return manager.getContacts(excludedSetIds); }
     public Set<Contact> getPopulatedSetWithInvalidContact(){ return ContactManagerImplTestsFns.generateInvalidContacts(); }
     public Set<Contact> getPopulatedSetWithNullContact(){ return ContactManagerImplTestsFns.generateNullContacts(); }
+
+    public ContactManager getManager() {
+        return manager;
+    }
+
+    public Calendar getPastDate() {
+        return pastDate;
+    }
+
+    public Calendar getSlightlyPastDate() {
+        return slightlyPastDate;
+    }
+
+    public Calendar getFutureDate() {
+        return futureDate;
+    }
+
+    public Calendar getSlightlyFutureDate() {
+        return slightlyFutureDate;
+    }
+
+    public Set<Contact> getEmptySet() {
+        return emptySet;
+    }
+
+    public int[] getExcludedSetIds() {
+        return excludedSetIds;
+    }
+
+    public int getSelectedContactId() {
+        return selectedContactId;
+    }
+
+    public int getExcludedContactId() {
+        return excludedContactId;
+    }
+
+    public void setManager(ContactManagerImpl manager) {
+        this.manager = manager;
+    }
 }

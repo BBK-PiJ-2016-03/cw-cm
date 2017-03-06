@@ -18,16 +18,16 @@ public class ContactManagerImplTestAddMeetingNotes {
 
     @Before
     public void before(){
-        futureToPastMeetingId = data.manager.addFutureMeeting(data.getPopulatedSet(), data.slightlyFutureDate);
+        futureToPastMeetingId = data.getManager().addFutureMeeting(data.getPopulatedSet(), data.getSlightlyFutureDate());
     }
 
     @Test
     public void testAddNotesToExistingPastMeeting(){
-        int id = data.manager.addNewPastMeeting(data.getPopulatedSet(), data.pastDate, "");
-        PastMeeting meeting = (PastMeeting)data.manager.getMeeting(id);
+        int id = data.getManager().addNewPastMeeting(data.getPopulatedSet(), data.getPastDate(), "");
+        PastMeeting meeting = (PastMeeting)data.getManager().getMeeting(id);
         assertEquals("", meeting.getNotes());
 
-        meeting = data.manager.addMeetingNotes(id, this.notes);
+        meeting = data.getManager().addMeetingNotes(id, this.notes);
 
         assertEquals(id, meeting.getId());
         assertEquals(notes, meeting.getNotes());
@@ -36,25 +36,25 @@ public class ContactManagerImplTestAddMeetingNotes {
     @Test
     public void testAddNotesToExistingFutureMeeting() {
         ContactManagerImplTestsFns.wait2Secs();
-        PastMeeting meeting = data.manager.addMeetingNotes(futureToPastMeetingId, this.notes);
+        PastMeeting meeting = data.getManager().addMeetingNotes(futureToPastMeetingId, this.notes);
         assertEquals(futureToPastMeetingId, meeting.getId());
         assertEquals(notes, meeting.getNotes());
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void testAddNotesNoExistMeeting(){
-        data.manager.addMeetingNotes(Integer.MAX_VALUE, this.notes);
+        data.getManager().addMeetingNotes(Integer.MAX_VALUE, this.notes);
     }
 
     @Test(expected=IllegalStateException.class)
     public void testAddNotesFutureMeeting(){
-        int id = data.manager.addFutureMeeting(data.getPopulatedSet(), data.futureDate);
-        data.manager.addMeetingNotes(id, this.notes);
+        int id = data.getManager().addFutureMeeting(data.getPopulatedSet(), data.getFutureDate());
+        data.getManager().addMeetingNotes(id, this.notes);
     }
 
     @Test(expected=NullPointerException.class)
     public void testAddNotesNull(){
-        int id = data.manager.addNewPastMeeting(data.getPopulatedSet(), data.pastDate, "");
-        data.manager.addMeetingNotes(id, null);
+        int id = data.getManager().addNewPastMeeting(data.getPopulatedSet(), data.getPastDate(), "");
+        data.getManager().addMeetingNotes(id, null);
     }
 }

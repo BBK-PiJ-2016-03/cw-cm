@@ -20,40 +20,40 @@ public class ContactManagerImplTestAddFutureMeeting {
 
     @Test
     public void testIdReturned(){
-        int id = data.manager.addFutureMeeting(data.getPopulatedSet(), data.futureDate);
+        int id = data.getManager().addFutureMeeting(data.getPopulatedSet(), data.getFutureDate());
         assertTrue(id > 0);
 
-        int id2 = data.manager.addFutureMeeting(data.getPopulatedSet(), data.futureDate);
+        int id2 = data.getManager().addFutureMeeting(data.getPopulatedSet(), data.getFutureDate());
         assertTrue(id2 > 0 && id != id2);
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void testContactNull(){
-        data.manager.addFutureMeeting(data.getPopulatedSetWithNullContact(), data.futureDate);
+        data.getManager().addFutureMeeting(data.getPopulatedSetWithNullContact(), data.getFutureDate());
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void testContactUnknown(){
-        data.manager.addFutureMeeting(data.getPopulatedSetWithNullContact(), data.futureDate);
+        data.getManager().addFutureMeeting(data.getPopulatedSetWithNullContact(), data.getFutureDate());
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void testDateInPast(){
-        data.manager.addFutureMeeting(data.getPopulatedSetWithNullContact(), data.pastDate);
+        data.getManager().addFutureMeeting(data.getPopulatedSetWithNullContact(), data.getPastDate());
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void testDateCurrent(){
-        data.manager.addFutureMeeting(data.getPopulatedSetWithNullContact(), Calendar.getInstance());
+        data.getManager().addFutureMeeting(data.getPopulatedSetWithNullContact(), Calendar.getInstance());
     }
 
     @Test(expected=NullPointerException.class)
     public void testContactsNull(){
-        data.manager.addFutureMeeting(null, data.futureDate);
+        data.getManager().addFutureMeeting(null, data.getFutureDate());
     }
 
     @Test(expected=NullPointerException.class)
     public void testDateNull(){
-        data.manager.addFutureMeeting(data.getPopulatedSet(), null);
+        data.getManager().addFutureMeeting(data.getPopulatedSet(), null);
     }
 }

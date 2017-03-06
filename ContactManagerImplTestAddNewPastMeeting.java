@@ -10,6 +10,7 @@ import static org.junit.Assert.assertTrue;
 public class ContactManagerImplTestAddNewPastMeeting {
 
     private final ContactManagerImplTestData data;
+    private static final String EMPTY = "";
 
     {
         data = new ContactManagerImplTestData();
@@ -18,46 +19,46 @@ public class ContactManagerImplTestAddNewPastMeeting {
     @Test
     public void testIdReturned(){
         String note = "These are the Notes";
-        int id = data.manager.addNewPastMeeting(data.getPopulatedSet(), data.pastDate, note);
+        int id = data.getManager().addNewPastMeeting(data.getPopulatedSet(), data.getPastDate(), note);
         assertTrue(id > 0);
 
-        int id2 = data.manager.addNewPastMeeting(data.getPopulatedSet(), data.pastDate, "");
+        int id2 = data.getManager().addNewPastMeeting(data.getPopulatedSet(), data.getPastDate(), EMPTY);
         assertTrue(id2 > 0 && id != id2);
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void testContactNull(){
-        data.manager.addNewPastMeeting(data.getPopulatedSetWithNullContact(), data.pastDate, "");
+        data.getManager().addNewPastMeeting(data.getPopulatedSetWithNullContact(), data.getPastDate(), EMPTY);
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void testContactUnknown(){
-        data.manager.addNewPastMeeting(data.getPopulatedSetWithInvalidContact(), data.pastDate, "");
+        data.getManager().addNewPastMeeting(data.getPopulatedSetWithInvalidContact(), data.getPastDate(), EMPTY);
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void testDateInFuture(){
-        data.manager.addNewPastMeeting(data.getPopulatedSet(), data.futureDate, "");
+        data.getManager().addNewPastMeeting(data.getPopulatedSet(), data.getFutureDate(), EMPTY);
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void testDateCurrent(){
-        data.manager.addNewPastMeeting(data.getPopulatedSet(), Calendar.getInstance(), "");
+        data.getManager().addNewPastMeeting(data.getPopulatedSet(), Calendar.getInstance(), EMPTY);
     }
 
     @Test(expected=NullPointerException.class)
     public void testContactsNull(){
-        data.manager.addNewPastMeeting(null, data.pastDate, "");
+        data.getManager().addNewPastMeeting(null, data.getPastDate(), EMPTY);
     }
 
     @Test(expected=NullPointerException.class)
     public void testDateNull(){
-        data.manager.addNewPastMeeting(data.getPopulatedSet(), null, "");
+        data.getManager().addNewPastMeeting(data.getPopulatedSet(), null, EMPTY);
     }
 
     @Test(expected=NullPointerException.class)
     public void testTextNull(){
-        data.manager.addNewPastMeeting(data.getPopulatedSet(), data.pastDate, null);
+        data.getManager().addNewPastMeeting(data.getPopulatedSet(), data.getPastDate(), null);
     }
 
 }
