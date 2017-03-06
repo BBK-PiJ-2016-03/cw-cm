@@ -386,8 +386,7 @@ public class ContactManagerImpl implements ContactManager{
      */
     private void readDumpFromFile() {
         if(!file.exists()){
-            System.out.println("Failed to read file, does not exist.");
-            createFile();
+            System.out.println("Restore file does not exist.");
             return;
         }
 
@@ -400,7 +399,7 @@ public class ContactManagerImpl implements ContactManager{
             restoreValuesFromDump(restoredData);
         }
         catch(IOException | ClassNotFoundException e){
-            e.printStackTrace();
+            System.out.println("Unable to restore from file. Skipping restore.");
         }
     }
 
