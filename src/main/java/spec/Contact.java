@@ -2,9 +2,9 @@ package spec;
 
 /**
  * A contact is a person we are making business with or may do in the future.
- *
- * Contacts have an ID (unique, a non-zero positive integer), 
- * a name (not necessarily unique), and notes that the user 
+ * <p>
+ * Contacts have an ID (unique, a non-zero positive integer),
+ * a name (not necessarily unique), and notes that the user
  * may want to save about them.
  */
 public interface Contact {
@@ -24,7 +24,7 @@ public interface Contact {
 
     /**
      * Returns our notes about the contact, if any.
-     *
+     * <p>
      * If we have not written anything about the contact, the empty
      * string is returned.
      *

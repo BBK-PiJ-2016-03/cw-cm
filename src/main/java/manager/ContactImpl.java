@@ -1,49 +1,57 @@
 package manager;
 
 import spec.Contact;
-
 import java.io.Serializable;
 
 /**
  * Created by Alexander Worton on 27/12/2016.
  */
-public class ContactImpl implements Contact, Serializable{
+public class ContactImpl implements Contact, Serializable {
 
     private int id;
     private String name;
     private String notes;
 
     /**
-     * Overload constructor to apply a default value for notes
-     * @param id the id of the contact
-     * @param name the name of the contact
+     * Overload constructor to apply a default value for notes.
+     * @param suppliedId the id of the contact
+     * @param contactName the name of the contact
      */
-    public ContactImpl(int id, String name){
-        this(id, name, "");
+    public ContactImpl(final int suppliedId, final String contactName) {
+        this(suppliedId, contactName, "");
     }
 
     /**
-     * Constructor to apply id, name and notes
-     * @param id the id of the contact
-     * @param name the name of the contact
-     * @param notes attached notes for the contact
+     * Constructor to apply id, name and notes.
+     * @param suppliedId the id of the contact
+     * @param contactName the name of the contact
+     * @param attachedNotes attached notes for the contact
      */
-    public ContactImpl(int id, String name, String notes){
-        Validation.validateIdPositive(id);
-        Validation.validateObjectNotNull(name, "name");
-        Validation.validateObjectNotNull(notes, "notes");
+    public ContactImpl(final int suppliedId, final String contactName,
+                       final String attachedNotes) {
+        Validation.validateIdPositive(suppliedId);
+        Validation.validateObjectNotNull(contactName, "name");
+        Validation.validateObjectNotNull(attachedNotes, "notes");
 
-        setId(id);
-        setName(name);
-        setNotes(notes);
+        setId(suppliedId);
+        setName(contactName);
+        setNotes(attachedNotes);
     }
 
-    private void setId(int id){
-        this.id = id;
+    /**
+     * Setter for id.
+     * @param suppliedId the supplied Id
+     */
+    private void setId(final int suppliedId) {
+        this.id = suppliedId;
     }
 
-    private void setName(String name){
-        this.name = name;
+    /**
+     * Setter for name.
+     * @param suppliedName new name
+     */
+    private void setName(final String suppliedName) {
+        this.name = suppliedName;
     }
 
     /**
@@ -54,29 +62,41 @@ public class ContactImpl implements Contact, Serializable{
         return this.id;
     }
 
-    public String getName(){
+    /**
+     * Getter for name.
+     * @return name
+     */
+    public String getName() {
         return this.name;
     }
 
-    private void setNotes(String notes){
-        this.notes = notes;
+    /**
+     * Setter for notes.
+     * @param suppliedNotes the new notes
+     */
+    private void setNotes(final String suppliedNotes) {
+        this.notes = suppliedNotes;
     }
 
-    public String getNotes(){
+    /**
+     * Getter for Notes.
+     * @return notes
+     */
+    public String getNotes() {
         return this.notes;
     }
 
-
-    /*since there is no ability to delete notes, I have made the assumption that
-    addNotes replaces the existing notes rather than appends to it. Appending is
-    still supported externally by utilising getNotes, appending and then addNotes. */
     /**
      * {@inheritDoc}
+     * since there is no ability to delete notes, I have made the assumption
+     * that addNotes replaces the existing notes rather than appends to it.
+     * Appending is still supported externally by utilising getNotes, appending
+     * and then addNotes.
      */
     @Override
-    public void addNotes(String note) {
+    public void addNotes(final String note) {
         Validation.validateObjectNotNull(note, "notes");
-        this.notes = note;
+        setNotes(note);
     }
 
 }
