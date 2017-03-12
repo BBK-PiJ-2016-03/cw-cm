@@ -45,37 +45,37 @@ public class FutureMeetingImplTest {
   }
 
   @Before
-  public void before(){
+  public void before() {
     populatePopulatedSet();
   }
 
-  private void populatePopulatedSet(){
-      POPULATED_SET.add(new ContactImpl(ID_1, CONTACT_NAME));
+  private void populatePopulatedSet() {
+    POPULATED_SET.add(new ContactImpl(ID_1, CONTACT_NAME));
   }
 
   @Test(expected=IllegalArgumentException.class)
-  public void constructorIDZero(){
+  public void constructorIDZero() {
     new FutureMeetingImpl(ID_0, DATE, POPULATED_SET);
   }
 
   @Test(expected=IllegalArgumentException.class)
-  public void constructorIDNegative(){
+  public void constructorIDNegative() {
     int negativeValue = -1000;
     new FutureMeetingImpl(negativeValue, DATE, POPULATED_SET);
   }
 
   @Test(expected=IllegalArgumentException.class)
-  public void constructorSetEmpty(){
+  public void constructorSetEmpty() {
     new FutureMeetingImpl(ID_1, DATE, EMPTY_SET);
   }
 
   @Test(expected=NullPointerException.class)
-  public void constructorDateNull(){
+  public void constructorDateNull() {
     new FutureMeetingImpl(ID_1, NULL_DATE, POPULATED_SET);
   }
 
   @Test(expected=NullPointerException.class)
-  public void constructorSetNull(){
+  public void constructorSetNull() {
     new FutureMeetingImpl(ID_1, DATE, NULL_CONTACTS);
   }
 
@@ -112,25 +112,25 @@ public class FutureMeetingImplTest {
   }
 
   @Test
-  public void getDateTestPast(){
+  public void getDateTestPast() {
     FUTURE_MEETING = new FutureMeetingImpl(ID_1, PAST_DATE, POPULATED_SET);
     assertEquals(PAST_DATE, FUTURE_MEETING.getDate());
   }
 
   @Test
-  public void getDateTestFuture(){
+  public void getDateTestFuture() {
     FUTURE_MEETING = new FutureMeetingImpl(ID_1, FUTURE_DATE, POPULATED_SET);
     assertEquals(FUTURE_DATE, FUTURE_MEETING.getDate());
   }
 
   @Test
-  public void getIdTestMin(){
+  public void getIdTestMin() {
     FUTURE_MEETING = new FutureMeetingImpl(ID_1, DATE, POPULATED_SET);
     assertEquals(ID_1, FUTURE_MEETING.getId());
   }
 
   @Test
-  public void getIdTestMax(){
+  public void getIdTestMax() {
     int id = Integer.MAX_VALUE;
     FUTURE_MEETING = new FutureMeetingImpl(id, DATE, POPULATED_SET);
     assertEquals(id, FUTURE_MEETING.getId());
