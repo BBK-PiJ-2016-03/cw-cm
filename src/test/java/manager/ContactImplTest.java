@@ -29,7 +29,7 @@ public class ContactImplTest {
   }
 
   @Test
-  public void addNotesTestNoExisting(){
+  public void addNotesTestNoExisting() {
     String note = "This is a note!";
     contact = new ContactImpl(ID_1, EMPTY_CONTACT_NAME);
     contact.addNotes(note);
@@ -37,7 +37,7 @@ public class ContactImplTest {
   }
 
   @Test
-  public void addNotesTestExisting(){
+  public void addNotesTestExisting() {
     String note = "This is a note!";
     contact = new ContactImpl(ID_1, EMPTY_CONTACT_NAME, EMPTY_NOTES);
     contact.addNotes(note);
@@ -45,7 +45,7 @@ public class ContactImplTest {
   }
 
   @Test
-  public void addNotesTestEmptyNoExisting(){
+  public void addNotesTestEmptyNoExisting() {
     String note = "";
     contact = new ContactImpl(ID_1, EMPTY_CONTACT_NAME);
     contact.addNotes(note);
@@ -53,7 +53,7 @@ public class ContactImplTest {
   }
 
   @Test
-  public void addNotesTestEmptyExisting(){
+  public void addNotesTestEmptyExisting() {
     String note = "";
     contact = new ContactImpl(ID_1, EMPTY_CONTACT_NAME, EMPTY_NOTES);
     contact.addNotes(note);
@@ -61,159 +61,159 @@ public class ContactImplTest {
   }
 
   @Test(expected = NullPointerException.class)
-  public void addNotesTestNullNoExisting(){
+  public void addNotesTestNullNoExisting() {
     contact = new ContactImpl(ID_1, EMPTY_CONTACT_NAME);
     contact.addNotes(NULL_NOTES);
     assertEquals(NULL_NOTES, contact.getNotes());
   }
 
   @Test(expected = NullPointerException.class)
-  public void addNotesTestNullExisting(){
+  public void addNotesTestNullExisting() {
     contact = new ContactImpl(ID_1, EMPTY_CONTACT_NAME, EMPTY_NOTES);
     contact.addNotes(NULL_NOTES);
     assertEquals(NULL_NOTES, contact.getNotes());
   }
 
   @Test(expected=IllegalArgumentException.class)
-  public void constructor3IDZero(){
+  public void constructor3IDZero() {
     new ContactImpl(ID_0, EMPTY_CONTACT_NAME, EMPTY_NOTES);
   }
 
   @Test(expected=IllegalArgumentException.class)
-  public void constructor2IDZero(){
+  public void constructor2IDZero() {
     new ContactImpl(ID_0, EMPTY_CONTACT_NAME);
   }
 
   @Test(expected=IllegalArgumentException.class)
-  public void constructor3IDNegative(){
+  public void constructor3IDNegative() {
     new ContactImpl(LARGE_NEGATIVE_ID, EMPTY_CONTACT_NAME, EMPTY_NOTES);
   }
 
   @Test(expected=IllegalArgumentException.class)
-  public void constructor2IDNegative(){
+  public void constructor2IDNegative() {
     new ContactImpl(LARGE_NEGATIVE_ID, EMPTY_CONTACT_NAME);
   }
 
   @Test(expected=NullPointerException.class)
-  public void constructor3NameNull(){
+  public void constructor3NameNull() {
     new ContactImpl(ID_1, NULL_CONTACT_NAME, EMPTY_NOTES);
   }
 
   @Test(expected=NullPointerException.class)
-  public void constructor2NameNull(){
+  public void constructor2NameNull() {
     new ContactImpl(ID_1, NULL_CONTACT_NAME);
   }
 
   @Test(expected=NullPointerException.class)
-  public void constructor3NotesNull(){
+  public void constructor3NotesNull() {
     new ContactImpl(ID_1, EMPTY_CONTACT_NAME, NULL_NOTES);
   }
 
   @Test
-  public void getIdTestMin(){
+  public void getIdTestMin() {
     contact = new ContactImpl(ID_1, EMPTY_CONTACT_NAME);
     assertEquals(ID_1, contact.getId());
   }
 
   @Test
-  public void getIdTestMax(){
+  public void getIdTestMax() {
     int id = Integer.MAX_VALUE;
     contact = new ContactImpl(id, EMPTY_CONTACT_NAME);
     assertEquals(id, contact.getId());
   }
 
   @Test
-  public void getNameTestSingle(){
+  public void getNameTestSingle() {
     String name = "Test";
     contact = new ContactImpl(ID_1, name);
     assertEquals(name, contact.getName());
   }
 
   @Test
-  public void getNameTestSpaced(){
+  public void getNameTestSpaced() {
     String name = "Test Test";
     contact = new ContactImpl(ID_1, name);
     assertEquals(name, contact.getName());
   }
 
   @Test
-  public void getNameTestSpacedMultiple(){
+  public void getNameTestSpacedMultiple() {
     String name = "Test Test Test Test Test";
     contact = new ContactImpl(ID_1, name);
     assertEquals(name, contact.getName());
   }
 
   @Test
-  public void getNameTestEmpty(){
+  public void getNameTestEmpty() {
     contact = new ContactImpl(ID_1, EMPTY_CONTACT_NAME);
     assertEquals(EMPTY_CONTACT_NAME, contact.getName());
   }
 
   @Test
-  public void getNameTestSpecialChars(){
+  public void getNameTestSpecialChars() {
     String name = "*&^%£\"'@";
     contact = new ContactImpl(ID_1, name);
     assertEquals(name, contact.getName());
   }
 
   @Test
-  public void getNameTestNewLine(){
+  public void getNameTestNewLine() {
     String name = "A\nB\nC";
     contact = new ContactImpl(ID_1, name);
     assertEquals(name, contact.getName());
   }
 
   @Test
-  public void getNameTestTab(){
+  public void getNameTestTab() {
     String name = "A\tB\tC";
     contact = new ContactImpl(ID_1, name);
     assertEquals(name, contact.getName());
   }
 
   @Test
-  public void getNotesTestSingle(){
+  public void getNotesTestSingle() {
     String notes = "getNotesTestSingleNotes";
     contact = new ContactImpl(ID_1, NAME, notes);
     assertEquals(notes, contact.getNotes());
   }
 
   @Test
-  public void getNotesTestSpaced(){
+  public void getNotesTestSpaced() {
     String notes = "Test Test";
     contact = new ContactImpl(ID_1, NAME, notes);
     assertEquals(notes, contact.getNotes());
   }
 
   @Test
-  public void getNotesTestSpacedMultiple(){
+  public void getNotesTestSpacedMultiple() {
     String notes = "Test Test Test Test Test";
     contact = new ContactImpl(ID_1, NAME, notes);
     assertEquals(notes, contact.getNotes());
   }
 
   @Test
-  public void getNotesTestEmpty(){
+  public void getNotesTestEmpty() {
     String notes = "";
     contact = new ContactImpl(ID_1, NAME, notes);
     assertEquals(notes, contact.getNotes());
   }
 
   @Test
-  public void getNotesTestSpecialChars(){
+  public void getNotesTestSpecialChars() {
     String notes = "*&^%£\"'@";
     contact = new ContactImpl(ID_1, NAME, notes);
     assertEquals(notes, contact.getNotes());
   }
 
   @Test
-  public void getNotesTestNewLine(){
+  public void getNotesTestNewLine() {
     String notes = "A\nB\nC";
     contact = new ContactImpl(ID_1, NAME, notes);
     assertEquals(notes, contact.getNotes());
   }
 
   @Test
-  public void getNotesTestTab(){
+  public void getNotesTestTab() {
     String notes = "A\tB\tC";
     contact = new ContactImpl(ID_1, NAME, notes);
     assertEquals(notes, contact.getNotes());
