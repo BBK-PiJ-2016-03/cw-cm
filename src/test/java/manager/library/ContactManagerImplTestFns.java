@@ -1,61 +1,100 @@
 package manager.library;
 
-import manager.ContactImpl;
-import spec.Contact;
-import spec.ContactManager;
-import spec.Meeting;
-import spec.PastMeeting;
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import manager.ContactImpl;
+
+import spec.Contact;
+import spec.ContactManager;
+import spec.Meeting;
+import spec.PastMeeting;
+
 /**
  * @author Alexander Worton.
  */
 public class ContactManagerImplTestFns {
 
+  private static final String BLANK_NOTES = " ";
+  private static final String INVALID_NAME = "Invalid Contact";
+  private static final String NOTES = "Some Notes";
+  private static final String NAME_PREFIX = "Name";
+
+  /**
+   * Create a set of null contacts.
+   * @return the set of null contacts
+   */
   public static Set<Contact> generateNullContacts() {
     Set<Contact> set = new HashSet<>();
     set.add(null);
     return set;
   }
 
-  public static int[] generateValidContactIds(int number, ContactManager manager){
+  /**
+   * Generate a set of valid contacts.
+   * @param number the number of valid contacts to generate
+   * @param manager  the contact mnager to use for the generation
+   * @return an array of the generated contact's ids
+   */
+  public static int[] generateValidContactIds(int number, ContactManager manager) {
+
     return IntStream.range(0,number)
-        .map(i -> manager.addNewContact("Name"+i, " "))
+        .map(iteration -> manager.addNewContact(NAME_PREFIX + iteration, BLANK_NOTES))
         .toArray();
   }
 
-  public static Set<Contact> generateInvalidContacts(){
+  /**
+   * Generate a set of invalid contacts.
+   * @return the set of invalid contacts
+   */
+  public static Set<Contact> generateInvalidContacts() {
     Set<Contact> set = new HashSet<>();
-    set.add(new ContactImpl(Integer.MAX_VALUE, "Invalid Contact", "No Notes"));
+    set.add(new ContactImpl(Integer.MAX_VALUE, INVALID_NAME, NOTES));
     return set;
   }
 
+  /**
+   * Create a set of valid contacts.
+   * @param number the number of contacts to create
+   * @param manager the manager to use in the creation
+   * @return an array holding the valid contact ids
+   */
   public static int[] createValidContacts(int number, ContactManager manager) {
     return IntStream.range(0,number)
-        .map(i -> manager.addNewContact("Name"+i, " "))
+        .map(iteration -> manager.addNewContact(NAME_PREFIX + iteration, BLANK_NOTES))
         .toArray();
   }
 
+  /**
+   * Create a set of invalid contacts.
+   * @return the an array of the ids of the invalid contacts
+   */
   public static int[] createInvalidContacts(int number, ContactManager manager) {
     return IntStream.range(0,number)
-        .map(i -> manager.addNewContact("Name"+i, " "))
+        .map(iteration -> manager.addNewContact(NAME_PREFIX + iteration, BLANK_NOTES))
         .toArray();
   }
 
+  /**
+   * implement a 2 second delay.
+   */
   public static void wait2Secs() {
     try {
       Thread.sleep(2_000);
-    }
-    catch(InterruptedException e){
+    } catch (InterruptedException e) {
       //wait less
     }
   }
 
+  /**
+   * Generate a set of ids which exclude the provided id.
+   * @param contacts the set of contacts
+   * @param excludedContactId the provided id
+   * @return an array of ids excluding the omitted one.
+   */
   public static int[] generateExcludedSetIds(Set<Contact> contacts, int excludedContactId) {
     return contacts.stream()
         .mapToInt(Contact::getId)
@@ -63,10 +102,15 @@ public class ContactManagerImplTestFns {
         .toArray();
   }
 
+  /**
+   * Test that the provided meetings are in chronological order.
+   * @param meetings the provided meetings
+   * @return true if they are sorted, false otherwise
+   */
   public static boolean testChronologicallySorted(List<Meeting> meetings) {
     boolean sorted = true;
-    for (int i = 1; i < meetings.size(); i++){
-      if(meetings.get(i-1).getDate().after(meetings.get(i).getDate())){
+    for (int index = 1; index < meetings.size(); index++) {
+      if (meetings.get(index - 1).getDate().after(meetings.get(index).getDate())) {
         sorted = false;
         break;
       }
@@ -74,10 +118,15 @@ public class ContactManagerImplTestFns {
     return sorted;
   }
 
+  /**
+   * Test that the provided past meetings are in chronological order.
+   * @param meetings the provided past meetings
+   * @return true if they are sorted, false otherwise
+   */
   public static boolean testChronologicallySortedPastMeetings(List<PastMeeting> meetings) {
     boolean sorted = true;
-    for (int i = 1; i < meetings.size(); i++) {
-      if (meetings.get(i-1).getDate().after(meetings.get(i).getDate())) {
+    for (int index = 1; index < meetings.size(); index++) {
+      if (meetings.get(index - 1).getDate().after(meetings.get(index).getDate())) {
         sorted = false;
         break;
       }
@@ -85,14 +134,24 @@ public class ContactManagerImplTestFns {
     return sorted;
   }
 
-  public static boolean testDuplicateMeetings(List<Meeting> meetings) {
-    return meetings.size() ==  meetings.stream()
+  /**
+   * Test for duplicate meetings.
+   * @param meetings the provided meetings
+   * @return true if there are no duplicate meetings, false otherwise
+   */
+  public static boolean testNoDuplicateMeetings(List<Meeting> meetings) {
+    return meetings.size() == meetings.stream()
         .map(Meeting::getId)
         .distinct()
         .collect(Collectors.toList()).size();
   }
 
-  public static boolean testDuplicatePastMeetings(List<PastMeeting> meetings) {
+  /**
+   * Test for duplicate past meetings.
+   * @param meetings the provided meetings
+   * @return true if there are no duplicate past meetings, false otherwise
+   */
+  public static boolean testNoDuplicatePastMeetings(List<PastMeeting> meetings) {
     return meetings.size() == meetings.stream()
         .map(Meeting::getId)
         .distinct()

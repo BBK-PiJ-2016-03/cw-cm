@@ -1,27 +1,27 @@
 package manager;
 
+import java.util.Calendar;
+import java.util.Set;
+
 import manager.library.ContactManagerImplTestFns;
+
 import spec.Contact;
 import spec.ContactManager;
-import java.util.Calendar;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * @author Alexander Worton.
  */
-public class ContactManagerImplTestData {
+class ContactManagerImplTestData {
 
   private ContactManager manager;
   private final Calendar pastDate;
   private final Calendar slightlyPastDate;
   private final Calendar futureDate;
   private final Calendar slightlyFutureDate;
-  private final Set<Contact> emptySet;
   private final int[] excludedSetIds;
-  private final int selectedContactId;
   private final int excludedContactId;
-  private final int NUMBER_OF_CONTACTS = 50;
+  private static final int NUMBER_OF_CONTACTS = 50;
+  private static final String EMPTY_NAME = "";
 
   {
     manager = new ContactManagerImpl();
@@ -31,33 +31,32 @@ public class ContactManagerImplTestData {
     futureDate = DateFns.getFutureDate();
     slightlyPastDate = DateFns.getSlightlyPastDate();
     slightlyFutureDate = DateFns.getSlightlyFutureDate();
-    emptySet = new HashSet<>();
-    selectedContactId = 5;
     excludedContactId = 3;
-    excludedSetIds = ContactManagerImplTestFns.generateExcludedSetIds(getPopulatedSet(), excludedContactId);
+    excludedSetIds = ContactManagerImplTestFns.generateExcludedSetIds(getPopulatedSet(),
+                                                                      getExcludedContactId());
   }
 
   public Contact getSelectedContact() {
-    return (Contact)manager.getContacts(selectedContactId).toArray()[0];
+    return (Contact)manager.getContacts(getExcludedSetIds()).toArray()[0];
   }
 
   public Contact getExcludedContact() {
-    return (Contact)manager.getContacts(excludedContactId).toArray()[0];
+    return (Contact)manager.getContacts(getExcludedContactId()).toArray()[0];
   }
 
   public Set<Contact> getPopulatedSet() {
-    return manager.getContacts("");
+    return manager.getContacts(EMPTY_NAME);
   }
 
-  public Set<Contact> getExcludedSet(){
-    return manager.getContacts(excludedSetIds);
+  public Set<Contact> getExcludedSet() {
+    return manager.getContacts(getExcludedSetIds());
   }
 
-  public Set<Contact> getPopulatedSetWithInvalidContact(){
+  public Set<Contact> getPopulatedSetWithInvalidContact() {
     return ContactManagerImplTestFns.generateInvalidContacts();
   }
 
-  public Set<Contact> getPopulatedSetWithNullContact(){
+  public Set<Contact> getPopulatedSetWithNullContact() {
     return ContactManagerImplTestFns.generateNullContacts();
   }
 
@@ -81,16 +80,8 @@ public class ContactManagerImplTestData {
     return slightlyFutureDate;
   }
 
-  public Set<Contact> getEmptySet() {
-    return emptySet;
-  }
-
   public int[] getExcludedSetIds() {
     return excludedSetIds;
-  }
-
-  public int getSelectedContactId() {
-    return selectedContactId;
   }
 
   public int getExcludedContactId() {

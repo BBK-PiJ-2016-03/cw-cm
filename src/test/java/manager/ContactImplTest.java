@@ -25,7 +25,8 @@ public class ContactImplTest {
 
   @Before
   public void before() {
-    futureToPastMeetingId = DATA.getManager().addFutureMeeting(DATA.getPopulatedSet(), DATA.getSlightlyFutureDate());
+    futureToPastMeetingId = DATA.getManager().addFutureMeeting(DATA.getPopulatedSet(),
+                                                               DATA.getSlightlyFutureDate());
   }
 
   @Test

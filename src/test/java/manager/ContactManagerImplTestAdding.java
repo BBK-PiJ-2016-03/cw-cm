@@ -25,13 +25,19 @@ public class ContactManagerImplTestAdding {
   private static final String EMPTY_NOTES = "";
   private static final String NOTES = "Notes";
   private static final String NAME = "Contact Name";
+  private static final String EMPTY_NAME = "";
+  private static final String NULL_NAME = null;
   private int futureToPastMeetingId;
   private ContactManagerImplTestData data;
 
+  /**
+   * Setup method for all tests.
+   */
   @Before
   public void before() {
     data = new ContactManagerImplTestData();
-    futureToPastMeetingId = data.getManager().addFutureMeeting(data.getPopulatedSet(), data.getSlightlyFutureDate());
+    futureToPastMeetingId = data.getManager().addFutureMeeting(data.getPopulatedSet(),
+                                                               data.getSlightlyFutureDate());
   }
 
   @Test
@@ -76,7 +82,9 @@ public class ContactManagerImplTestAdding {
 
   @Test
   public void testAddNotesToExistingPastMeeting() {
-    int id = data.getManager().addNewPastMeeting(data.getPopulatedSet(), data.getPastDate(), EMPTY_NOTES);
+    int id = data.getManager().addNewPastMeeting(data.getPopulatedSet(),
+                                                 data.getPastDate(),
+                                                 EMPTY_NOTES);
     PastMeeting meeting = (PastMeeting) data.getManager().getMeeting(id);
     assertEquals(EMPTY_NOTES, meeting.getNotes());
 
@@ -107,7 +115,9 @@ public class ContactManagerImplTestAdding {
 
   @Test(expected = NullPointerException.class)
   public void testAddNotesNull() {
-    int id = data.getManager().addNewPastMeeting(data.getPopulatedSet(), data.getPastDate(), EMPTY_NOTES);
+    int id = data.getManager().addNewPastMeeting(data.getPopulatedSet(),
+                                                 data.getPastDate(),
+                                                 EMPTY_NOTES);
     data.getManager().addMeetingNotes(id, NULL_NOTES);
   }
 
@@ -129,27 +139,27 @@ public class ContactManagerImplTestAdding {
     ids[0] = id;
     Set<Contact> contacts = data.getManager().getContacts(ids);
     assertTrue(contacts.stream()
-        .anyMatch(c -> c.getName() == name));
+        .anyMatch(c -> name.equals(c.getName())));
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void testAddContactNameEmpty() {
-    data.getManager().addNewContact("", "Notes");
+    data.getManager().addNewContact(EMPTY_NAME, NOTES);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void testAddContactNotesEmpty() {
-    data.getManager().addNewContact("Name", "");
+    data.getManager().addNewContact(NAME, EMPTY_NOTES);
   }
 
   @Test(expected = NullPointerException.class)
   public void testAddContactNameNull() {
-    data.getManager().addNewContact(null, "Notes");
+    data.getManager().addNewContact(NULL_NAME, NOTES);
   }
 
   @Test(expected = NullPointerException.class)
   public void testAddContactNotesNull() {
-    data.getManager().addNewContact("Name", null);
+    data.getManager().addNewContact(NAME, NULL_NOTES);
   }
 
   @Test
@@ -158,41 +168,51 @@ public class ContactManagerImplTestAdding {
     int id = data.getManager().addNewPastMeeting(data.getPopulatedSet(), data.getPastDate(), note);
     assertTrue(id > 0);
 
-    int id2 = data.getManager().addNewPastMeeting(data.getPopulatedSet(), data.getPastDate(), EMPTY_NOTES);
+    int id2 = data.getManager().addNewPastMeeting(data.getPopulatedSet(),
+                                                  data.getPastDate(),
+                                                  EMPTY_NOTES);
     assertTrue(id2 > 0 && id != id2);
   }
 
-  @Test(expected=IllegalArgumentException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void testAddPastMeetingContactNull() {
-    data.getManager().addNewPastMeeting(data.getPopulatedSetWithNullContact(), data.getPastDate(), EMPTY_NOTES);
+    data.getManager().addNewPastMeeting(data.getPopulatedSetWithNullContact(),
+                                        data.getPastDate(),
+                                        EMPTY_NOTES);
   }
 
-  @Test(expected=IllegalArgumentException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void testAddPastMeetingContactUnknown() {
-    data.getManager().addNewPastMeeting(data.getPopulatedSetWithInvalidContact(), data.getPastDate(), EMPTY_NOTES);
+    data.getManager().addNewPastMeeting(data.getPopulatedSetWithInvalidContact(),
+                                        data.getPastDate(),
+                                        EMPTY_NOTES);
   }
 
-  @Test(expected=IllegalArgumentException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void testAddPastMeetingDateInFuture() {
-    data.getManager().addNewPastMeeting(data.getPopulatedSet(), data.getFutureDate(), EMPTY_NOTES);
+    data.getManager().addNewPastMeeting(data.getPopulatedSet(),
+                                        data.getFutureDate(),
+                                        EMPTY_NOTES);
   }
 
-  @Test(expected=IllegalArgumentException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void testAddPastMeetingDateCurrent() {
-    data.getManager().addNewPastMeeting(data.getPopulatedSet(), Calendar.getInstance(), EMPTY_NOTES);
+    data.getManager().addNewPastMeeting(data.getPopulatedSet(),
+                                        Calendar.getInstance(),
+                                        EMPTY_NOTES);
   }
 
-  @Test(expected=NullPointerException.class)
+  @Test(expected = NullPointerException.class)
   public void testAddPastMeetingContactsNull() {
     data.getManager().addNewPastMeeting(null, data.getPastDate(), EMPTY_NOTES);
   }
 
-  @Test(expected=NullPointerException.class)
+  @Test(expected = NullPointerException.class)
   public void testAddPastMeetingDateNull() {
     data.getManager().addNewPastMeeting(data.getPopulatedSet(), null, EMPTY_NOTES);
   }
 
-  @Test(expected=NullPointerException.class)
+  @Test(expected = NullPointerException.class)
   public void testAddPastMeetingTextNull() {
     data.getManager().addNewPastMeeting(data.getPopulatedSet(), data.getPastDate(), NULL_NOTES);
   }
