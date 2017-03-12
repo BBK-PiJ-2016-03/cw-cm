@@ -1,63 +1,59 @@
 package manager;
 
-import org.junit.Test;
 import static org.junit.Assert.assertEquals;
+
+import org.junit.Before;
+import org.junit.Test;
+
 /**
  * @author Alexander Worton.
  */
 public class ContactImplTest {
 
   private ContactImpl contact;
-  private final int LARGE_NEGATIVE_ID;
-  private final String EMPTY_CONTACT_NAME;
-  private final String NULL_CONTACT_NAME;
-  private final String EMPTY_NOTES;
-  private final String NULL_NOTES;
-  private final int ID_0;
-  private final int ID_1;
-  private final String NAME;
+  private static final int LARGE_NEGATIVE_ID = -10000;
+  private static final String EMPTY_CONTACT_NAME = "";
+  private static final String NULL_CONTACT_NAME = null;
+  private static final String EMPTY_NOTE = "";
+  private static final String NULL_NOTES = null;
+  private static final int ID_0 = 0;
+  private static final int ID_1 = 1;
+  private static final String NAME = "Test";
+  private static final ContactManagerImplTestData DATA = new ContactManagerImplTestData();
+  private static final String NOTE = "This is a note!";
+  private int futureToPastMeetingId;
 
-  {
-    LARGE_NEGATIVE_ID = -10000;
-    EMPTY_CONTACT_NAME = "";
-    NULL_CONTACT_NAME = null;
-    EMPTY_NOTES = "";
-    NULL_NOTES = null;
-    ID_0 = 0;
-    ID_1 = 1;
-    NAME = "Test";
+  @Before
+  public void before() {
+    futureToPastMeetingId = DATA.getManager().addFutureMeeting(DATA.getPopulatedSet(), DATA.getSlightlyFutureDate());
   }
 
   @Test
   public void addNotesTestNoExisting() {
-    String note = "This is a note!";
     contact = new ContactImpl(ID_1, EMPTY_CONTACT_NAME);
-    contact.addNotes(note);
-    assertEquals(note, contact.getNotes());
+    contact.addNotes(NOTE);
+    assertEquals(NOTE, contact.getNotes());
   }
 
   @Test
   public void addNotesTestExisting() {
-    String note = "This is a note!";
-    contact = new ContactImpl(ID_1, EMPTY_CONTACT_NAME, EMPTY_NOTES);
-    contact.addNotes(note);
-    assertEquals(note, contact.getNotes());
+    contact = new ContactImpl(ID_1, EMPTY_CONTACT_NAME, EMPTY_NOTE);
+    contact.addNotes(NOTE);
+    assertEquals(NOTE, contact.getNotes());
   }
 
   @Test
   public void addNotesTestEmptyNoExisting() {
-    String note = "";
     contact = new ContactImpl(ID_1, EMPTY_CONTACT_NAME);
-    contact.addNotes(note);
-    assertEquals(note, contact.getNotes());
+    contact.addNotes(EMPTY_NOTE);
+    assertEquals(EMPTY_NOTE, contact.getNotes());
   }
 
   @Test
   public void addNotesTestEmptyExisting() {
-    String note = "";
-    contact = new ContactImpl(ID_1, EMPTY_CONTACT_NAME, EMPTY_NOTES);
-    contact.addNotes(note);
-    assertEquals(note, contact.getNotes());
+    contact = new ContactImpl(ID_1, EMPTY_CONTACT_NAME, EMPTY_NOTE);
+    contact.addNotes(EMPTY_NOTE);
+    assertEquals(EMPTY_NOTE, contact.getNotes());
   }
 
   @Test(expected = NullPointerException.class)
@@ -69,42 +65,42 @@ public class ContactImplTest {
 
   @Test(expected = NullPointerException.class)
   public void addNotesTestNullExisting() {
-    contact = new ContactImpl(ID_1, EMPTY_CONTACT_NAME, EMPTY_NOTES);
+    contact = new ContactImpl(ID_1, EMPTY_CONTACT_NAME, EMPTY_NOTE);
     contact.addNotes(NULL_NOTES);
     assertEquals(NULL_NOTES, contact.getNotes());
   }
 
-  @Test(expected=IllegalArgumentException.class)
-  public void constructor3IDZero() {
-    new ContactImpl(ID_0, EMPTY_CONTACT_NAME, EMPTY_NOTES);
+  @Test(expected = IllegalArgumentException.class)
+  public void constructor3IdZero() {
+    new ContactImpl(ID_0, EMPTY_CONTACT_NAME, EMPTY_NOTE);
   }
 
-  @Test(expected=IllegalArgumentException.class)
-  public void constructor2IDZero() {
+  @Test(expected = IllegalArgumentException.class)
+  public void constructor2IdZero() {
     new ContactImpl(ID_0, EMPTY_CONTACT_NAME);
   }
 
-  @Test(expected=IllegalArgumentException.class)
-  public void constructor3IDNegative() {
-    new ContactImpl(LARGE_NEGATIVE_ID, EMPTY_CONTACT_NAME, EMPTY_NOTES);
+  @Test(expected = IllegalArgumentException.class)
+  public void constructor3IdNegative() {
+    new ContactImpl(LARGE_NEGATIVE_ID, EMPTY_CONTACT_NAME, EMPTY_NOTE);
   }
 
-  @Test(expected=IllegalArgumentException.class)
-  public void constructor2IDNegative() {
+  @Test(expected = IllegalArgumentException.class)
+  public void constructor2IdNegative() {
     new ContactImpl(LARGE_NEGATIVE_ID, EMPTY_CONTACT_NAME);
   }
 
-  @Test(expected=NullPointerException.class)
+  @Test(expected = NullPointerException.class)
   public void constructor3NameNull() {
-    new ContactImpl(ID_1, NULL_CONTACT_NAME, EMPTY_NOTES);
+    new ContactImpl(ID_1, NULL_CONTACT_NAME, EMPTY_NOTE);
   }
 
-  @Test(expected=NullPointerException.class)
+  @Test(expected = NullPointerException.class)
   public void constructor2NameNull() {
     new ContactImpl(ID_1, NULL_CONTACT_NAME);
   }
 
-  @Test(expected=NullPointerException.class)
+  @Test(expected = NullPointerException.class)
   public void constructor3NotesNull() {
     new ContactImpl(ID_1, EMPTY_CONTACT_NAME, NULL_NOTES);
   }
@@ -124,9 +120,8 @@ public class ContactImplTest {
 
   @Test
   public void getNameTestSingle() {
-    String name = "Test";
-    contact = new ContactImpl(ID_1, name);
-    assertEquals(name, contact.getName());
+    contact = new ContactImpl(ID_1, NAME);
+    assertEquals(NAME, contact.getName());
   }
 
   @Test
@@ -193,9 +188,8 @@ public class ContactImplTest {
 
   @Test
   public void getNotesTestEmpty() {
-    String notes = "";
-    contact = new ContactImpl(ID_1, NAME, notes);
-    assertEquals(notes, contact.getNotes());
+    contact = new ContactImpl(ID_1, NAME, EMPTY_NOTE);
+    assertEquals(EMPTY_NOTE, contact.getNotes());
   }
 
   @Test
