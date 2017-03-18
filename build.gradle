@@ -15,6 +15,27 @@ dependencies {
     testCompile 'junit:junit:4.12'
 }
 
+pmd {
+    ruleSets = [
+            "java-basic",
+            "java-braces",
+            "java-android",
+            "java-clone",
+            "java-codesize",
+            "java-finalizers",
+            "java-imports",
+            "java-j2ee",
+            "java-javabeans",
+            "java-junit",
+            "java-logging-jakarta-commons",
+            "java-migrating",
+            "java-optimizations",
+            "java-strings",
+            "java-sunsecure",
+            "java-typeresolution"
+            ]
+}
+
 checkstyle {
     toolVersion = "7.6"
 }

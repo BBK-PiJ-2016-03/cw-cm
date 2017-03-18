@@ -32,12 +32,12 @@ import spec.PastMeeting;
 */
 public class ContactManagerImpl implements ContactManager {
 
-  private int lastContactId;
-  private Map<Integer, Contact> contacts;
-  private int lastMeetingId;
-  private Map<Integer, Meeting> meetings;
-  private final String fileName;
-  private final File file;
+  private transient int lastContactId;
+  private transient Map<Integer, Contact> contacts;
+  private transient int lastMeetingId;
+  private transient Map<Integer, Meeting> meetings;
+  private transient final String fileName;
+  private transient final File file;
 
   {
     lastContactId = 0;
@@ -76,7 +76,7 @@ public class ContactManagerImpl implements ContactManager {
     Validation.validateSetPopulated(suppliedContacts, "Contacts");
     Validation.validateObjectNotNull(suppliedDate, "Date");
     Validation.validateDateInFuture(suppliedDate);
-    //last as computationally intensive
+    //last as more computationally intensive
     Validation.validateAllContactsKnown(suppliedContacts, contacts);
   }
 
@@ -88,8 +88,8 @@ public class ContactManagerImpl implements ContactManager {
    */
   private int createNewFutureMeeting(final Set<Contact> suppliedContacts,
                                      final Calendar suppliedDate) {
-    int id = getNewMeetingId();
-    Meeting meeting = new FutureMeetingImpl(id, suppliedDate, suppliedContacts);
+    final int id = getNewMeetingId();
+    final Meeting meeting = new FutureMeetingImpl(id, suppliedDate, suppliedContacts);
     meetings.put(id, meeting);
     return id;
   }
@@ -99,7 +99,7 @@ public class ContactManagerImpl implements ContactManager {
    */
   @Override
   public PastMeeting getPastMeeting(final int id) {
-    Meeting meeting = meetings.get(id);
+    final Meeting meeting = meetings.get(id);
     if (meeting == null) {
       return null;
     }
@@ -118,7 +118,7 @@ public class ContactManagerImpl implements ContactManager {
    */
   @Override
   public FutureMeeting getFutureMeeting(final int id) {
-    Meeting meeting = this.meetings.get(id);
+    final Meeting meeting = this.meetings.get(id);
     if (meeting != null) {
       Validation.validateStateInFuture(meeting.getDate());
     }
@@ -130,7 +130,7 @@ public class ContactManagerImpl implements ContactManager {
    * {@inheritDoc}.
    */
   @Override
-  public Meeting getMeeting(int id) {
+  public Meeting getMeeting(final int id) {
     return meetings.get(id);
   }
 
@@ -138,14 +138,15 @@ public class ContactManagerImpl implements ContactManager {
    * {@inheritDoc}.
    */
   @Override
-  public List<Meeting> getFutureMeetingList(Contact contact) {
-    Validation.validateObjectNotNull(contact, "Contact");
-    //last as computationally intensive
+  public List<Meeting> getFutureMeetingList(final Contact contact) {
+    final String variableName = "Contact";
+    Validation.validateObjectNotNull(contact, variableName);
+    //last as more computationally intensive
     Validation.validateContactKnown(contact, this.contacts);
     return getSortedElementsFromMapAsList(this.meetings,
-        (k,v) ->
-                v.getContacts().contains(contact)
-                && v.getDate().after(Calendar.getInstance()),
+        (key,meeting) ->
+            meeting.getContacts().contains(contact)
+            && meeting.getDate().after(Calendar.getInstance()),
         Comparator.comparing(Meeting::getDate)
     );
   }
@@ -154,11 +155,11 @@ public class ContactManagerImpl implements ContactManager {
    * {@inheritDoc}.
    */
   @Override
-  public List<Meeting> getMeetingListOn(Calendar date) {
+  public List<Meeting> getMeetingListOn(final Calendar date) {
     Validation.validateObjectNotNull(date);
-    LocalDate dateOnly = getDateOnly(date);
+    final LocalDate dateOnly = getDateOnly(date);
     return getSortedElementsFromMapAsList(this.meetings,
-        (k,v) -> getDateOnly(v.getDate()).equals(dateOnly),
+        (key,meeting) -> getDateOnly(meeting.getDate()).equals(dateOnly),
         Comparator.comparing(Meeting::getDate));
   }
 
@@ -167,7 +168,7 @@ public class ContactManagerImpl implements ContactManager {
    * @param date the calendar object
    * @return a LocalDate holding the date component only
    */
-  private LocalDate getDateOnly(Calendar date) {
+  private LocalDate getDateOnly(final Calendar date) {
     return LocalDate.from(date.getTime()
         .toInstant()
         .atZone(ZoneId.systemDefault())
@@ -178,7 +179,7 @@ public class ContactManagerImpl implements ContactManager {
    * {@inheritDoc}.
    */
   @Override
-  public List<PastMeeting> getPastMeetingListFor(Contact contact) {
+  public List<PastMeeting> getPastMeetingListFor(final Contact contact) {
     Validation.validateObjectNotNull(contact);
     //last as computationally intensive
     Validation.validateContactKnown(contact, this.contacts);
@@ -192,7 +193,7 @@ public class ContactManagerImpl implements ContactManager {
    * {@inheritDoc}.
    */
   @Override
-  public int addNewPastMeeting(Set<Contact> contacts, Calendar date, String text) {
+  public int addNewPastMeeting(final Set<Contact> contacts, final Calendar date, final String text) {
     validateAddNewPastMeeting(contacts, date, text);
     return createNewPastMeeting(contacts, date, text);
   }
@@ -204,7 +205,7 @@ public class ContactManagerImpl implements ContactManager {
    * @param date the date the meeting took place
    * @param text the notes for the meeting
    */
-  private void validateAddNewPastMeeting(Set<Contact> contacts, Calendar date, String text) {
+  private void validateAddNewPastMeeting(final Set<Contact> contacts, final Calendar date, final String text) {
     Validation.validateObjectNotNull(contacts, "Contacts");
     Validation.validateObjectNotNull(date, "Date");
     Validation.validateDateInPast(date);
@@ -220,9 +221,9 @@ public class ContactManagerImpl implements ContactManager {
    * @param text the notes for the meeting
    * @return the new past meeting constructed with the parameters supplied
    */
-  private int createNewPastMeeting(Set<Contact> contacts, Calendar date, String text) {
-    int id = getNewMeetingId();
-    Meeting meeting = new PastMeetingImpl(id, date, contacts, text);
+  private int createNewPastMeeting(final Set<Contact> contacts, final Calendar date, final String text) {
+    final int id = getNewMeetingId();
+    final Meeting meeting = new PastMeetingImpl(id, date, contacts, text);
     this.meetings.put(id, meeting);
     return id;
   }
@@ -231,10 +232,12 @@ public class ContactManagerImpl implements ContactManager {
    * {@inheritDoc}.
    */
   @Override
-  public PastMeeting addMeetingNotes(int id, String text) {
-    Validation.validateObjectNotNull(text, "Text");
-    Meeting meeting = meetings.get(id);
-    Validation.validateArgumentNotNull(meeting, "Meeting");
+  public PastMeeting addMeetingNotes(final int id, final String text) {
+    final String variableName = "Text";
+    Validation.validateObjectNotNull(text, variableName);
+    final Meeting meeting = meetings.get(id);
+    final String argumentName = "Meeting";
+    Validation.validateArgumentNotNull(meeting, argumentName);
     Validation.validateStateInPast(meeting.getDate());
     return addNotesToPastMeeting(meeting, text);
   }
@@ -245,8 +248,8 @@ public class ContactManagerImpl implements ContactManager {
    * @param text the notes to be appended
    * @return the meeting with notes appended
    */
-  private PastMeeting addNotesToPastMeeting(Meeting meeting, String text) {
-    PastMeeting meetingWithNotes = new PastMeetingImpl(meeting.getId(),
+  private PastMeeting addNotesToPastMeeting(final Meeting meeting, final String text) {
+    final PastMeeting meetingWithNotes = new PastMeetingImpl(meeting.getId(),
                                                       meeting.getDate(),
                                                       meeting.getContacts(),
                                                       text);
@@ -260,11 +263,11 @@ public class ContactManagerImpl implements ContactManager {
    * {@inheritDoc}.
    */
   @Override
-  public int addNewContact(String name, String notes) {
+  public int addNewContact(final String name, final String notes) {
     Validation.validateStringNotNullOrEmpty(name, "name");
     Validation.validateStringNotNullOrEmpty(notes, "notes");
 
-    int id = getNewContactId();
+    final int id = getNewContactId();
     this.contacts.put(id, new ContactImpl(id, name, notes));
     return id;
   }
@@ -289,8 +292,8 @@ public class ContactManagerImpl implements ContactManager {
    * {@inheritDoc}.
    */
   @Override
-  public Set<Contact> getContacts(String name) {
-    String variableName = "Name";
+  public Set<Contact> getContacts(final String name) {
+    final String variableName = "Name";
     Validation.validateObjectNotNull(name, variableName);
     if (name.isEmpty()) {
       return getContactsAsSet();
@@ -302,10 +305,10 @@ public class ContactManagerImpl implements ContactManager {
    * {@inheritDoc}.
    */
   @Override
-  public Set<Contact> getContacts(int... ids) {
+  public Set<Contact> getContacts(final int... ids) {
     Validation.validateSetPopulated(ids, "Contact Ids array");
-    Set<Contact> result = getElementsFromMapAsSet(this.contacts,
-        (k, v) -> IntStream.of(ids).anyMatch(i -> i == k)
+    final Set<Contact> result = getElementsFromMapAsSet(this.contacts,
+        (contactId, contact) -> IntStream.of(ids).anyMatch(i -> i == contactId)
     );
     Validation.validateArgumentSizeMatch(ids.length, result.size());
     return result;
@@ -327,8 +330,8 @@ public class ContactManagerImpl implements ContactManager {
    * @param <T> the generic type held in both the map and as the return set
    * @return Set of filtered elements
    */
-  private <T> Set<T> getElementsFromMapAsSet(Map<Integer, T> map,
-                                             BiPredicate<Integer, T> predicate) {
+  private <T> Set<T> getElementsFromMapAsSet(final Map<Integer, T> map,
+                                             final BiPredicate<Integer, T> predicate) {
     return map.entrySet().stream()
             .filter(e -> predicate.test(e.getKey(), e.getValue()))
             .map(Map.Entry::getValue)
@@ -343,9 +346,9 @@ public class ContactManagerImpl implements ContactManager {
    * @param <T> the generic type held in both the map and as the return set
    * @return List of sorted elements
    */
-  private <T> List<T> getSortedElementsFromMapAsList(Map<Integer, T> map,
-                                                     BiPredicate<Integer, T> predicate,
-                                                     Comparator<T> comparator) {
+  private <T> List<T> getSortedElementsFromMapAsList(final Map<Integer, T> map,
+                                                     final BiPredicate<Integer, T> predicate,
+                                                     final Comparator<T> comparator) {
     return map.entrySet().stream()
             .filter(e -> predicate.test(e.getKey(), e.getValue()))
             .map(Map.Entry::getValue)
@@ -361,9 +364,9 @@ public class ContactManagerImpl implements ContactManager {
    * @param comparator the comparator to use for sorting
    * @return List of past meetings
    */
-  private List<PastMeeting> getPastMeetingsFromMapAsList(Map<Integer, Meeting> map,
-                                                         Predicate<PastMeeting> predicate,
-                                                         Comparator<PastMeeting> comparator) {
+  private List<PastMeeting> getPastMeetingsFromMapAsList(final Map<Integer, Meeting> map,
+                                                         final Predicate<PastMeeting> predicate,
+                                                         final Comparator<PastMeeting> comparator) {
     return map.entrySet().stream()
             .filter(e -> PastMeetingImpl.class.equals(e.getValue().getClass()))
             .map(e -> (PastMeeting)e.getValue())
@@ -377,7 +380,7 @@ public class ContactManagerImpl implements ContactManager {
    */
   @Override
   public void flush() {
-    ContactManagerDump dump = new ContactManagerDump();
+    final ContactManagerDump dump = new ContactManagerDump();
     storeDataInDump(dump);
   }
 
@@ -385,7 +388,7 @@ public class ContactManagerImpl implements ContactManager {
    * Store the persistent values required in the dup pojo.
    * @param dump the instance of the dump pojo to write to
    */
-  private void storeDataInDump(ContactManagerDump dump) {
+  private void storeDataInDump(final ContactManagerDump dump) {
     dump.setLastContactId(this.lastContactId);
     dump.setLastMeetingId(this.lastMeetingId);
     dump.setContacts(this.contacts);
@@ -397,7 +400,7 @@ public class ContactManagerImpl implements ContactManager {
    * write the state of the object out to disc.
    * @param dump the instance of the dump pojo to serialize
    */
-  private void writeDumpToFile(ContactManagerDump dump) {
+  private void writeDumpToFile(final ContactManagerDump dump) {
     createFileIfNotExists();
     handleExistingFilePermissions();
 
@@ -423,7 +426,7 @@ public class ContactManagerImpl implements ContactManager {
    */
   private void createFile() {
     try {
-      Boolean result = file.createNewFile();
+      final Boolean result = file.createNewFile();
       if (result) {
         handleExistingFilePermissions();
       }
@@ -458,7 +461,7 @@ public class ContactManagerImpl implements ContactManager {
 
     try (FileInputStream fileStream = new FileInputStream(this.fileName);
       ObjectInputStream in = new ObjectInputStream(fileStream)) {
-      ContactManagerDump restoredData = (ContactManagerDump)in.readObject();
+      final ContactManagerDump restoredData = (ContactManagerDump)in.readObject();
       restoreValuesFromDump(restoredData);
     } catch (IOException | ClassNotFoundException e) {
       System.out.println("Unable to restore from file. Skipping restore.");
@@ -469,7 +472,7 @@ public class ContactManagerImpl implements ContactManager {
    * restore data from the restored dump file to the instance variables.
    * @param restored the restored dump instance
    */
-  private void restoreValuesFromDump(ContactManagerDump restored) {
+  private void restoreValuesFromDump(final ContactManagerDump restored) {
     this.lastContactId = restored.getLastContactId();
     this.lastMeetingId = restored.getLastMeetingId();
     this.contacts = restored.getContacts();

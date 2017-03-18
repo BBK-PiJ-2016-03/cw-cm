@@ -37,7 +37,7 @@ class ContactManagerDump implements Serializable {
    * Getter for lastContactId.
    * @return lastContactId
    */
-  int getLastContactId() {
+  protected int getLastContactId() {
     return lastContactId;
   }
 
@@ -45,7 +45,7 @@ class ContactManagerDump implements Serializable {
    * Setter for lastContactId.
    * @param suppliedContactId the supplied contact id
    */
-  void setLastContactId(int suppliedContactId) {
+  protected void setLastContactId(final int suppliedContactId) {
     this.lastContactId = suppliedContactId;
   }
 
@@ -61,7 +61,7 @@ class ContactManagerDump implements Serializable {
    * Setter for contacts.
    * @param suppliedContacts supplied contacts
    */
-  public void setContacts(Map<Integer, Contact> suppliedContacts) {
+  public void setContacts(final Map<Integer, Contact> suppliedContacts) {
     this.contacts = suppliedContacts;
   }
 
@@ -69,7 +69,7 @@ class ContactManagerDump implements Serializable {
    * Getter for the last meeting id.
    * @return lastMeetingId
    */
-  int getLastMeetingId() {
+  protected int getLastMeetingId() {
     return lastMeetingId;
   }
 
@@ -77,7 +77,7 @@ class ContactManagerDump implements Serializable {
    * Setter for the last meeting id.
    * @param suppliedMeetingId the supplied meeting id
    */
-  void setLastMeetingId(int suppliedMeetingId) {
+  protected void setLastMeetingId(final int suppliedMeetingId) {
     this.lastMeetingId = suppliedMeetingId;
   }
 
@@ -85,7 +85,7 @@ class ContactManagerDump implements Serializable {
    * Getter for known meetings.
    * @return all known meetings
    */
-  Map<Integer, Meeting> getMeetings() {
+  protected Map<Integer, Meeting> getMeetings() {
     return meetings;
   }
 
@@ -93,7 +93,7 @@ class ContactManagerDump implements Serializable {
    * Setter for known meetings.
    * @param suppliedMeetings the supplied meetings
    */
-  void setMeetings(Map<Integer, Meeting> suppliedMeetings) {
+  protected void setMeetings(final Map<Integer, Meeting> suppliedMeetings) {
     this.meetings = suppliedMeetings;
   }
 }

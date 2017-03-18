@@ -7,9 +7,6 @@ import java.util.Calendar;
   */
 public final class DateFns {
 
-  private DateFns() {
-  }
-
   private static final Calendar CALENDAR = Calendar.getInstance();
   private static final int YEAR = CALENDAR.get(Calendar.YEAR);
   private static final int MONTH = CALENDAR.get(Calendar.MONTH);
@@ -18,6 +15,8 @@ public final class DateFns {
   private static final int FIRST_DAY_OF_MONTH = 1;
   private static final int REMOVE = -1;
   private static final int NO_OFFSET = 0;
+
+  private DateFns() { }
 
   private static Calendar getCurrentDate() {
     return Calendar.getInstance();
@@ -36,8 +35,8 @@ public final class DateFns {
    * @param offset amount to increase by
    * @return the past date
    */
-  public static Calendar getPastDate(int offset) {
-    Calendar cal = getCurrentDate();
+  public static Calendar getPastDate(final int offset) {
+    final Calendar cal = getCurrentDate();
     cal.set(LAST_YEAR, MONTH, FIRST_DAY_OF_MONTH);
     cal.add(Calendar.MINUTE, offset);
     return cal;
@@ -56,8 +55,8 @@ public final class DateFns {
    * @param offset the supplied offset in minutes from the future date
    * @return the future date
    */
-  public static Calendar getFutureDate(int offset) {
-    Calendar cal = getCurrentDate();
+  public static Calendar getFutureDate(final int offset) {
+    final Calendar cal = getCurrentDate();
     cal.set(NEXT_YEAR, MONTH, FIRST_DAY_OF_MONTH);
     cal.add(Calendar.MINUTE, offset);
     return cal;
@@ -68,7 +67,7 @@ public final class DateFns {
    * @return the calendar date slightly in the future
    */
   public static Calendar getSlightlyFutureDate() {
-    Calendar cal = getCurrentDate();
+    final Calendar cal = getCurrentDate();
     cal.add(Calendar.SECOND, FIRST_DAY_OF_MONTH);
     return cal;
   }
@@ -78,7 +77,7 @@ public final class DateFns {
    * @return the calendar date slightly in the past
    */
   public static Calendar getSlightlyPastDate() {
-    Calendar cal = getCurrentDate();
+    final Calendar cal = getCurrentDate();
     cal.add(Calendar.SECOND, REMOVE);
     return cal;
   }

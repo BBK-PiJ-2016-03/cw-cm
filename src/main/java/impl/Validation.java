@@ -11,13 +11,16 @@ import spec.Contact;
   * Validation is a helper class to aid with implementing validation checks in a DRY manner.
   * @author Alexander Worton.
   */
-class Validation {
+final class Validation {
+
+  private Validation() {
+  }
 
   /**
    * throws an exception if the supplied parameter isn't greater than 0.
    * @param id the id provided
    */
-  public static void validateIdPositive(int id) {
+  public static void validateIdPositive(final int id) {
     if (id < 1) {
       throw new IllegalArgumentException("Id must be greater than 0");
     }
@@ -27,8 +30,9 @@ class Validation {
    * throws an exception if the supplied parameter is null.
    * @param obj the object provided
    */
-  public static void validateObjectNotNull(Object obj) {
-    validateObjectNotNull(obj, "Object");
+  public static void validateObjectNotNull(final Object obj) {
+    final String variableName = "Object";
+    validateObjectNotNull(obj, variableName);
   }
 
   /**
@@ -36,7 +40,7 @@ class Validation {
    * @param obj the object provided
    * @param variableName a String used in the exception description
    */
-  public static void validateObjectNotNull(Object obj, String variableName) {
+  public static void validateObjectNotNull(final Object obj, final String variableName) {
     if (obj == null) {
       throw new NullPointerException(variableName + " supplied was null");
     }
@@ -47,8 +51,8 @@ class Validation {
    * @param collection the set to validate
    * @param collectionName the name of the collection
    */
-  public static void validateSetPopulated(Set collection, String collectionName) {
-    if (collection.size() < 1) {
+  public static void validateSetPopulated(final Set collection, final String collectionName) {
+    if (collection.isEmpty()) {
       throw new IllegalArgumentException(collectionName + " supplied is empty");
     }
   }
@@ -58,7 +62,7 @@ class Validation {
    * @param collection the collection to validate
    * @param collectionName the name of the collection
    */
-  public static void validateSetPopulated(int[] collection, String collectionName) {
+  public static void validateSetPopulated(final int[] collection, final String collectionName) {
     if (collection.length < 1) {
       throw new IllegalArgumentException(collectionName + " supplied is empty");
     }
@@ -69,7 +73,7 @@ class Validation {
    * @param length the first argument to match
    * @param size the second argument to match
    */
-  public static void validateArgumentSizeMatch(int length, int size) {
+  public static void validateArgumentSizeMatch(final int length, final int size) {
     if (length != size) {
       throw new IllegalArgumentException("Not all input values are known");
     }
@@ -80,12 +84,12 @@ class Validation {
    * @param str the supplied string value
    * @param variableName the name of the variable
    */
-  public static void validateStringNotNullOrEmpty(String str, String variableName) {
+  public static void validateStringNotNullOrEmpty(final String str, final String variableName) {
     if (str == null) {
       throw new NullPointerException(variableName + " supplied was null");
     }
 
-    if (str.equals("")) {
+    if ("".equals(str)) {
       throw new IllegalArgumentException(variableName + " supplied is empty: " + str);
     }
   }
@@ -96,9 +100,9 @@ class Validation {
    * @param contacts the set of supplied contacts
    * @param knownContacts the set of known contacts
    */
-  public static void validateAllContactsKnown(Set<Contact> contacts,
-                                              Map<Integer, Contact> knownContacts) {
-    Set<Contact> filtered = knownContacts.values().stream()
+  public static void validateAllContactsKnown(final Set<Contact> contacts,
+                                              final Map<Integer, Contact> knownContacts) {
+    final Set<Contact> filtered = knownContacts.values().stream()
             .filter(contacts::contains)
             .collect(Collectors.toSet());
 
@@ -109,7 +113,7 @@ class Validation {
    * throws an argument exception if the supplied date is not in the future.
    * @param date the date to check
    */
-  public static void validateDateInFuture(Calendar date) {
+  public static void validateDateInFuture(final Calendar date) {
     if (!date.after(Calendar.getInstance())) {
       throw new IllegalArgumentException("Supplied date is not in the future");
     }
@@ -119,7 +123,7 @@ class Validation {
    * throws an argument exception if the supplied date is not in the past.
    * @param date the date to check
    */
-  public static void validateDateInPast(Calendar date) {
+  public static void validateDateInPast(final Calendar date) {
     if (!date.before(Calendar.getInstance())) {
       throw new IllegalArgumentException("Supplied date is not in the past");
     }
@@ -129,7 +133,7 @@ class Validation {
    * throws a state exception if the supplied date is not in the future.
    * @param date the date to check
    */
-  public static void validateStateInFuture(Calendar date) {
+  public static void validateStateInFuture(final Calendar date) {
     if (!date.after(Calendar.getInstance())) {
       throw new IllegalStateException("Supplied date is not in the future");
     }
@@ -139,7 +143,7 @@ class Validation {
    * throws a state exception if the supplied date is not in the past.
    * @param date the date to check
    */
-  public static void validateStateInPast(Calendar date) {
+  public static void validateStateInPast(final Calendar date) {
     if (!date.before(Calendar.getInstance())) {
       throw new IllegalStateException("Supplied date is not in the past");
     }
@@ -150,7 +154,7 @@ class Validation {
    * @param obj the supplied object
    * @param argumentName the name of the supplied argument
    */
-  public static void validateArgumentNotNull(Object obj, String argumentName) {
+  public static void validateArgumentNotNull(final Object obj, final String argumentName) {
     if (obj == null) {
       throw new IllegalArgumentException(argumentName + " supplied was null");
     }
@@ -161,8 +165,8 @@ class Validation {
    * @param contact the supplied contact
    * @param contacts the collection of known contacts
    */
-  public static void validateContactKnown(Contact contact, Map<Integer, Contact> contacts) {
-    Contact verify = contacts.get(contact.getId());
+  public static void validateContactKnown(final Contact contact, final Map<Integer, Contact> contacts) {
+    final Contact verify = contacts.get(contact.getId());
     if (!contact.equals(verify)) {
       throw new IllegalArgumentException("Contact not known");
     }

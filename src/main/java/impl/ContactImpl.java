@@ -7,6 +7,11 @@ import spec.Contact;
   * @author Alexander Worton.
   */
 public class ContactImpl implements Contact, Serializable {
+  /**
+   * serialVersionUID holds the version for serialization. Increment when changes
+   * to the data model occur.
+   */
+  private static final long serialVersionUID = Long.MIN_VALUE;
 
   private int id;
   private String name;

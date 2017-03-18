@@ -11,6 +11,11 @@ import spec.PastMeeting;
   * @author Alexander Worton.
   */
 public class PastMeetingImpl extends MeetingImpl implements PastMeeting, Serializable {
+  /**
+   * serialVersionUID holds the version for serialization. Increment when changes
+   * to the data model occur.
+   */
+  private static final long serialVersionUID = Long.MIN_VALUE;
 
   private String notes;
 
@@ -21,7 +26,7 @@ public class PastMeetingImpl extends MeetingImpl implements PastMeeting, Seriali
    * @param contacts the associated contacts
    * @param notes attached notes
    */
-  public PastMeetingImpl(int id, Calendar date, Set<Contact> contacts, String notes) {
+  public PastMeetingImpl(final int id, final Calendar date, final Set<Contact> contacts, final String notes) {
     super(id, date, contacts);
     setNotes(notes);
   }
@@ -39,7 +44,7 @@ public class PastMeetingImpl extends MeetingImpl implements PastMeeting, Seriali
    * Validate that the notes aren't null, else throw a NullPointerException
    * @param notes the new notes to replace the existing notes
    */
-  private void setNotes(String notes) {
+  private void setNotes(final String notes) {
     Validation.validateObjectNotNull(notes, "Notes");
     this.notes = notes;
   }
