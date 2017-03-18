@@ -21,13 +21,6 @@ public class ContactImplTest {
   private static final String NAME = "Test";
   private static final ContactManagerImplTestData DATA = new ContactManagerImplTestData();
   private static final String NOTE = "This is a note!";
-  private int futureToPastMeetingId;
-
-  @Before
-  public void before() {
-    futureToPastMeetingId = DATA.getManager().addFutureMeeting(DATA.getPopulatedSet(),
-                                                               DATA.getSlightlyFutureDate());
-  }
 
   @Test
   public void addNotesTestNoExisting() {

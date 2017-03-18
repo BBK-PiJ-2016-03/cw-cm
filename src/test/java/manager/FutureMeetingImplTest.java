@@ -25,7 +25,7 @@ public class FutureMeetingImplTest {
   private static final Calendar DATE = Calendar.getInstance();
   private static final Set<Contact> EMPTY_SET = new HashSet<>();
   private final Set<Contact> populatedSet;
-  private static FutureMeeting FUTURE_MEETING;
+  private FutureMeeting future_meeting;
   private static final Calendar PAST_DATE = DateFns.getPastDate();
   private static final Calendar FUTURE_DATE = DateFns.getFutureDate();
   private static final String CONTACT_NAME = "Name Of";
@@ -108,26 +108,26 @@ public class FutureMeetingImplTest {
 
   @Test
   public void getDateTestPast() {
-    FUTURE_MEETING = new FutureMeetingImpl(ID_1, PAST_DATE, populatedSet);
-    assertEquals(PAST_DATE, FUTURE_MEETING.getDate());
+    future_meeting = new FutureMeetingImpl(ID_1, PAST_DATE, populatedSet);
+    assertEquals(PAST_DATE, future_meeting.getDate());
   }
 
   @Test
   public void getDateTestFuture() {
-    FUTURE_MEETING = new FutureMeetingImpl(ID_1, FUTURE_DATE, populatedSet);
-    assertEquals(FUTURE_DATE, FUTURE_MEETING.getDate());
+    future_meeting = new FutureMeetingImpl(ID_1, FUTURE_DATE, populatedSet);
+    assertEquals(FUTURE_DATE, future_meeting.getDate());
   }
 
   @Test
   public void getIdTestMin() {
-    FUTURE_MEETING = new FutureMeetingImpl(ID_1, DATE, populatedSet);
-    assertEquals(ID_1, FUTURE_MEETING.getId());
+    future_meeting = new FutureMeetingImpl(ID_1, DATE, populatedSet);
+    assertEquals(ID_1, future_meeting.getId());
   }
 
   @Test
   public void getIdTestMax() {
     int id = Integer.MAX_VALUE;
-    FUTURE_MEETING = new FutureMeetingImpl(id, DATE, populatedSet);
-    assertEquals(id, FUTURE_MEETING.getId());
+    future_meeting = new FutureMeetingImpl(id, DATE, populatedSet);
+    assertEquals(id, future_meeting.getId());
   }
 }
