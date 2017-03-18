@@ -1,4 +1,4 @@
-package manager;
+package impl;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -341,7 +341,7 @@ public class ContactManagerImpl implements ContactManager {
    * @param predicate the filter bi-predicate
    * @param comparator the comparator to use for sorting
    * @param <T> the generic type held in both the map and as the return set
-   * @return Liust of sorted elements
+   * @return List of sorted elements
    */
   private <T> List<T> getSortedElementsFromMapAsList(Map<Integer, T> map,
                                                      BiPredicate<Integer, T> predicate,

@@ -1,4 +1,4 @@
-package manager;
+package impl;
 
 import java.io.Serializable;
 import java.util.Calendar;

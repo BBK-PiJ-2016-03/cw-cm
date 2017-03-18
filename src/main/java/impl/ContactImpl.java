@@ -1,4 +1,4 @@
-package manager;
+package impl;
 
 import java.io.Serializable;
 import spec.Contact;

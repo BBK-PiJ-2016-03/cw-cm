@@ -1,4 +1,4 @@
-package manager;
+package impl;
 
 import java.util.Calendar;
 import java.util.Map;
@@ -11,7 +11,7 @@ import spec.Contact;
   * Validation is a helper class to aid with implementing validation checks in a DRY manner.
   * @author Alexander Worton.
   */
-public class Validation {
+class Validation {
 
   /**
    * throws an exception if the supplied parameter isn't greater than 0.

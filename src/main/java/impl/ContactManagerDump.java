@@ -1,10 +1,10 @@
-package manager;
-
-import spec.Contact;
-import spec.Meeting;
+package impl;
 
 import java.io.Serializable;
 import java.util.Map;
+
+import spec.Contact;
+import spec.Meeting;
 
 /**
  * ContactManagerDump is a tightly coupled pojo used to serialize data from ContactManagerImpl.
@@ -37,7 +37,7 @@ class ContactManagerDump implements Serializable {
    * Getter for lastContactId.
    * @return lastContactId
    */
-  public int getLastContactId() {
+  int getLastContactId() {
     return lastContactId;
   }
 
@@ -45,7 +45,7 @@ class ContactManagerDump implements Serializable {
    * Setter for lastContactId.
    * @param suppliedContactId the supplied contact id
    */
-  public void setLastContactId(int suppliedContactId) {
+  void setLastContactId(int suppliedContactId) {
     this.lastContactId = suppliedContactId;
   }
 
@@ -69,7 +69,7 @@ class ContactManagerDump implements Serializable {
    * Getter for the last meeting id.
    * @return lastMeetingId
    */
-  public int getLastMeetingId() {
+  int getLastMeetingId() {
     return lastMeetingId;
   }
 
@@ -77,7 +77,7 @@ class ContactManagerDump implements Serializable {
    * Setter for the last meeting id.
    * @param suppliedMeetingId the supplied meeting id
    */
-  public void setLastMeetingId(int suppliedMeetingId) {
+  void setLastMeetingId(int suppliedMeetingId) {
     this.lastMeetingId = suppliedMeetingId;
   }
 
@@ -85,7 +85,7 @@ class ContactManagerDump implements Serializable {
    * Getter for known meetings.
    * @return all known meetings
    */
-  public Map<Integer, Meeting> getMeetings() {
+  Map<Integer, Meeting> getMeetings() {
     return meetings;
   }
 
@@ -93,7 +93,7 @@ class ContactManagerDump implements Serializable {
    * Setter for known meetings.
    * @param suppliedMeetings the supplied meetings
    */
-  public void setMeetings(Map<Integer, Meeting> suppliedMeetings) {
+  void setMeetings(Map<Integer, Meeting> suppliedMeetings) {
     this.meetings = suppliedMeetings;
   }
 }

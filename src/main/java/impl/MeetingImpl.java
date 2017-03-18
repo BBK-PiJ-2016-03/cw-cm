@@ -1,4 +1,4 @@
-package manager;
+package impl;
 
 import java.io.Serializable;
 import java.util.Calendar;
@@ -22,7 +22,7 @@ public abstract class MeetingImpl implements Meeting, Serializable {
    * @param date the date of the meeting
    * @param contacts contacts attached to the meeting
    */
-  public MeetingImpl(int id, Calendar date, Set<Contact> contacts) {
+  MeetingImpl(int id, Calendar date, Set<Contact> contacts) {
     setId(id);
     setDate(date);
     setContacts(contacts);
