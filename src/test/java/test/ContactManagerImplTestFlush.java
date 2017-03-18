@@ -1,8 +1,11 @@
-package manager;
+package test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+
+import impl.ContactManagerImpl;
+import impl.DateFns;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,6 +13,7 @@ import java.util.Calendar;
 import java.util.stream.IntStream;
 
 import org.junit.Test;
+
 import spec.Contact;
 import spec.Meeting;
 

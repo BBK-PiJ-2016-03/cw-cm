@@ -1,8 +1,12 @@
-package manager;
+package test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+
+import impl.ContactImpl;
+import impl.ContactManagerImpl;
+import impl.DateFns;
 
 import java.util.Calendar;
 import java.util.HashSet;
@@ -11,12 +15,14 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import manager.library.ContactManagerImplTestFns;
 import org.junit.Before;
 import org.junit.Test;
+
 import spec.Contact;
 import spec.Meeting;
 import spec.PastMeeting;
+
+import test.library.ContactManagerImplTestFns;
 
 /**
  * @author Alexander Worton.
@@ -67,9 +73,7 @@ public class ContactManagerImplTestRetrieving {
 
   private boolean verifyContactIdsReturned(Set<Contact> contacts, int... contactIds) {
     return contacts.stream()
-        .map(c -> IntStream.of(contactIds).anyMatch(i -> i == c.getId()))
-        .reduce((b1, b2) -> b1 && b2)
-        .get();
+        .allMatch(c -> IntStream.of(contactIds).anyMatch(i -> i == c.getId()));
   }
 
   @Test
@@ -125,7 +129,7 @@ public class ContactManagerImplTestRetrieving {
 
   @Test
   public void testGetExistingContactUnknown() {
-    String unknownName = "weythb3 ry7 94yvb4ewr 47b -vyeeu 9btvuibpfbgeyw8fvbewpi";
+    String unknownName = "here is a name which we hope remains unknown";
     int contactsSize = data.getManager().getContacts(unknownName).size();
     assertTrue(contactsSize == 0);
   }

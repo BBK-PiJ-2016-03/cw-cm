@@ -1,8 +1,8 @@
-package manager;
+package test;
 
 import static org.junit.Assert.assertEquals;
 
-import org.junit.Before;
+import impl.ContactImpl;
 import org.junit.Test;
 
 /**

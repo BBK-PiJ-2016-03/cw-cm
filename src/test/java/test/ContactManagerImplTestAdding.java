@@ -1,4 +1,4 @@
-package manager;
+package test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -6,12 +6,13 @@ import static org.junit.Assert.assertTrue;
 import java.util.Calendar;
 import java.util.Set;
 
-import manager.library.ContactManagerImplTestFns;
 import org.junit.Before;
 import org.junit.Test;
 
 import spec.Contact;
 import spec.PastMeeting;
+
+import test.library.ContactManagerImplTestFns;
 
 
 /**

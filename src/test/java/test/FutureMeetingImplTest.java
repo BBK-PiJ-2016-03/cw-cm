@@ -1,7 +1,11 @@
-package manager;
+package test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+
+import impl.ContactImpl;
+import impl.DateFns;
+import impl.FutureMeetingImpl;
 
 import java.util.Calendar;
 import java.util.HashSet;
@@ -11,6 +15,7 @@ import java.util.stream.IntStream;
 
 import org.junit.Before;
 import org.junit.Test;
+
 import spec.Contact;
 import spec.FutureMeeting;
 
@@ -25,7 +30,7 @@ public class FutureMeetingImplTest {
   private static final Calendar DATE = Calendar.getInstance();
   private static final Set<Contact> EMPTY_SET = new HashSet<>();
   private final Set<Contact> populatedSet;
-  private FutureMeeting future_meeting;
+  private FutureMeeting futureMeeting;
   private static final Calendar PAST_DATE = DateFns.getPastDate();
   private static final Calendar FUTURE_DATE = DateFns.getFutureDate();
   private static final String CONTACT_NAME = "Name Of";
@@ -108,26 +113,26 @@ public class FutureMeetingImplTest {
 
   @Test
   public void getDateTestPast() {
-    future_meeting = new FutureMeetingImpl(ID_1, PAST_DATE, populatedSet);
-    assertEquals(PAST_DATE, future_meeting.getDate());
+    futureMeeting = new FutureMeetingImpl(ID_1, PAST_DATE, populatedSet);
+    assertEquals(PAST_DATE, futureMeeting.getDate());
   }
 
   @Test
   public void getDateTestFuture() {
-    future_meeting = new FutureMeetingImpl(ID_1, FUTURE_DATE, populatedSet);
-    assertEquals(FUTURE_DATE, future_meeting.getDate());
+    futureMeeting = new FutureMeetingImpl(ID_1, FUTURE_DATE, populatedSet);
+    assertEquals(FUTURE_DATE, futureMeeting.getDate());
   }
 
   @Test
   public void getIdTestMin() {
-    future_meeting = new FutureMeetingImpl(ID_1, DATE, populatedSet);
-    assertEquals(ID_1, future_meeting.getId());
+    futureMeeting = new FutureMeetingImpl(ID_1, DATE, populatedSet);
+    assertEquals(ID_1, futureMeeting.getId());
   }
 
   @Test
   public void getIdTestMax() {
     int id = Integer.MAX_VALUE;
-    future_meeting = new FutureMeetingImpl(id, DATE, populatedSet);
-    assertEquals(id, future_meeting.getId());
+    futureMeeting = new FutureMeetingImpl(id, DATE, populatedSet);
+    assertEquals(id, futureMeeting.getId());
   }
 }

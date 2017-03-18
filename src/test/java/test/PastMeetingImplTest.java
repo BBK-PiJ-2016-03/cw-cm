@@ -1,6 +1,9 @@
-package manager;
+package test;
 
 import static org.junit.Assert.assertEquals;
+
+import impl.ContactImpl;
+import impl.PastMeetingImpl;
 
 import java.util.Calendar;
 import java.util.HashSet;

@@ -1,12 +1,12 @@
-package manager.library;
+package test.library;
+
+import impl.ContactImpl;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-
-import manager.ContactImpl;
 
 import spec.Contact;
 import spec.ContactManager;
@@ -36,7 +36,7 @@ public class ContactManagerImplTestFns {
   /**
    * Generate a set of valid contacts.
    * @param number the number of valid contacts to generate
-   * @param manager  the contact mnager to use for the generation
+   * @param manager  the contact manager to use for the generation
    * @return an array of the generated contact's ids
    */
   public static int[] generateValidContactIds(int number, ContactManager manager) {

@@ -1,12 +1,15 @@
-package manager;
+package test;
+
+import impl.ContactManagerImpl;
+import impl.DateFns;
 
 import java.util.Calendar;
 import java.util.Set;
 
-import manager.library.ContactManagerImplTestFns;
-
 import spec.Contact;
 import spec.ContactManager;
+
+import test.library.ContactManagerImplTestFns;
 
 /**
  * @author Alexander Worton.
@@ -80,11 +83,11 @@ class ContactManagerImplTestData {
     return slightlyFutureDate;
   }
 
-  public int[] getExcludedSetIds() {
+  private int[] getExcludedSetIds() {
     return excludedSetIds;
   }
 
-  public int getExcludedContactId() {
+  private int getExcludedContactId() {
     return excludedContactId;
   }
 
