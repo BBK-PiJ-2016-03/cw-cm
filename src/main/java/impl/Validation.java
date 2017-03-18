@@ -165,7 +165,8 @@ final class Validation {
    * @param contact the supplied contact
    * @param contacts the collection of known contacts
    */
-  public static void validateContactKnown(final Contact contact, final Map<Integer, Contact> contacts) {
+  public static void validateContactKnown(final Contact contact,
+                                          final Map<Integer, Contact> contacts) {
     final Contact verify = contacts.get(contact.getId());
     if (!contact.equals(verify)) {
       throw new IllegalArgumentException("Contact not known");

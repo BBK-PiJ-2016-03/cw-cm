@@ -26,7 +26,10 @@ public class PastMeetingImpl extends MeetingImpl implements PastMeeting, Seriali
    * @param contacts the associated contacts
    * @param notes attached notes
    */
-  public PastMeetingImpl(final int id, final Calendar date, final Set<Contact> contacts, final String notes) {
+  public PastMeetingImpl(final int id,
+                         final Calendar date,
+                         final Set<Contact> contacts,
+                         final String notes) {
     super(id, date, contacts);
     setNotes(notes);
   }

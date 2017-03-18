@@ -36,8 +36,8 @@ public class ContactManagerImpl implements ContactManager {
   private transient Map<Integer, Contact> contacts;
   private transient int lastMeetingId;
   private transient Map<Integer, Meeting> meetings;
-  private transient final String fileName;
-  private transient final File file;
+  private transient String fileName;
+  private transient File file;
 
   {
     lastContactId = 0;
@@ -193,7 +193,9 @@ public class ContactManagerImpl implements ContactManager {
    * {@inheritDoc}.
    */
   @Override
-  public int addNewPastMeeting(final Set<Contact> contacts, final Calendar date, final String text) {
+  public int addNewPastMeeting(final Set<Contact> contacts,
+                               final Calendar date,
+                               final String text) {
     validateAddNewPastMeeting(contacts, date, text);
     return createNewPastMeeting(contacts, date, text);
   }
@@ -205,7 +207,9 @@ public class ContactManagerImpl implements ContactManager {
    * @param date the date the meeting took place
    * @param text the notes for the meeting
    */
-  private void validateAddNewPastMeeting(final Set<Contact> contacts, final Calendar date, final String text) {
+  private void validateAddNewPastMeeting(final Set<Contact> contacts,
+                                         final Calendar date,
+                                         final String text) {
     Validation.validateObjectNotNull(contacts, "Contacts");
     Validation.validateObjectNotNull(date, "Date");
     Validation.validateDateInPast(date);
@@ -221,7 +225,9 @@ public class ContactManagerImpl implements ContactManager {
    * @param text the notes for the meeting
    * @return the new past meeting constructed with the parameters supplied
    */
-  private int createNewPastMeeting(final Set<Contact> contacts, final Calendar date, final String text) {
+  private int createNewPastMeeting(final Set<Contact> contacts,
+                                   final Calendar date,
+                                   final String text) {
     final int id = getNewMeetingId();
     final Meeting meeting = new PastMeetingImpl(id, date, contacts, text);
     this.meetings.put(id, meeting);
