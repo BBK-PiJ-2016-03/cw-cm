@@ -1,4 +1,4 @@
-##Coursework 3 for Birkbeck Programming in Java Module.
+###Coursework 3 for Birkbeck Programming in Java Module.
 
 Interfaces that must be implemented are provided.
 
@@ -19,9 +19,15 @@ comma-separated values (CSV), or any other format).
 
 ###Notes
 
-Since the supplied files are in the default package, and given that 
-supplied files are to be considered overwritten, it is not possible 
-to organise the tests in packages as the default package is not 
-accessible from a class in another package.
+This project was built using TDD with Junit 4.
 
-Tests have been placed in the root alongside the classes to be tested.
+It has been run through the following tools:
+
+*Checkstyle
+*findbugs
+*PMD
+
+Coverage was checked using Intellij
+
+Directory structure has been implemented as per the revised
+specifiction including the use of gradle for the build file.
