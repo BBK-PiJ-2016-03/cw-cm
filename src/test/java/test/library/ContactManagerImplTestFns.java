@@ -28,7 +28,7 @@ public class ContactManagerImplTestFns {
    * @return the set of null contacts
    */
   public static Set<Contact> generateNullContacts() {
-    Set<Contact> set = new HashSet<>();
+    final Set<Contact> set = new HashSet<>();
     set.add(null);
     return set;
   }
@@ -39,8 +39,7 @@ public class ContactManagerImplTestFns {
    * @param manager  the contact manager to use for the generation
    * @return an array of the generated contact's ids
    */
-  public static int[] generateValidContactIds(int number, ContactManager manager) {
-
+  public static int[] generateValidContactIds(final int number, final ContactManager manager) {
     return IntStream.range(0,number)
         .map(iteration -> manager.addNewContact(NAME_PREFIX + iteration, BLANK_NOTES))
         .toArray();
@@ -51,7 +50,7 @@ public class ContactManagerImplTestFns {
    * @return the set of invalid contacts
    */
   public static Set<Contact> generateInvalidContacts() {
-    Set<Contact> set = new HashSet<>();
+    final Set<Contact> set = new HashSet<>();
     set.add(new ContactImpl(Integer.MAX_VALUE, INVALID_NAME, NOTES));
     return set;
   }
@@ -62,7 +61,7 @@ public class ContactManagerImplTestFns {
    * @param manager the manager to use in the creation
    * @return an array holding the valid contact ids
    */
-  public static int[] createValidContacts(int number, ContactManager manager) {
+  public static int[] createValidContacts(final int number, final ContactManager manager) {
     return IntStream.range(0,number)
         .map(iteration -> manager.addNewContact(NAME_PREFIX + iteration, BLANK_NOTES))
         .toArray();
@@ -72,7 +71,7 @@ public class ContactManagerImplTestFns {
    * Create a set of invalid contacts.
    * @return the an array of the ids of the invalid contacts
    */
-  public static int[] createInvalidContacts(int number, ContactManager manager) {
+  public static int[] createInvalidContacts(final int number, final ContactManager manager) {
     return IntStream.range(0,number)
         .map(iteration -> manager.addNewContact(NAME_PREFIX + iteration, BLANK_NOTES))
         .toArray();
@@ -95,7 +94,8 @@ public class ContactManagerImplTestFns {
    * @param excludedContactId the provided id
    * @return an array of ids excluding the omitted one.
    */
-  public static int[] generateExcludedSetIds(Set<Contact> contacts, int excludedContactId) {
+  public static int[] generateExcludedSetIds(final Set<Contact> contacts,
+                                             final int excludedContactId) {
     return contacts.stream()
         .mapToInt(Contact::getId)
         .filter(e -> !(e == excludedContactId))
@@ -103,11 +103,11 @@ public class ContactManagerImplTestFns {
   }
 
   /**
-   * Test that the provided meetings are in chronological order.
+   * Perform check that the provided meetings are in chronological order.
    * @param meetings the provided meetings
    * @return true if they are sorted, false otherwise
    */
-  public static boolean testChronologicallySorted(List<Meeting> meetings) {
+  public static boolean checkChronologicallySorted(final List<Meeting> meetings) {
     boolean sorted = true;
     for (int index = 1; index < meetings.size(); index++) {
       if (meetings.get(index - 1).getDate().after(meetings.get(index).getDate())) {
@@ -119,11 +119,11 @@ public class ContactManagerImplTestFns {
   }
 
   /**
-   * Test that the provided past meetings are in chronological order.
+   * Perform check that the provided past meetings are in chronological order.
    * @param meetings the provided past meetings
    * @return true if they are sorted, false otherwise
    */
-  public static boolean testChronologicallySortedPastMeetings(List<PastMeeting> meetings) {
+  public static boolean checkChronologicallySortedPastMeetings(final List<PastMeeting> meetings) {
     boolean sorted = true;
     for (int index = 1; index < meetings.size(); index++) {
       if (meetings.get(index - 1).getDate().after(meetings.get(index).getDate())) {
@@ -139,7 +139,7 @@ public class ContactManagerImplTestFns {
    * @param meetings the provided meetings
    * @return true if there are no duplicate meetings, false otherwise
    */
-  public static boolean testNoDuplicateMeetings(List<Meeting> meetings) {
+  public static boolean checkNoDuplicateMeetings(final List<Meeting> meetings) {
     return meetings.size() == meetings.stream()
         .map(Meeting::getId)
         .distinct()
@@ -151,7 +151,7 @@ public class ContactManagerImplTestFns {
    * @param meetings the provided meetings
    * @return true if there are no duplicate past meetings, false otherwise
    */
-  public static boolean testNoDuplicatePastMeetings(List<PastMeeting> meetings) {
+  public static boolean checkNoDuplicatePastMeetings(final List<PastMeeting> meetings) {
     return meetings.size() == meetings.stream()
         .map(Meeting::getId)
         .distinct()

@@ -27,10 +27,10 @@ public class PastMeetingImplTest {
   private static final String EMPTY_NOTES = "";
   private static final String NULL_NOTES = null;
   private static final Set<Contact> EMPTY_SET = new HashSet<>();
-  private final Set<Contact> populatedSet = new HashSet<>();
+  private final transient Set<Contact> populatedSet = new HashSet<>();
   private static final Set<Contact> NULL_CONTACTS = null;
   private static final String CONTACT_NAME = "Contact Name";
-  private PastMeeting meeting;
+  private transient PastMeeting meeting;
 
   @Before
   public void before() {
@@ -48,7 +48,7 @@ public class PastMeetingImplTest {
 
   @Test(expected = IllegalArgumentException.class)
   public void constructorIdNegative() {
-    int negativeId = -200_000;
+    final int negativeId = -200_000;
     new PastMeetingImpl(negativeId, DATE, populatedSet, EMPTY_NOTES);
   }
 
@@ -74,49 +74,49 @@ public class PastMeetingImplTest {
 
   @Test
   public void getNotesTestSingle() {
-    String notes = "Test";
+    final String notes = "Test";
     meeting = new PastMeetingImpl(ID_1, DATE, populatedSet, notes);
     assertEquals(notes, meeting.getNotes());
   }
 
   @Test
   public void getNameTestSpaced() {
-    String notes = "Test Test";
+    final String notes = "Test Test";
     meeting = new PastMeetingImpl(ID_1, DATE, populatedSet, notes);
     assertEquals(notes, meeting.getNotes());
   }
 
   @Test
   public void getNameTestSpacedMultiple() {
-    String notes = "Test Test Test Test Test";
+    final String notes = "Test Test Test Test Test";
     meeting = new PastMeetingImpl(ID_1, DATE, populatedSet, notes);
     assertEquals(notes, meeting.getNotes());
   }
 
   @Test
   public void getNameTestEmpty() {
-    String notes = "";
+    final String notes = "";
     meeting = new PastMeetingImpl(ID_1, DATE, populatedSet, notes);
     assertEquals(notes, meeting.getNotes());
   }
 
   @Test
   public void getNameTestSpecialChars() {
-    String notes = "*&^%£\"'@";
+    final String notes = "*&^%£\"'@";
     meeting = new PastMeetingImpl(ID_1, DATE, populatedSet, notes);
     assertEquals(notes, meeting.getNotes());
   }
 
   @Test
   public void getNameTestNewLine() {
-    String notes = "A\nB\nC";
+    final String notes = "A\nB\nC";
     meeting = new PastMeetingImpl(ID_1, DATE, populatedSet, notes);
     assertEquals(notes, meeting.getNotes());
   }
 
   @Test
   public void getNameTestTab() {
-    String notes = "A\tB\tC";
+    final String notes = "A\tB\tC";
     meeting = new PastMeetingImpl(ID_1, DATE, populatedSet, notes);
     assertEquals(notes, meeting.getNotes());
   }

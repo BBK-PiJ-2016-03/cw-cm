@@ -91,7 +91,7 @@ class ContactManagerImplTestData {
     return excludedContactId;
   }
 
-  public void setManager(ContactManagerImpl manager) {
+  public void setManager(final ContactManagerImpl manager) {
     this.manager = manager;
   }
 }

@@ -28,8 +28,8 @@ public class ContactManagerImplTestAdding {
   private static final String NAME = "Contact Name";
   private static final String EMPTY_NAME = "";
   private static final String NULL_NAME = null;
-  private int futureToPastMeetingId;
-  private ContactManagerImplTestData data;
+  private transient int futureToPastMeetingId;
+  private transient ContactManagerImplTestData data;
 
   /**
    * Setup method for all tests.
@@ -43,10 +43,11 @@ public class ContactManagerImplTestAdding {
 
   @Test
   public void testAddFutureMeetingIdReturned() {
-    int id = data.getManager().addFutureMeeting(data.getPopulatedSet(), data.getFutureDate());
+    final int id = data.getManager().addFutureMeeting(data.getPopulatedSet(), data.getFutureDate());
     assertTrue(id > 0);
 
-    int id2 = data.getManager().addFutureMeeting(data.getPopulatedSet(), data.getFutureDate());
+    final int id2 = data.getManager().addFutureMeeting(data.getPopulatedSet(),
+                                                       data.getFutureDate());
     assertTrue(id2 > 0 && id != id2);
   }
 
@@ -83,7 +84,7 @@ public class ContactManagerImplTestAdding {
 
   @Test
   public void testAddNotesToExistingPastMeeting() {
-    int id = data.getManager().addNewPastMeeting(data.getPopulatedSet(),
+    final int id = data.getManager().addNewPastMeeting(data.getPopulatedSet(),
                                                  data.getPastDate(),
                                                  EMPTY_NOTES);
     PastMeeting meeting = (PastMeeting) data.getManager().getMeeting(id);
@@ -98,7 +99,7 @@ public class ContactManagerImplTestAdding {
   @Test
   public void testAddNotesToExistingFutureMeeting() {
     ContactManagerImplTestFns.wait2Secs();
-    PastMeeting meeting = data.getManager().addMeetingNotes(futureToPastMeetingId, NOTES);
+    final PastMeeting meeting = data.getManager().addMeetingNotes(futureToPastMeetingId, NOTES);
     assertEquals(futureToPastMeetingId, meeting.getId());
     assertEquals(NOTES, meeting.getNotes());
   }
@@ -110,13 +111,13 @@ public class ContactManagerImplTestAdding {
 
   @Test(expected = IllegalStateException.class)
   public void testAddNotesFutureMeeting() {
-    int id = data.getManager().addFutureMeeting(data.getPopulatedSet(), data.getFutureDate());
+    final int id = data.getManager().addFutureMeeting(data.getPopulatedSet(), data.getFutureDate());
     data.getManager().addMeetingNotes(id, NOTES);
   }
 
   @Test(expected = NullPointerException.class)
   public void testAddNotesNull() {
-    int id = data.getManager().addNewPastMeeting(data.getPopulatedSet(),
+    final int id = data.getManager().addNewPastMeeting(data.getPopulatedSet(),
                                                  data.getPastDate(),
                                                  EMPTY_NOTES);
     data.getManager().addMeetingNotes(id, NULL_NOTES);
@@ -124,21 +125,21 @@ public class ContactManagerImplTestAdding {
 
   @Test
   public void testAddContactGetId() {
-    int returnedId = data.getManager().addNewContact(NAME, NOTES);
+    final int returnedId = data.getManager().addNewContact(NAME, NOTES);
     assertTrue(returnedId > 0);
 
-    int returnedId2 = data.getManager().addNewContact(NAME, NOTES);
+    final int returnedId2 = data.getManager().addNewContact(NAME, NOTES);
     assertTrue(returnedId2 > 0 && returnedId2 != returnedId);
   }
 
   @Test
   public void testAddContact() {
-    String name = "Barry White";
-    String notes = "These are the notes";
-    int id = data.getManager().addNewContact(name, notes);
+    final String name = "Barry White";
+    final String notes = "These are the notes";
+    final int id = data.getManager().addNewContact(name, notes);
     int[] ids = new int[1];
     ids[0] = id;
-    Set<Contact> contacts = data.getManager().getContacts(ids);
+    final Set<Contact> contacts = data.getManager().getContacts(ids);
     assertTrue(contacts.stream()
         .anyMatch(c -> name.equals(c.getName())));
   }
@@ -165,11 +166,12 @@ public class ContactManagerImplTestAdding {
 
   @Test
   public void testAddPastMeetingIdReturned() {
-    String note = "These are the Notes";
-    int id = data.getManager().addNewPastMeeting(data.getPopulatedSet(), data.getPastDate(), note);
+    final String note = "These are the Notes";
+    final int id = data.getManager().addNewPastMeeting(data.getPopulatedSet(),
+                                                       data.getPastDate(), note);
     assertTrue(id > 0);
 
-    int id2 = data.getManager().addNewPastMeeting(data.getPopulatedSet(),
+    final int id2 = data.getManager().addNewPastMeeting(data.getPopulatedSet(),
                                                   data.getPastDate(),
                                                   EMPTY_NOTES);
     assertTrue(id2 > 0 && id != id2);
@@ -193,13 +195,6 @@ public class ContactManagerImplTestAdding {
   public void testAddPastMeetingDateInFuture() {
     data.getManager().addNewPastMeeting(data.getPopulatedSet(),
                                         data.getFutureDate(),
-                                        EMPTY_NOTES);
-  }
-
-  @Test(expected = IllegalArgumentException.class)
-  public void testAddPastMeetingDateCurrent() {
-    data.getManager().addNewPastMeeting(data.getPopulatedSet(),
-                                        Calendar.getInstance(),
                                         EMPTY_NOTES);
   }
 

@@ -29,8 +29,8 @@ public class FutureMeetingImplTest {
   private static final int ID_1 = 1;
   private static final Calendar DATE = Calendar.getInstance();
   private static final Set<Contact> EMPTY_SET = new HashSet<>();
-  private final Set<Contact> populatedSet;
-  private FutureMeeting futureMeeting;
+  private final transient Set<Contact> populatedSet;
+  private transient FutureMeeting futureMeeting;
   private static final Calendar PAST_DATE = DateFns.getPastDate();
   private static final Calendar FUTURE_DATE = DateFns.getFutureDate();
   private static final String CONTACT_NAME = "Name Of";
@@ -60,7 +60,7 @@ public class FutureMeetingImplTest {
 
   @Test(expected = IllegalArgumentException.class)
   public void constructorIdNegative() {
-    int negativeValue = -1000;
+    final int negativeValue = -1000;
     new FutureMeetingImpl(negativeValue, DATE, populatedSet);
   }
 
@@ -81,11 +81,11 @@ public class FutureMeetingImplTest {
 
   @Test
   public void getContactsTestSingle() {
-    ContactImpl contact = new ContactImpl(ID_1, CONTACT_NAME);
-    Set<Contact> verifySet = new HashSet<>();
+    final ContactImpl contact = new ContactImpl(ID_1, CONTACT_NAME);
+    final Set<Contact> verifySet = new HashSet<>();
     verifySet.add(contact);
 
-    FutureMeeting meeting = new FutureMeetingImpl(ID_1, DATE, verifySet);
+    final FutureMeeting meeting = new FutureMeetingImpl(ID_1, DATE, verifySet);
 
     assertEquals(ID_1, meeting.getContacts().size());
     assertTrue(meeting.getContacts().contains(contact));
@@ -93,17 +93,17 @@ public class FutureMeetingImplTest {
 
   @Test
   public void getContactsTestMultiple() {
-    int numContacts = 8;
-    Set<Contact> verifySet = generateContacts(numContacts);
+    final int numContacts = 8;
+    final Set<Contact> verifySet = generateContacts(numContacts);
 
-    FutureMeeting meeting = new FutureMeetingImpl(ID_1, DATE, verifySet);
+    final FutureMeeting meeting = new FutureMeetingImpl(ID_1, DATE, verifySet);
 
     assertEquals(numContacts, meeting.getContacts().size());
     assertTrue(meeting.getContacts().containsAll(verifySet));
   }
 
-  private Set<Contact> generateContacts(int number) {
-    int start = 1;
+  private Set<Contact> generateContacts(final int number) {
+    final int start = 1;
     return IntStream.range(start, number + 1)
         .mapToObj(i -> new ContactImpl(i, CONTACT_NAME))
         //side effect populating the class scoped set with the same elements
@@ -131,7 +131,7 @@ public class FutureMeetingImplTest {
 
   @Test
   public void getIdTestMax() {
-    int id = Integer.MAX_VALUE;
+    final int id = Integer.MAX_VALUE;
     futureMeeting = new FutureMeetingImpl(id, DATE, populatedSet);
     assertEquals(id, futureMeeting.getId());
   }

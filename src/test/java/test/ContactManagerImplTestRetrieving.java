@@ -2,6 +2,7 @@ package test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
 import impl.ContactImpl;
@@ -29,12 +30,12 @@ import test.library.ContactManagerImplTestFns;
  */
 public class ContactManagerImplTestRetrieving {
 
-  private final ContactManagerImplTestData data;
-  private int numFutureMeetingsOnFutureDateAfter;
-  private int numPastMeetingsOnFutureDateAfter;
-  private int numFutureMeetingsOnFutureDateBefore;
-  private int numPastMeetingsOnFutureDateBefore;
-  private final Contact nonExistContact;
+  private final transient ContactManagerImplTestData data;
+  private transient int numFutureMeetingsOnFutureDateAfter;
+  private transient int numPastMeetingsOnFutureDateAfter;
+  private transient int numFutureMeetingsOnFutureDateBefore;
+  private transient int numPastMeetingsOnFutureDateBefore;
+  private final transient Contact nonExistContact;
   private static final Contact NULL_CONTACT = null;
   private static final String NOTE = "Note";
   private static final String EMPTY_NOTE = "";
@@ -48,7 +49,7 @@ public class ContactManagerImplTestRetrieving {
 
   {
     data = new ContactManagerImplTestData();
-    String contactName = "I Don't Exist";
+    final String contactName = "I Don't Exist";
     nonExistContact = new ContactImpl(Integer.MAX_VALUE, contactName);
   }
 
@@ -66,44 +67,45 @@ public class ContactManagerImplTestRetrieving {
   @Test
   public void testGetNewContact() {
     data.setManager(new ContactManagerImpl());
-    int contactId = data.getManager().addNewContact(NAME_1, NOTE);
-    Set<Contact> contacts = data.getManager().getContacts(contactId);
+    final int contactId = data.getManager().addNewContact(NAME_1, NOTE);
+    final Set<Contact> contacts = data.getManager().getContacts(contactId);
     assertTrue(verifyContactIdsReturned(contacts, contactId));
   }
 
-  private boolean verifyContactIdsReturned(Set<Contact> contacts, int... contactIds) {
+  private boolean verifyContactIdsReturned(final Set<Contact> contacts, final int... contactIds) {
     return contacts.stream()
         .allMatch(c -> IntStream.of(contactIds).anyMatch(i -> i == c.getId()));
   }
 
   @Test
   public void testGetNewContactsById() {
-    int numberOfContactsToGenerate = 100;
-    int[] contactIds = ContactManagerImplTestFns.generateValidContactIds(numberOfContactsToGenerate,
-                                                                          data.getManager());
-    Set<Contact> contacts = data.getManager().getContacts(contactIds);
+    final int numberOfContactsToGenerate = 100;
+    final int[] contactIds = ContactManagerImplTestFns
+                              .generateValidContactIds(numberOfContactsToGenerate,
+                                                       data.getManager());
+    final Set<Contact> contacts = data.getManager().getContacts(contactIds);
     assertTrue(verifyContactIdsReturned(contacts, contactIds));
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void testGetEmptySetById() {
     data.setManager(new ContactManagerImpl());
-    int[] contactIds = new int[0];
+    final int[] contactIds = new int[0];
     data.getManager().getContacts(contactIds);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void testGetUnknownContact() {
     data.setManager(new ContactManagerImpl());
-    int[] contactIds = {1,9876543,2324253,323537};
+    final int[] contactIds = {1,9876543,2324253,323537};
     data.getManager().getContacts(contactIds);
   }
 
   @Test
   public void testGetExistingContactByName() {
     data.getManager().addNewContact(NAME_1, NOTE);
-    Set<Contact> contacts = data.getManager().getContacts(NAME_1);
-    int expectedSize = 1;
+    final Set<Contact> contacts = data.getManager().getContacts(NAME_1);
+    final int expectedSize = 1;
     assertEquals(expectedSize, contacts.size());
   }
 
@@ -111,27 +113,28 @@ public class ContactManagerImplTestRetrieving {
   public void testGetExistingContactsByName() {
     data.getManager().addNewContact(NAME_2, NOTE);
     data.getManager().addNewContact(NAME_2, NOTE);
-    Set<Contact> contacts = data.getManager().getContacts(NAME_2);
-    int expectedSize = 2;
+    final Set<Contact> contacts = data.getManager().getContacts(NAME_2);
+    final int expectedSize = 2;
     assertEquals(expectedSize, contacts.size());
   }
 
   @Test
   public void testGetExistingContactEmpty() {
-    int beforeSize = data.getManager().getContacts(EMPTY_NAME).size();
+    final int beforeSize = data.getManager().getContacts(EMPTY_NAME).size();
     data.getManager().addNewContact(NAME_1, NOTE);
     data.getManager().addNewContact(NAME_2, NOTE);
 
-    int afterSize = data.getManager().getContacts(EMPTY_NAME).size();
-    int expectedSize = beforeSize + 2;
+    final int afterSize = data.getManager().getContacts(EMPTY_NAME).size();
+    final int expectedSize = beforeSize + 2;
     assertEquals(expectedSize, afterSize);
   }
 
   @Test
   public void testGetExistingContactUnknown() {
-    String unknownName = "here is a name which we hope remains unknown";
-    int contactsSize = data.getManager().getContacts(unknownName).size();
-    assertTrue(contactsSize == 0);
+    final String unknownName = "here is a name which we hope remains unknown";
+    final int contactsSize = data.getManager().getContacts(unknownName).size();
+    final int actual = 0;
+    assertSame(contactsSize, actual);
   }
 
   @Test(expected = NullPointerException.class)
@@ -141,15 +144,15 @@ public class ContactManagerImplTestRetrieving {
 
   @Test
   public void testGetFutureMeetingNonExist() {
-    Meeting meeting = data.getManager().getFutureMeeting(Integer.MAX_VALUE);
+    final Meeting meeting = data.getManager().getFutureMeeting(Integer.MAX_VALUE);
     assertNull(meeting);
   }
 
   @Test
   public void testGetFutureMeeting() {
-    int id = data.getManager().addFutureMeeting(data.getPopulatedSet(),
+    final int id = data.getManager().addFutureMeeting(data.getPopulatedSet(),
                                                 data.getFutureDate());
-    Meeting meeting = data.getManager().getFutureMeeting(id);
+    final Meeting meeting = data.getManager().getFutureMeeting(id);
     assertEquals(id, meeting.getId());
     assertEquals(data.getFutureDate(), meeting.getDate());
     assertEquals(data.getPopulatedSet(), meeting.getContacts());
@@ -157,9 +160,9 @@ public class ContactManagerImplTestRetrieving {
 
   @Test
   public void testGetFutureMeetingSlightlyFuture() {
-    int id = data.getManager().addFutureMeeting(data.getPopulatedSet(),
+    final int id = data.getManager().addFutureMeeting(data.getPopulatedSet(),
                                                 data.getSlightlyFutureDate());
-    Meeting meeting = data.getManager().getFutureMeeting(id);
+    final Meeting meeting = data.getManager().getFutureMeeting(id);
     assertEquals(id, meeting.getId());
     assertEquals(data.getSlightlyFutureDate(), meeting.getDate());
     assertEquals(data.getPopulatedSet(), meeting.getContacts());
@@ -167,7 +170,7 @@ public class ContactManagerImplTestRetrieving {
 
   @Test(expected = IllegalStateException.class)
   public void testGetFutureMeetingPast() {
-    int id = data.getManager().addNewPastMeeting(data.getPopulatedSet(),
+    final int id = data.getManager().addNewPastMeeting(data.getPopulatedSet(),
                                                   data.getPastDate(),
                                                   EMPTY_NOTE);
     data.getManager().getFutureMeeting(id);
@@ -197,7 +200,7 @@ public class ContactManagerImplTestRetrieving {
     assertEquals(numberOfPopulatedSetMeetings, populatedMeetingsDifference);
   }
 
-  private void addNewFutureMeetings(int numPopulatedSet, int numExcludedSet) {
+  private void addNewFutureMeetings(final int numPopulatedSet, final int numExcludedSet) {
     final int totalMeetings = numPopulatedSet + numExcludedSet;
     for (int iteration = 0; iteration < totalMeetings; iteration++) {
       if (iteration < numPopulatedSet) {
@@ -222,17 +225,19 @@ public class ContactManagerImplTestRetrieving {
 
   @Test
   public void testGetFutureMeetingListNoDuplicates() {
-    List<Meeting> meetings = data.getManager().getFutureMeetingList(data.getSelectedContact());
-    List<Meeting> noDupes = meetings.stream()
-        .distinct()
-        .collect(Collectors.toList());
+    final List<Meeting> meetings = data.getManager()
+                                       .getFutureMeetingList(data.getSelectedContact());
+    final List<Meeting> noDupes = meetings.stream()
+                                  .distinct()
+                                  .collect(Collectors.toList());
 
     assertEquals(meetings.size(), noDupes.size());
   }
 
   @Test
   public void testGetFutureMeetingListChronologicallySorted() {
-    List<Meeting> meetings = data.getManager().getFutureMeetingList(data.getSelectedContact());
+    final List<Meeting> meetings = data.getManager()
+                                       .getFutureMeetingList(data.getSelectedContact());
     boolean sorted = true;
     for (int index = 1; index < meetings.size(); index++) {
       if (meetings.get(index - 1).getDate().after(meetings.get(index).getDate())) {
@@ -245,9 +250,10 @@ public class ContactManagerImplTestRetrieving {
 
   @Test
   public void testGetMeetingListExisting() {
-    int id = data.getManager().addNewPastMeeting(data.getPopulatedSet(), data.getPastDate(), NOTE);
+    final int id = data.getManager().addNewPastMeeting(data.getPopulatedSet(),
+                                                       data.getPastDate(), NOTE);
 
-    PastMeeting meeting = (PastMeeting)data.getManager().getMeeting(id);
+    final PastMeeting meeting = (PastMeeting)data.getManager().getMeeting(id);
     assertTrue(meeting.getContacts().equals(data.getPopulatedSet()));
     assertTrue(meeting.getDate().equals(data.getPastDate()));
     assertTrue(meeting.getNotes().equals(NOTE));
@@ -255,7 +261,7 @@ public class ContactManagerImplTestRetrieving {
 
   @Test
   public void testGetMeetingListNonExisting() {
-    PastMeeting meeting = (PastMeeting)data.getManager().getMeeting(Integer.MAX_VALUE);
+    final PastMeeting meeting = (PastMeeting)data.getManager().getMeeting(Integer.MAX_VALUE);
     assertNull(meeting);
   }
 
@@ -266,9 +272,9 @@ public class ContactManagerImplTestRetrieving {
 
   @Test
   public void testGetMeetingListOnFutureDate() {
-    int expected = 6;
+    final int expected = 6;
     populateFutureAndPastMeetings();
-    int actual = numFutureMeetingsOnFutureDateAfter - numFutureMeetingsOnFutureDateBefore;
+    final int actual = numFutureMeetingsOnFutureDateAfter - numFutureMeetingsOnFutureDateBefore;
     assertEquals(expected, actual);
   }
 
@@ -296,46 +302,46 @@ public class ContactManagerImplTestRetrieving {
 
   @Test
   public void testGetMeetingListOnPastDate() {
-    int expected = 4;
+    final int expected = 4;
     populateFutureAndPastMeetings();
-    int actual = numPastMeetingsOnFutureDateAfter - numPastMeetingsOnFutureDateBefore;
+    final int actual = numPastMeetingsOnFutureDateAfter - numPastMeetingsOnFutureDateBefore;
     assertEquals(expected, actual);
   }
 
   @Test
   public void testGetMeetingListOnNoDuplicates() {
-    List<Meeting> meetingsFuture = data.getManager().getMeetingListOn(data.getFutureDate());
-    assertTrue(ContactManagerImplTestFns.testNoDuplicateMeetings(meetingsFuture));
+    final List<Meeting> meetingsFuture = data.getManager().getMeetingListOn(data.getFutureDate());
+    assertTrue(ContactManagerImplTestFns.checkNoDuplicateMeetings(meetingsFuture));
 
-    List<Meeting> meetingsPast = data.getManager().getMeetingListOn(data.getPastDate());
-    assertTrue(ContactManagerImplTestFns.testNoDuplicateMeetings(meetingsPast));
+    final List<Meeting> meetingsPast = data.getManager().getMeetingListOn(data.getPastDate());
+    assertTrue(ContactManagerImplTestFns.checkNoDuplicateMeetings(meetingsPast));
   }
 
   @Test
   public void testGetMeetingListOnSorted() {
-    List<Meeting> meetingsFuture = data.getManager().getMeetingListOn(data.getFutureDate());
-    int expected = 6;
+    final List<Meeting> meetingsFuture = data.getManager().getMeetingListOn(data.getFutureDate());
+    final int expected = 6;
     populateFutureAndPastMeetings();
-    int actual = numFutureMeetingsOnFutureDateAfter - numFutureMeetingsOnFutureDateBefore;
+    final int actual = numFutureMeetingsOnFutureDateAfter - numFutureMeetingsOnFutureDateBefore;
     assertEquals(expected, actual);
-    assertTrue(ContactManagerImplTestFns.testChronologicallySorted(meetingsFuture));
+    assertTrue(ContactManagerImplTestFns.checkChronologicallySorted(meetingsFuture));
 
-    List<Meeting> meetingsPast = data.getManager().getMeetingListOn(data.getPastDate());
-    assertTrue(ContactManagerImplTestFns.testChronologicallySorted(meetingsPast));
+    final List<Meeting> meetingsPast = data.getManager().getMeetingListOn(data.getPastDate());
+    assertTrue(ContactManagerImplTestFns.checkChronologicallySorted(meetingsPast));
   }
 
   @Test
   public void testGetNonExistMeeting() {
-    Meeting meeting = data.getManager().getPastMeeting(Integer.MAX_VALUE);
+    final Meeting meeting = data.getManager().getPastMeeting(Integer.MAX_VALUE);
     assertNull(meeting);
   }
 
   @Test
   public void testGetMeetingPast() {
-    int id = data.getManager().addNewPastMeeting(data.getPopulatedSet(),
+    final int id = data.getManager().addNewPastMeeting(data.getPopulatedSet(),
                                                  data.getPastDate(),
                                                  EMPTY_NOTE);
-    PastMeeting meeting = data.getManager().getPastMeeting(id);
+    final PastMeeting meeting = data.getManager().getPastMeeting(id);
     assertEquals(id, meeting.getId());
     assertEquals(data.getPastDate(), meeting.getDate());
     assertEquals(data.getPopulatedSet(), meeting.getContacts());
@@ -343,10 +349,10 @@ public class ContactManagerImplTestRetrieving {
 
   @Test
   public void testGetMeetingSlightlyPast() {
-    int id = data.getManager().addNewPastMeeting(data.getPopulatedSet(),
+    final int id = data.getManager().addNewPastMeeting(data.getPopulatedSet(),
                                                   data.getSlightlyPastDate(),
                                                   EMPTY_NOTE);
-    PastMeeting meeting = data.getManager().getPastMeeting(id);
+    final PastMeeting meeting = data.getManager().getPastMeeting(id);
     assertEquals(id, meeting.getId());
     assertEquals(data.getSlightlyPastDate(), meeting.getDate());
     assertEquals(data.getPopulatedSet(), meeting.getContacts());
@@ -356,48 +362,48 @@ public class ContactManagerImplTestRetrieving {
   // notes added to them did not actually take place?
   @Test
   public void testGetMeetingNotHappened() {
-    int id = data.getManager().addFutureMeeting(data.getPopulatedSet(),
+    final int id = data.getManager().addFutureMeeting(data.getPopulatedSet(),
                                                 data.getSlightlyFutureDate());
     ContactManagerImplTestFns.wait2Secs();
-    Meeting meeting = data.getManager().getPastMeeting(id);
+    final Meeting meeting = data.getManager().getPastMeeting(id);
     assertNull(meeting);
   }
 
   @Test(expected = IllegalStateException.class)
   public void testGetMeetingFuture() {
-    int id = data.getManager().addFutureMeeting(data.getPopulatedSet(), data.getFutureDate());
+    final int id = data.getManager().addFutureMeeting(data.getPopulatedSet(), data.getFutureDate());
     data.getManager().getPastMeeting(id);
   }
 
   @Test
   public void testGetPastMeetingListForAllMeetingsReturned() {
-    int meetingsSizeBefore = data.getManager()
+    final int meetingsSizeBefore = data.getManager()
                                  .getPastMeetingListFor(data.getSelectedContact()).size();
-    int unSelectedMeetingsSizeBefore = data.getManager()
+    final int unSelectedMeetingsSizeBefore = data.getManager()
                                  .getPastMeetingListFor(data.getExcludedContact()).size();
 
     addPastMeetings();
 
-    int meetingsSizeAfter = data.getManager()
+    final int meetingsSizeAfter = data.getManager()
                                 .getPastMeetingListFor(data.getSelectedContact()).size();
-    int unSelectedMeetingsSizeAfter = data.getManager()
+    final int unSelectedMeetingsSizeAfter = data.getManager()
                                           .getPastMeetingListFor(data.getExcludedContact()).size();
 
-    int expectedMeetingSizeChange = 7;
-    int actualMeetingsChange = meetingsSizeAfter - meetingsSizeBefore;
-    int expectedUnselectedMeetingSizeChange = 4;
-    int actualUnSelectedChange = unSelectedMeetingsSizeAfter - unSelectedMeetingsSizeBefore;
+    final int expectedMeetingSizeChange = 7;
+    final int actualMeetingsChange = meetingsSizeAfter - meetingsSizeBefore;
+    final int expectedUnselectedMeetingSizeChange = 4;
+    final int actualUnSelectedChange = unSelectedMeetingsSizeAfter - unSelectedMeetingsSizeBefore;
 
     assertEquals(expectedMeetingSizeChange, actualMeetingsChange);
     assertEquals(expectedUnselectedMeetingSizeChange, actualUnSelectedChange);
   }
 
   private void addPastMeetings() {
-    Set<Contact> bothSet = new HashSet<>();
+    final Set<Contact> bothSet = new HashSet<>();
     bothSet.add(data.getSelectedContact());
     bothSet.add(data.getExcludedContact());
 
-    Set<Contact> selectedSet = new HashSet<>();
+    final Set<Contact> selectedSet = new HashSet<>();
     selectedSet.add(data.getSelectedContact());
 
     data.getManager().addNewPastMeeting(bothSet, data.getPastDate(), BLANK_NON_EMPTY_NOTE);
@@ -433,28 +439,28 @@ public class ContactManagerImplTestRetrieving {
   public void testGetPastMeetingListForNoDuplicates() {
     addPastMeetings();
 
-    List<PastMeeting> meetingsPastSelected = data.getManager()
+    final List<PastMeeting> meetingsPastSelected = data.getManager()
                                                  .getPastMeetingListFor(data.getSelectedContact());
-    assertTrue(ContactManagerImplTestFns.testNoDuplicatePastMeetings(meetingsPastSelected));
+    assertTrue(ContactManagerImplTestFns.checkNoDuplicatePastMeetings(meetingsPastSelected));
 
-    List<PastMeeting> meetingsPastExcluded = data.getManager()
+    final List<PastMeeting> meetingsPastExcluded = data.getManager()
                                                  .getPastMeetingListFor(data.getExcludedContact());
-    assertTrue(ContactManagerImplTestFns.testNoDuplicatePastMeetings(meetingsPastExcluded));
+    assertTrue(ContactManagerImplTestFns.checkNoDuplicatePastMeetings(meetingsPastExcluded));
   }
 
   @Test
   public void testGetPastMeetingListForSorted() {
     addPastMeetings();
 
-    List<PastMeeting> meetingsPastSelected = data.getManager()
+    final List<PastMeeting> meetingsPastSelected = data.getManager()
                                                  .getPastMeetingListFor(data.getSelectedContact());
     assertTrue(ContactManagerImplTestFns
-                .testChronologicallySortedPastMeetings(meetingsPastSelected));
+                .checkChronologicallySortedPastMeetings(meetingsPastSelected));
 
-    List<PastMeeting> meetingsPastExcluded = data.getManager()
+    final List<PastMeeting> meetingsPastExcluded = data.getManager()
                                                  .getPastMeetingListFor(data.getExcludedContact());
     assertTrue(ContactManagerImplTestFns
-                .testChronologicallySortedPastMeetings(meetingsPastExcluded));
+                .checkChronologicallySortedPastMeetings(meetingsPastExcluded));
   }
 
 }
