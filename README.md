@@ -23,9 +23,9 @@ This project was built using TDD with Junit 4.
 
 It has been run through the following tools:
 
-*Checkstyle
-*findbugs
-*PMD
+* Checkstyle
+* findbugs
+* PMD
 
 Coverage was checked using Intellij
 
