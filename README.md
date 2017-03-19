@@ -1,4 +1,4 @@
-###Coursework 3 for Birkbeck Programming in Java Module.
+### Coursework 3 for Birkbeck Programming in Java Module. ###
 
 Interfaces that must be implemented are provided.
 
@@ -17,7 +17,7 @@ must be read at startup to recover all data introduced in a former
 session (the format of the file is up to you: you can use XML, 
 comma-separated values (CSV), or any other format).
 
-###Notes
+### Notes ###
 
 This project was built using TDD with Junit 4.
 
